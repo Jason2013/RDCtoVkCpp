@@ -136,7 +136,8 @@ namespace RDE
 		bool  _Parse_ImageReferences (const Node_t &, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_FlushMappedMemoryRanges (const Node_t &node, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_DebugMarkerSetObjectNameEXT (const Node_t &node, uint64_t threadId, uint64_t timestamp);
-		bool  _Parse_UpdateDescriptorSetWithTemplate (const Node_t &node, uint64_t threadId, uint64_t timestamp);
+		bool  _Parse_UpdateDescriptorSetWithTemplate(const Node_t& node, uint64_t threadId, uint64_t timestamp);
+		bool  _Parse_QueuePresentKHR(const Node_t &node, uint64_t threadId, uint64_t timestamp);
 
 		bool  _InitParser (uint version);
 

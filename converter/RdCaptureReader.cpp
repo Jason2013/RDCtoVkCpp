@@ -81,16 +81,17 @@ namespace RDE
 		
 		_chunkParser["vkGetSwapchainImagesKHR"] = &RdCaptureReader::_Parse_GetSwapchainImagesKHR;
 		_chunkParser["vkSetDebugUtilsObjectNameEXT"] = &RdCaptureReader::_Parse_SetDebugUtilsObjectName;
-		_chunkParser["Driver Initialisation Parameters"] = &RdCaptureReader::_Parse_DriverInitialisationParameters;
-		_chunkParser["Initial Contents"] = &RdCaptureReader::_Parse_InitialContents;
-		_chunkParser["Beginning of Capture"] = &RdCaptureReader::_Parse_BeginningOfCapture;
-		_chunkParser["End of Capture"] = &RdCaptureReader::_Parse_EndOfCapture;
-		_chunkParser["List of Initial Contents Resources"] = &RdCaptureReader::_Parse_ListOfInitialContentsResources;
+		_chunkParser["Internal: Driver Initialisation Parameters"] = &RdCaptureReader::_Parse_DriverInitialisationParameters;
+		_chunkParser["Internal: Initial Contents"] = &RdCaptureReader::_Parse_InitialContents;
+		_chunkParser["Internal: Beginning of Capture"] = &RdCaptureReader::_Parse_BeginningOfCapture;
+		_chunkParser["Internal: End of Capture"] = &RdCaptureReader::_Parse_EndOfCapture;
+		_chunkParser["Internal: List of Initial Contents Resources"] = &RdCaptureReader::_Parse_ListOfInitialContentsResources;
 		_chunkParser["vkEnumeratePhysicalDevices"] = &RdCaptureReader::_Parse_vkEnumeratePhysicalDevices;
-		_chunkParser["Frame Metadata"] = &RdCaptureReader::_Parse_FrameMetadata;
+		_chunkParser["Internal: Frame Metadata"] = &RdCaptureReader::_Parse_FrameMetadata;
 		_chunkParser["vkFlushMappedMemoryRanges"] = &RdCaptureReader::_Parse_FlushMappedMemoryRanges;
 		_chunkParser["vkDebugMarkerSetObjectNameEXT"] = &RdCaptureReader::_Parse_DebugMarkerSetObjectNameEXT;
 		_chunkParser["vkUpdateDescriptorSetWithTemplate"] = &RdCaptureReader::_Parse_UpdateDescriptorSetWithTemplate;
+		_chunkParser["vkQueuePresentKHR"] = &RdCaptureReader::_Parse_QueuePresentKHR;
 		
 		switch ( version )
 		{
@@ -776,7 +777,7 @@ namespace RDE
 		_ParseResource( _FindByAttribName( node, "PhysicalDevice" ), OUT PhysicalDevice );
 
 		uint32_t	memIdxMap[VK_MAX_MEMORY_TYPES] = {};
-		_ParseValue( _FindByAttribName( node, "memIdxMap" ), OUT memIdxMap );
+		_ParseValue( _FindByAttribName( node, "legacyUnused_memIdxMap" ), OUT memIdxMap );
 
 		VkPhysicalDeviceProperties	physProps = {};
 		_ParseStruct( _FindByAttribName( node, "physProps" ), OUT physProps );
@@ -1529,6 +1530,16 @@ namespace RDE
 		for (auto listener : _listeners) {
 			listener->UpdateDescriptorSetWithTemplate( _chunkCounter, threadId, timestamp, device, descriptorSet, descriptorUpdateTemplate, write_ds );
 		}
+		return true;
+	}
+
+/*
+=================================================
+	_Parse_QueuePresentKHR
+=================================================
+*/
+	bool  RdCaptureReader::_Parse_QueuePresentKHR(const Node_t& root, uint64_t threadId, uint64_t timestamp)
+	{
 		return true;
 	}
 
