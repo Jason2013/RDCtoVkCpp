@@ -915,6 +915,10 @@ _structParser["VkPhysicalDeviceShaderFloat16Int8FeaturesKHR"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceShaderFloat16Int8FeaturesKHR( &node, OUT *BitCast<VkPhysicalDeviceShaderFloat16Int8FeaturesKHR*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceShaderFloat16Int8FeaturesKHR( &node, OUT *BitCast<VkPhysicalDeviceShaderFloat16Int8FeaturesKHR**>(ptr) ); }
 };
+_structParser["VkPhysicalDeviceShaderFloat16Int8Features"] = {
+	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceShaderFloat16Int8FeaturesKHR( &node, OUT *BitCast<VkPhysicalDeviceShaderFloat16Int8FeaturesKHR*>(ptr) ); },
+	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceShaderFloat16Int8FeaturesKHR( &node, OUT *BitCast<VkPhysicalDeviceShaderFloat16Int8FeaturesKHR**>(ptr) ); }
+};
 _structParser["VkDeviceGroupBindSparseInfo"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkDeviceGroupBindSparseInfo( &node, OUT *BitCast<VkDeviceGroupBindSparseInfo*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkDeviceGroupBindSparseInfo( &node, OUT *BitCast<VkDeviceGroupBindSparseInfo**>(ptr) ); }
