@@ -171,6 +171,10 @@ _structParser["VkPhysicalDeviceLineRasterizationFeaturesEXT"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceLineRasterizationFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceLineRasterizationFeaturesEXT*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceLineRasterizationFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceLineRasterizationFeaturesEXT**>(ptr) ); }
 };
+_structParser["VkPhysicalDeviceLineRasterizationFeatures"] = {
+	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceLineRasterizationFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceLineRasterizationFeaturesEXT*>(ptr) ); },
+	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceLineRasterizationFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceLineRasterizationFeaturesEXT**>(ptr) ); }
+};
 _structParser["VkValidationCacheCreateInfoEXT"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkValidationCacheCreateInfoEXT( &node, OUT *BitCast<VkValidationCacheCreateInfoEXT*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkValidationCacheCreateInfoEXT( &node, OUT *BitCast<VkValidationCacheCreateInfoEXT**>(ptr) ); }
