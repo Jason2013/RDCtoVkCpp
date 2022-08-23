@@ -100,6 +100,7 @@ namespace RDE
 				break;
 
 			case 16 :
+			case 20:
 				_chunkParser["Internal: Device Memory References"] = &RdCaptureReader::_Parse_DeviceMemoryRef;
 				_chunkParser["Image References"] = &RdCaptureReader::_Parse_ImageReferences;
 				break;
