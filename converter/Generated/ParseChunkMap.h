@@ -1927,6 +1927,10 @@ _structParser["VkPhysicalDeviceScalarBlockLayoutFeaturesEXT"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceScalarBlockLayoutFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceScalarBlockLayoutFeaturesEXT*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceScalarBlockLayoutFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceScalarBlockLayoutFeaturesEXT**>(ptr) ); }
 };
+_structParser["VkPhysicalDeviceScalarBlockLayoutFeatures"] = {
+	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceScalarBlockLayoutFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceScalarBlockLayoutFeaturesEXT*>(ptr) ); },
+	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceScalarBlockLayoutFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceScalarBlockLayoutFeaturesEXT**>(ptr) ); }
+};
 _structParser["VkPerformanceConfigurationAcquireInfoINTEL"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPerformanceConfigurationAcquireInfoINTEL( &node, OUT *BitCast<VkPerformanceConfigurationAcquireInfoINTEL*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPerformanceConfigurationAcquireInfoINTEL( &node, OUT *BitCast<VkPerformanceConfigurationAcquireInfoINTEL**>(ptr) ); }
