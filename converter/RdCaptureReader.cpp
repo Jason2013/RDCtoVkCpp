@@ -92,6 +92,7 @@ namespace RDE
 		_chunkParser["vkDebugMarkerSetObjectNameEXT"] = &RdCaptureReader::_Parse_DebugMarkerSetObjectNameEXT;
 		_chunkParser["vkUpdateDescriptorSetWithTemplate"] = &RdCaptureReader::_Parse_UpdateDescriptorSetWithTemplate;
 		_chunkParser["vkQueuePresentKHR"] = &RdCaptureReader::_Parse_QueuePresentKHR;
+		_chunkParser["vkCreateInstance"] = &RdCaptureReader::_Parse_CreateInstance;
 		
 		switch ( version )
 		{
@@ -1540,6 +1541,16 @@ namespace RDE
 =================================================
 */
 	bool  RdCaptureReader::_Parse_QueuePresentKHR(const Node_t& root, uint64_t threadId, uint64_t timestamp)
+	{
+		return true;
+	}
+
+	/*
+=================================================
+	_Parse_CreateInstance
+=================================================
+*/
+	bool  RdCaptureReader::_Parse_CreateInstance(const Node_t& root, uint64_t threadId, uint64_t timestamp)
 	{
 		return true;
 	}
