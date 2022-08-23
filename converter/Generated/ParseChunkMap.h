@@ -1783,6 +1783,10 @@ _structParser["VkPhysicalDeviceDescriptorIndexingFeaturesEXT"] = {
 	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceDescriptorIndexingFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceDescriptorIndexingFeaturesEXT*>(ptr) ); },
 	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceDescriptorIndexingFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceDescriptorIndexingFeaturesEXT**>(ptr) ); }
 };
+_structParser["VkPhysicalDeviceDescriptorIndexingFeatures"] = {
+	[this] (auto& node, OUT void *ptr) { return this->_Parse_VkPhysicalDeviceDescriptorIndexingFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceDescriptorIndexingFeaturesEXT*>(ptr) ); },
+	[this] (auto& node, OUT void **ptr) { return this->_Parse_VkPhysicalDeviceDescriptorIndexingFeaturesEXT( &node, OUT *BitCast<VkPhysicalDeviceDescriptorIndexingFeaturesEXT**>(ptr) ); }
+};
 #endif // VULKAN_CORE_H_
 #ifdef VULKAN_ANDROID_H_
 _structParser["VkAndroidHardwareBufferFormatPropertiesANDROID"] = {
