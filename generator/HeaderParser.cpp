@@ -253,66 +253,6 @@ namespace RDE
 		{
 			StringParser::DivideString_CPP( curr_line, OUT tokens );
 
-
-			switch ( mode )
-			{
-				case EMode::Struct :
-				{
-					if ( tokens.size() > 1 and
-						 tokens[0] == "}" )
-					{
-						CHECK( outStructs.find( SearchableStruct{curr_struct.name} ) == outStructs.end() );
-
-						outStructs.insert( std::move(curr_struct) );
-
-						curr_struct	= Default;
-						mode		= EMode::None;
-					}
-					else
-					{
-						FuncArg		val;
-						ParseStructField( tokens, 0, OUT val );
-						curr_struct.fields.push_back( std::move(val) );
-					}
-					break;
-				}
-
-				case EMode::Enum :
-				{
-					if ( tokens.size() > 1 and
-						 tokens[0] == "}" )
-					{
-						CHECK( outEnums.find( SearchableEnum{curr_enum.name} ) == outEnums.end() );
-
-						outEnums.insert( std::move(curr_enum) );
-
-						curr_enum	= Default;
-						mode		= EMode::None;
-					}
-					else
-					{
-						EnumField	val;
-						ParseEnumField( tokens, 0, OUT val );
-						curr_enum.fields.push_back( std::move(val) );
-					}
-					break;
-				}
-
-				case EMode::Func :
-				{
-					ParseArgs( tokens, 0 );
-					break;
-				}
-
-				case EMode::Define :
-				{
-					if ( tokens.empty() or tokens.back() != "\\" )
-					{
-						mode = EMode::None;
-					}
-					break;
-				}
-			}
 		
 
 			if ( tokens.size() > 1 and
@@ -375,6 +315,66 @@ namespace RDE
 					skip_stack.push_back( last );
 				}
 				continue;
+			}
+
+			switch ( mode )
+			{
+				case EMode::Struct :
+				{
+					if ( tokens.size() > 1 and
+						 tokens[0] == "}" )
+					{
+						CHECK( outStructs.find( SearchableStruct{curr_struct.name} ) == outStructs.end() );
+
+						outStructs.insert( std::move(curr_struct) );
+
+						curr_struct	= Default;
+						mode		= EMode::None;
+					}
+					else
+					{
+						FuncArg		val;
+						ParseStructField( tokens, 0, OUT val );
+						curr_struct.fields.push_back( std::move(val) );
+					}
+					break;
+				}
+
+				case EMode::Enum :
+				{
+					if ( tokens.size() > 1 and
+						 tokens[0] == "}" )
+					{
+						CHECK( outEnums.find( SearchableEnum{curr_enum.name} ) == outEnums.end() );
+
+						outEnums.insert( std::move(curr_enum) );
+
+						curr_enum	= Default;
+						mode		= EMode::None;
+					}
+					else
+					{
+						EnumField	val;
+						ParseEnumField( tokens, 0, OUT val );
+						curr_enum.fields.push_back( std::move(val) );
+					}
+					break;
+				}
+
+				case EMode::Func :
+				{
+					ParseArgs( tokens, 0 );
+					break;
+				}
+
+				case EMode::Define :
+				{
+					if ( tokens.empty() or tokens.back() != "\\" )
+					{
+						mode = EMode::None;
+					}
+					break;
+				}
 			}
 
 
