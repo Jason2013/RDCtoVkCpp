@@ -771,6 +771,14 @@ namespace RDE
 		AddCounter( "vkCmdBindTransformFeedbackBuffersEXT",	"pSizes",			"bindingCount" );
 		AddCounter( "vkCmdSetColorWriteEnableEXT", "pColorWriteEnables",        "attachmentCount");
 		AddCounter( "vkCmdDrawMultiEXT", "pVertexInfo",                         "drawCount");
+        AddCounter("vkCmdBindVertexBuffers2", "pBuffers", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2", "pOffsets", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2", "pSizes", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2", "pStrides", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2EXT", "pBuffers", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2EXT", "pOffsets", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2EXT", "pSizes", "bindingCount");
+        AddCounter("vkCmdBindVertexBuffers2EXT", "pStrides", "bindingCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_args;
 		skip_args.insert({ "vkCmdSetViewportShadingRatePaletteNV", "pShadingRatePalettes" });
