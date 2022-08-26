@@ -779,6 +779,8 @@ namespace RDE
         AddCounter("vkCmdBindVertexBuffers2EXT", "pOffsets", "bindingCount");
         AddCounter("vkCmdBindVertexBuffers2EXT", "pSizes", "bindingCount");
         AddCounter("vkCmdBindVertexBuffers2EXT", "pStrides", "bindingCount");
+		AddCounter("vkCmdDrawMultiIndexedEXT", "pIndexInfo", "drawCount");
+		AddCounter("vkCmdDrawMultiIndexedEXT", "pVertexOffset", "drawCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_args;
 		skip_args.insert({ "vkCmdSetViewportShadingRatePaletteNV", "pShadingRatePalettes" });
