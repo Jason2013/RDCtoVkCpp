@@ -920,6 +920,7 @@ namespace RDE
 		AddCounter( "VkWin32KeyedMutexAcquireReleaseInfoNV",			"pAcquireTimeoutMilliseconds",	"acquireCount" );
 		AddCounter( "VkWin32KeyedMutexAcquireReleaseInfoNV",			"pReleaseSyncs",				"releaseCount" );
 		AddCounter( "VkWin32KeyedMutexAcquireReleaseInfoNV",			"pReleaseKeys",					"releaseCount" );
+		AddCounter("VkPipelineColorWriteCreateInfoEXT", "pColorWriteEnables", "attachmentCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_fields;
 		skip_fields.insert({ "VkPipelineViewportShadingRateImageStateCreateInfoNV", "pShadingRatePalettes" });
