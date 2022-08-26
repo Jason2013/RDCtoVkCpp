@@ -927,6 +927,7 @@ namespace RDE
 		AddCounter("VkAccelerationStructureBuildGeometryInfoKHR", "pGeometries", "geometryCount");
 		AddCounter("VkQueryPoolPerformanceCreateInfoKHR", "pCounterIndices", "counterIndexCount");
 		AddCounter("VkPresentIdKHR", "pPresentIds", "swapchainCount");
+		AddCounter("VkImageCompressionControlEXT", "pFixedRateFlags", "compressionControlPlaneCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_fields;
 		skip_fields.insert({ "VkPipelineViewportShadingRateImageStateCreateInfoNV", "pShadingRatePalettes" });
