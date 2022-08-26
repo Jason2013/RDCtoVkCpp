@@ -923,6 +923,8 @@ namespace RDE
 		AddCounter("VkPipelineColorWriteCreateInfoEXT", "pColorWriteEnables", "attachmentCount");
 		AddCounter("VkPipelineLibraryCreateInfoKHR", "pLibraries", "libraryCount");
 		AddCounter("VkDescriptorSetVariableDescriptorCountAllocateInfo", "pDescriptorCounts", "descriptorSetCount");
+		AddCounter("VkRenderPassCreateInfo2", "pDependencies", "dependencyCount");
+		AddCounter("VkAccelerationStructureBuildGeometryInfoKHR", "pGeometries", "geometryCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_fields;
 		skip_fields.insert({ "VkPipelineViewportShadingRateImageStateCreateInfoNV", "pShadingRatePalettes" });
