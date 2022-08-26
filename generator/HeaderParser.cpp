@@ -228,8 +228,16 @@ namespace RDE
 												if ( outField.type.back() == "]" )
 												{
 													CHECK( outField.type.size() > 3 );
-													outField.name = *(outField.type.end()-4);
-													outField.type.erase( outField.type.end()-4 );
+													if (*(outField.type.end() - 4) == "]") // type name[x][y]
+													{
+														outField.name = *(outField.type.end() - 7);
+														outField.type.erase(outField.type.end() - 7);
+													}
+													else // type name[x]
+													{
+														outField.name = *(outField.type.end() - 4);
+														outField.type.erase(outField.type.end() - 4);
+													}
 												}
 												else
 												{
