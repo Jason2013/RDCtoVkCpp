@@ -84,6 +84,7 @@ namespace RDE
 		return	value == "*"		or
 				value == "["		or
 				value == "]"		or
+				value == ":"		or
 				_IsWord( value )	or
 				_IsNumber( value );
 	}
@@ -238,6 +239,11 @@ namespace RDE
 														outField.name = *(outField.type.end() - 4);
 														outField.type.erase(outField.type.end() - 4);
 													}
+												}
+												else if (*(outField.type.end() - 2) == ":") // type name:8
+												{
+													outField.name = *(outField.type.end() - 3);
+													outField.type.erase(outField.type.end() - 3);
 												}
 												else
 												{
