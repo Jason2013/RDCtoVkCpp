@@ -41,7 +41,7 @@ int main (int argc, const char** argv)
 #if 1
 	vulkan_headers	= R"(C:\chang\study\Vulkan-Headers\include\vulkan)";
 	rd_vkchunk		= R"(C:\chang\study\renderdoc\renderdoc\driver\vulkan\vk_common.h)";
-	output			= R"(C:\Projects\RdcExport\converter\Generated)";
+	output			= R"(C:\chang\study\RDCtoVkCpp\converter\Generated)";
 #endif
 
 	
