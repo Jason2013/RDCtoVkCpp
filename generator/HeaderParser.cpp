@@ -769,9 +769,12 @@ namespace RDE
 		AddCounter( "vkCmdBindTransformFeedbackBuffersEXT",	"pBuffers",			"bindingCount" );
 		AddCounter( "vkCmdBindTransformFeedbackBuffersEXT",	"pOffsets",			"bindingCount" );
 		AddCounter( "vkCmdBindTransformFeedbackBuffersEXT",	"pSizes",			"bindingCount" );
+		AddCounter( "vkCmdSetColorWriteEnableEXT", "pColorWriteEnables",        "attachmentCount");
+		AddCounter( "vkCmdDrawMultiEXT", "pVertexInfo",                         "drawCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_args;
 		skip_args.insert({ "vkCmdSetViewportShadingRatePaletteNV", "pShadingRatePalettes" });
+		//skip_args.insert({ "vkCmdDrawMultiEXT", "pVertexInfo" });
 
 
 		for (const auto& func : _funcs)
