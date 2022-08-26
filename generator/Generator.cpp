@@ -39,8 +39,8 @@ int main (int argc, const char** argv)
 
 	// temp
 #if 1
-	vulkan_headers	= R"(C:\Projects\RdcExport\external\FrameGraph\external\Vulkan-Headers\include\vulkan)";
-	rd_vkchunk		= R"(C:\Projects\RdcExport\external\RenderDoc\vk_common.h)";
+	vulkan_headers	= R"(C:\chang\study\Vulkan-Headers\include\vulkan)";
+	rd_vkchunk		= R"(C:\chang\study\renderdoc\renderdoc\driver\vulkan\vk_common.h)";
 	output			= R"(C:\Projects\RdcExport\converter\Generated)";
 #endif
 
