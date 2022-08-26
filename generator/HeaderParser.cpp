@@ -482,7 +482,7 @@ namespace RDE
 			// bitfield
 			if ( tokens.size() == 4	and
 				 tokens[0] == "typedef" and
-				 tokens[1] == "VkFlags" and
+				 (tokens[1] == "VkFlags" or tokens[1] == "VkFlags64") and
 				 tokens[3] == ";" )
 			{
 				String	enum_name { tokens[2] };
