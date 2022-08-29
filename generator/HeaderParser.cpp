@@ -511,8 +511,6 @@ namespace RDE
 				(tokens[1] != "uint32_t" and tokens[1] != "uint64_t") and
 				tokens[3] == ";")
 			{
-				printf("(%s, %s)\n", String(tokens[1]).c_str(), String(tokens[2]).c_str());
-
                 StringView def_name{ tokens[1] };
                 StringView new_def_name{ tokens[2] };
 
