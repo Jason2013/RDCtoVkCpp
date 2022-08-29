@@ -947,6 +947,7 @@ namespace RDE
 		AddCounter( "VkRenderPassCreateInfo",				"pDependencies",				"dependencyCount" );
 		AddCounter( "VkBindBufferMemoryDeviceGroupInfo",	"pDeviceIndices",				"deviceIndexCount" );
 		AddCounter( "VkBindImageMemoryDeviceGroupInfo",		"pDeviceIndices",				"deviceIndexCount" );
+        AddCounter("VkBindImageMemoryDeviceGroupInfoKHR", "pDeviceIndices", "deviceIndexCount");
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pViewMasks",					"subpassCount" );
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pViewOffsets",					"dependencyCount" );
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pCorrelationMasks",			"correlationMaskCount" );
