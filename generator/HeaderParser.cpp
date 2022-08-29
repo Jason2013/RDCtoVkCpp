@@ -950,6 +950,9 @@ namespace RDE
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pViewMasks",					"subpassCount" );
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pViewOffsets",					"dependencyCount" );
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pCorrelationMasks",			"correlationMaskCount" );
+		AddCounter("VkRenderPassMultiviewCreateInfoKHR", "pViewMasks", "subpassCount");
+		AddCounter("VkRenderPassMultiviewCreateInfoKHR", "pViewOffsets", "dependencyCount");
+		AddCounter("VkRenderPassMultiviewCreateInfoKHR", "pCorrelationMasks", "correlationMaskCount");
 		AddCounter( "VkDescriptorUpdateTemplateCreateInfo",	"pDescriptorUpdateEntries",		"descriptorUpdateEntryCount" );
 		AddCounter( "VkPresentInfoKHR",						"pImageIndices",				"swapchainCount" );
 		AddCounter( "VkPresentInfoKHR",						"pResults",						"swapchainCount" );
