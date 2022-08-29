@@ -786,8 +786,6 @@ namespace RDE
 		_resourceTypes.insert({ "VkSwapchainKHR",				{ VK_OBJECT_TYPE_SWAPCHAIN_KHR,					"VK_OBJECT_TYPE_SWAPCHAIN_KHR" }});
 		_resourceTypes.insert({ "VkDisplayKHR",					{ VK_OBJECT_TYPE_DISPLAY_KHR,					"VK_OBJECT_TYPE_DISPLAY_KHR" }});
 		_resourceTypes.insert({ "VkDisplayModeKHR",				{ VK_OBJECT_TYPE_DISPLAY_MODE_KHR,				"VK_OBJECT_TYPE_DISPLAY_MODE_KHR" }});
-		_resourceTypes.insert({ "VkObjectTableNVX",				{ VK_OBJECT_TYPE_OBJECT_TABLE_NVX,				"VK_OBJECT_TYPE_OBJECT_TABLE_NVX" }});
-		_resourceTypes.insert({ "VkIndirectCommandsLayoutNVX",	{ VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NVX,	"VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NVX" }});
 		_resourceTypes.insert({ "VkValidationCacheEXT",			{ VK_OBJECT_TYPE_VALIDATION_CACHE_EXT,			"VK_OBJECT_TYPE_VALIDATION_CACHE_EXT" }});
 		_resourceTypes.insert({ "VkSamplerYcbcrConversion",		{ VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION,		"VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION" }});
 		_resourceTypes.insert({ "VkDescriptorUpdateTemplate",	{ VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE,	"VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE" }});
