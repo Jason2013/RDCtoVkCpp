@@ -22,7 +22,7 @@ endif ()
 
 # select version
 if (${FG_EXTERNALS_USE_STABLE_VERSIONS})
-	set( VULKAN_HEADERS_TAG "v1.1.121" )
+	set( VULKAN_HEADERS_TAG "v1.3.216" )
 else ()
 	set( VULKAN_HEADERS_TAG "master" )
 endif ()
