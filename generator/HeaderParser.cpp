@@ -944,6 +944,7 @@ namespace RDE
 		AddCounter( "VkSubpassDescription",					"pResolveAttachments",			"colorAttachmentCount" );
 		AddCounter( "VkRenderPassCreateInfo",				"pDependencies",				"dependencyCount" );
 		AddCounter( "VkBindBufferMemoryDeviceGroupInfo",	"pDeviceIndices",				"deviceIndexCount" );
+		AddCounter("VkBindBufferMemoryDeviceGroupInfoKHR",	"pDeviceIndices",				"deviceIndexCount" );
 		AddCounter( "VkBindImageMemoryDeviceGroupInfo",		"pDeviceIndices",				"deviceIndexCount" );
         AddCounter("VkBindImageMemoryDeviceGroupInfoKHR", "pDeviceIndices", "deviceIndexCount");
 		AddCounter( "VkRenderPassMultiviewCreateInfo",		"pViewMasks",					"subpassCount" );
