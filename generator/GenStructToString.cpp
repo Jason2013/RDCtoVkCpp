@@ -817,8 +817,9 @@ namespace RDE
 			FindAndReplace( INOUT type_name, "_INT_8_", "_INT8_" );
 			FindAndReplace( INOUT type_name, "_UINT_8_", "_UINT8_" );
 			FindAndReplace( INOUT type_name, "_ASTCHDR_", "_ASTC_HDR_" );
-			FindAndReplace( INOUT type_name, "_2_D_", "_2D_");
-			FindAndReplace( INOUT type_name, "_3_D_", "_3D_" );
+            FindAndReplace(INOUT type_name, "_2_D_", "_2D_");
+            FindAndReplace(INOUT type_name, "_3_D_", "_3D_");
+            FindAndReplace(INOUT type_name, "_11_", "_1_1_");
 		}
 
 		for (auto field = values.begin(); field != values.end(); ++field)
