@@ -400,6 +400,7 @@ namespace RDE
 						   EndsWith( fieldName, "pHostPointer" )	or
 						   EndsWith( fieldName, "pTag" )			or
 						   EndsWith( fieldName, "pData" )			or
+						EndsWith( fieldName, "pShaderGroupCaptureReplayHandle" ) or
 						   EndsWith( fieldName, "pCheckpointMarker" ));
 
 					str << "\"null\"";
