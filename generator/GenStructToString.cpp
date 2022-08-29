@@ -820,6 +820,7 @@ namespace RDE
             FindAndReplace(INOUT type_name, "_2_D_", "_2D_");
             FindAndReplace(INOUT type_name, "_3_D_", "_3D_");
             FindAndReplace(INOUT type_name, "_11_", "_1_1_");
+            FindAndReplace(INOUT type_name, "_12_", "_1_2_");
 		}
 
 		for (auto field = values.begin(); field != values.end(); ++field)
