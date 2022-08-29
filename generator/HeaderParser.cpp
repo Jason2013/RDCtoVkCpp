@@ -792,6 +792,7 @@ namespace RDE
 		_resourceTypes.insert({ "VkSamplerYcbcrConversion",		{ VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION,		"VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION" }});
 		_resourceTypes.insert({ "VkDescriptorUpdateTemplate",	{ VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE,	"VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE" }});
 		_resourceTypes.insert({ "VkAccelerationStructureNV",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_NV,		"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_NV" }});
+        _resourceTypes.insert({ "VkAccelerationStructureKHR",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR,	"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR" } });
 
 
 		// TODO: validation
