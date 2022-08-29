@@ -513,8 +513,8 @@ namespace RDE
 			{
 				printf("(%s, %s)\n", String(tokens[1]).c_str(), String(tokens[2]).c_str());
 
-                String def_name{ tokens[1] };
-                String new_def_name{ tokens[2] };
+                StringView def_name{ tokens[1] };
+                StringView new_def_name{ tokens[2] };
 
 				{
 					auto iter = outStructs.find(SearchableStruct{ def_name });
