@@ -505,6 +505,77 @@ namespace RDE
 			}
 
 
+			// typedef A B;
+			if (tokens.size() == 4 and
+				tokens[0] == "typedef" and
+				(tokens[1] != "uint32_t" and tokens[1] != "uint64_t") and
+				tokens[3] == ";")
+			{
+				printf("(%s, %s)\n", String(tokens[1]).c_str(), String(tokens[2]).c_str());
+
+                String def_name{ tokens[1] };
+                String new_def_name{ tokens[2] };
+
+				{
+					auto iter = outStructs.find(SearchableStruct{ def_name });
+					if (iter != outStructs.end())
+					{
+						auto iter2 = outStructs.find(SearchableStruct{ new_def_name });
+						CHECK(iter2 == outStructs.end());
+
+						VkStructInfo new_def;
+						new_def.name = new_def_name;
+						new_def.fields = iter->data.fields;
+						new_def.fileIndex = fileIndex;
+						new_def.required = iter->data.required;
+						outStructs.insert(new_def);
+						continue;
+					}
+				}
+
+				{
+					auto iter = outBitfields.find(SearchableBitfield{ def_name });
+					if (iter != outBitfields.end())
+					{
+						auto iter2 = outStructs.find(SearchableStruct{ new_def_name });
+						CHECK(iter2 == outStructs.end());
+
+						VkBitfieldInfo	bitfield;
+						bitfield.name = new_def_name;
+						bitfield.enumName = iter->data.enumName;
+						bitfield.fileIndex = fileIndex;
+
+						outBitfields.insert(bitfield);
+						continue;
+					}
+				}
+
+				{
+					auto iter = outEnums.find(SearchableEnum{ def_name });
+					if (iter != outEnums.end())
+					{
+						auto iter2 = outEnums.find(SearchableEnum{ new_def_name });
+						CHECK(iter2 == outEnums.end());
+
+						VkEnumInfo enum_item;
+						enum_item.name = new_def_name;
+						enum_item.fields = iter->data.fields;
+						enum_item.fileIndex = fileIndex;
+						enum_item.required = iter->data.required;
+
+						outEnums.insert(enum_item);
+						continue;
+					}
+				}
+
+				if (def_name == "VkDescriptorUpdateTemplate") continue;
+				if (def_name == "VkSamplerYcbcrConversion") continue;
+				if (def_name == "VkPrivateDataSlot") continue;
+				
+				CHECK(false);
+			}
+
+
 			// define
 			if ( tokens.size() > 1		and
 				 tokens[0] == "#"		and
