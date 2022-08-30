@@ -103,6 +103,7 @@ namespace RDE
 			Array<FuncArg>		fields;
 			uint				fileIndex	= UMax;
 			mutable bool		required	= false;
+			mutable bool		alias		= false;
 
 		// methods
 			VkStructInfo () {}

@@ -526,6 +526,7 @@ namespace RDE
 						new_def.fields = iter->data.fields;
 						new_def.fileIndex = fileIndex;
 						new_def.required = iter->data.required;
+						new_def.alias = true;
 						outStructs.insert(new_def);
 						continue;
 					}

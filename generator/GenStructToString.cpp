@@ -872,6 +872,9 @@ namespace RDE
 			if ( not info.data.required )
 				continue;
 
+			if (info.data.alias) // skip struct alias
+				continue;
+
 			const bool	has_stype = _HasSType( info.data );
 
 			if ( info.data.name == "VkBaseInStructure" or
