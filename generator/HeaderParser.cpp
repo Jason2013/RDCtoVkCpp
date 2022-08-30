@@ -638,6 +638,7 @@ namespace RDE
 			"VkDeviceDeviceMemoryReportCreateInfoEXT",
 			"VkDebugUtilsMessengerCreateInfoEXT",
 			"VkAccelerationStructureBuildGeometryInfoKHR",
+			"VkAccelerationStructureVersionInfoKHR",
 		};
 
 		{
