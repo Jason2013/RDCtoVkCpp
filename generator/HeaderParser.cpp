@@ -809,7 +809,9 @@ namespace RDE
 		_resourceTypes.insert({ "VkSamplerYcbcrConversion",		{ VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION,		"VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION" }});
 		_resourceTypes.insert({ "VkDescriptorUpdateTemplate",	{ VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE,	"VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE" }});
 		_resourceTypes.insert({ "VkAccelerationStructureNV",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_NV,		"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_NV" }});
-        _resourceTypes.insert({ "VkAccelerationStructureKHR",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR,	"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR" } });
+		_resourceTypes.insert({ "VkAccelerationStructureKHR",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR,	"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR" } });
+		_resourceTypes.insert({ "VkCuModuleNVX",				{ VK_OBJECT_TYPE_CU_MODULE_NVX,					"VK_OBJECT_TYPE_CU_MODULE_NVX" } });
+		_resourceTypes.insert({ "VkCuFunctionNVX",				{ VK_OBJECT_TYPE_CU_FUNCTION_NVX,				"VK_OBJECT_TYPE_CU_FUNCTION_NVX" } });
 
 
 		// TODO: validation
@@ -1022,6 +1024,7 @@ namespace RDE
 		AddCounter("VkPresentIdKHR", "pPresentIds", "swapchainCount");
 		AddCounter("VkImageCompressionControlEXT", "pFixedRateFlags", "compressionControlPlaneCount");
 		AddCounter("VkSemaphoreWaitInfo", "pValues", "semaphoreCount");
+		AddCounter("VkSemaphoreWaitInfoKHR", "pValues", "semaphoreCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_fields;
 		skip_fields.insert({ "VkPipelineViewportShadingRateImageStateCreateInfoNV", "pShadingRatePalettes" });
