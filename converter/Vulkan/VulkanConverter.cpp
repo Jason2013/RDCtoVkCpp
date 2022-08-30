@@ -262,6 +262,7 @@ namespace RDE
 		void CmdBindDescriptorSets (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet * pDescriptorSets, uint32_t dynamicOffsetCount, const uint32_t * pDynamicOffsets) override;
 		void DebugMarkerSetObjectNameEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID resId, StringView name) override;
 		void CreateDescriptorUpdateTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorUpdateTemplateCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDescriptorUpdateTemplate * pDescriptorUpdateTemplate) override;
+		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, ArrayView<VkWriteDescriptorSet> data) override;
 		
 		ND_ String _ConvertLayouts (const ImageLayouts &layouts);
 
@@ -2891,6 +2892,41 @@ namespace RDE
 		return ArrayView<VkWriteDescriptorSet>{ dst_slots, dst_slot_count };
 	}
 	
+/*
+=================================================
+	UpdateDescriptorSetWithTemplate
+=================================================
+*/
+	void VulkanFnToCpp2::UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet,
+														  VkDescriptorUpdateTemplate descriptorUpdateTemplate, ArrayView<VkWriteDescriptorSet> srcSlots)
+	{
+		auto	dst_slots = _ValidateDescriptors( srcSlots, chunkIndex );
+		
+		nameSer.Clear();
+		remapper.SetCurrentPos( chunkIndex );
+		before << "\t{\n";
+		
+		const String arr_name = nameSer.MakeUnique( dst_slots.data(), "descriptorWrites"s, "writeDescriptorSet"s );
+		before << indent << "VkWriteDescriptorSet  " << arr_name << "[" << IntToString(uint(dst_slots.size())) << "] = {};\n";
+		
+		for (size_t i = 0; i < dst_slots.size(); ++i) {
+			Serialize2_VkWriteDescriptorSet( &dst_slots[i], String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+
+		result << indent << "app.vkUpdateDescriptorSets( \n";
+		result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, _vkLogicalDevice ) << ",\n";
+		result << indent << "		/*descriptorWriteCount*/ " << IntToString(uint(dst_slots.size())) << ",\n";
+		result << indent << "		/*pDescriptorWrites*/ " << nameSer.Get( dst_slots.data() ) << ",\n";
+		result << indent << "		/*descriptorCopyCount*/ 0,\n";
+		result << indent << "		/*pDescriptorCopies*/ null );\n";
+		result << "\t}\n";
+
+		FlushGlobal();
+		_allocator.Discard();
+	}
+//-----------------------------------------------------------------------------
+
+
 
 /*
 =================================================
