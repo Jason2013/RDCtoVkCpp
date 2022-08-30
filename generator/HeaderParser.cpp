@@ -632,6 +632,24 @@ namespace RDE
 			CHECK_ERR( _GenerateVK1( buf, uint(_fileData.size()-1), info.enableIfdef, info.disableIfdef, info.defaultSkip,
 									 INOUT _funcs, INOUT _enums, INOUT _structs, INOUT _bitfields ));
 		}
+
+		// Skip structs
+		const char* skip_structs[] = {
+			"VkDeviceDeviceMemoryReportCreateInfoEXT",
+			"VkDebugUtilsMessengerCreateInfoEXT",
+		};
+
+		{
+			for (uint32_t i = 0; i < sizeof(skip_structs) / sizeof(skip_structs[0]); ++i)
+			{
+				auto iter = _structs.find(SearchableStruct{ skip_structs[i] });
+				if (iter != _structs.end())
+				{
+					_structs.erase(iter);
+				}
+			}
+		}
+
 		return true;
 	}
 
