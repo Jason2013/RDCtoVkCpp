@@ -637,6 +637,7 @@ namespace RDE
 		const char* skip_structs[] = {
 			"VkDeviceDeviceMemoryReportCreateInfoEXT",
 			"VkDebugUtilsMessengerCreateInfoEXT",
+			"VkAccelerationStructureBuildGeometryInfoKHR",
 		};
 
 		{
