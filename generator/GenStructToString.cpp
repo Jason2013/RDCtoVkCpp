@@ -822,6 +822,7 @@ namespace RDE
             FindAndReplace(INOUT type_name, "_11_", "_1_1_");
             FindAndReplace(INOUT type_name, "_12_", "_1_2_");
 			FindAndReplace(INOUT type_name, "_13_", "_1_3_");
+			FindAndReplace(INOUT type_name, "_RGBA_10_X_6_", "_RGBA10X6_");
 		}
 
 		for (auto field = values.begin(); field != values.end(); ++field)
