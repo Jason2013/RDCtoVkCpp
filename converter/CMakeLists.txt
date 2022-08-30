@@ -1,6 +1,7 @@
 cmake_minimum_required( VERSION 3.10 FATAL_ERROR )
 
 file( GLOB_RECURSE SOURCES "*.*" )
+set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/Vulkan/VulkanConverter.cpp PROPERTIES COMPILE_DEFINITIONS VK_ENABLE_BETA_EXTENSIONS)
 add_executable( "RdConverter" ${SOURCES} )
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES} )
 target_link_libraries( "RdConverter" PUBLIC "ProjectTemplate" )
