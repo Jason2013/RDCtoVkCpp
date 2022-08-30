@@ -1026,6 +1026,7 @@ namespace RDE
 		AddCounter("VkImageCompressionControlEXT", "pFixedRateFlags", "compressionControlPlaneCount");
 		AddCounter("VkSemaphoreWaitInfo", "pValues", "semaphoreCount");
 		AddCounter("VkSemaphoreWaitInfoKHR", "pValues", "semaphoreCount");
+		AddCounter("VkIndirectCommandsLayoutTokenNV", "pIndexTypeValues", "indexTypeCount");
 
 		HashSet<Pair<StringView, StringView>>	skip_fields;
 		skip_fields.insert({ "VkPipelineViewportShadingRateImageStateCreateInfoNV", "pShadingRatePalettes" });
