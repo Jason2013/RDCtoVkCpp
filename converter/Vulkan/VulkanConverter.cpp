@@ -215,8 +215,8 @@ namespace RDE
 		void QueueBindSparse (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, uint32_t bindInfoCount, const VkBindSparseInfo * pBindInfo, VkFence fence) override;
 		void CmdBeginRenderPass (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, VkSubpassContents contents) override;
 		void CmdEndRenderPass (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer) override;
-		void CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfoKHR * pSubpassBeginInfo) override;
-		void CmdEndRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo) override;
+		void CmdBeginRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfoKHR * pSubpassBeginInfo) override;
+		void CmdEndRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo) override;
 		void CreateCommandPool (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkCommandPoolCreateInfo * pCreateInfo, const VkAllocationCallbacks *, VkCommandPool * pCommandPool) override;
 		void CreateImage (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkImageCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkImage * pImage) override;
 		void CreateBuffer (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkBufferCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkBuffer * pBuffer) override;
@@ -256,7 +256,7 @@ namespace RDE
 		void CmdWaitEvents (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent * pEvents, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, uint32_t memoryBarrierCount, const VkMemoryBarrier * pMemoryBarriers, uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier * pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier * pImageMemoryBarriers) override;
 		void CreateQueryPool (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkQueryPoolCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkQueryPool * pQueryPool) override;
 		void CreateSamplerYcbcrConversion (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkSamplerYcbcrConversionCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkSamplerYcbcrConversion * pYcbcrConversion) override;
-		void CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) override;
+		void CreateRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) override;
 		void AllocateDescriptorSets (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorSetAllocateInfo * pAllocateInfo, VkDescriptorSet * pDescriptorSets) override;
 		void FlushMappedMemoryRanges (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, uint32_t memoryRangeCount, const VkMappedMemoryRange * pMemoryRanges, BytesU mappedDataSize, ContentID mappedData) override;
 		void CmdBindDescriptorSets (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet * pDescriptorSets, uint32_t dynamicOffsetCount, const uint32_t * pDynamicOffsets) override;
@@ -1578,7 +1578,7 @@ namespace RDE
 	CmdBeginRenderPass2KHR
 =================================================
 */
-	void VulkanFnToCpp2::CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer,
+	void VulkanFnToCpp2::CmdBeginRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer,
 												 const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfoKHR * pSubpassBeginInfo)
 	{
 		auto&	cmdbuf = _cmdBuffers[commandBuffer];
@@ -1588,7 +1588,7 @@ namespace RDE
 		
 		cmdbuf.before << "static void RenderPass" << ToString(cmdbuf.renderPassCount) << " (const VApp &app)\n{\n";
 
-		VulkanFnToCpp::CmdBeginRenderPass2KHR( chunkIndex, threadID, timestamp, commandBuffer, pRenderPassBegin, pSubpassBeginInfo );
+		VulkanFnToCpp::CmdBeginRenderPass2( chunkIndex, threadID, timestamp, commandBuffer, pRenderPassBegin, pSubpassBeginInfo );
 	}
 	
 /*
@@ -1596,9 +1596,9 @@ namespace RDE
 	CmdEndRenderPass2KHR
 =================================================
 */
-	void VulkanFnToCpp2::CmdEndRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo)
+	void VulkanFnToCpp2::CmdEndRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo)
 	{
-		VulkanFnToCpp::CmdEndRenderPass2KHR( chunkIndex, threadID, timestamp, commandBuffer, pSubpassEndInfo );
+		VulkanFnToCpp::CmdEndRenderPass2( chunkIndex, threadID, timestamp, commandBuffer, pSubpassEndInfo );
 
 		auto&	cmdbuf = _cmdBuffers[commandBuffer];
 		
@@ -2615,9 +2615,9 @@ namespace RDE
 	CreateRenderPass2KHR
 =================================================
 */
-	void VulkanFnToCpp2::CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass)
+	void VulkanFnToCpp2::CreateRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass)
 	{
-		VulkanFnToCpp::CreateRenderPass2KHR( chunkIndex, threadID, timestamp, device, pCreateInfo, pAllocator, pRenderPass );
+		VulkanFnToCpp::CreateRenderPass2( chunkIndex, threadID, timestamp, device, pCreateInfo, pAllocator, pRenderPass );
 		
 		result << "\tapp.SetObjectName( "
 			<< remapper.GetResourceName( VK_OBJECT_TYPE_RENDER_PASS, VkResourceID(*pRenderPass) )
