@@ -812,6 +812,7 @@ namespace RDE
 		_resourceTypes.insert({ "VkAccelerationStructureKHR",	{ VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR,	"VK_OBJECT_TYPE_ACCELERATION_STRUCTURE_KHR" } });
 		_resourceTypes.insert({ "VkCuModuleNVX",				{ VK_OBJECT_TYPE_CU_MODULE_NVX,					"VK_OBJECT_TYPE_CU_MODULE_NVX" } });
 		_resourceTypes.insert({ "VkCuFunctionNVX",				{ VK_OBJECT_TYPE_CU_FUNCTION_NVX,				"VK_OBJECT_TYPE_CU_FUNCTION_NVX" } });
+		_resourceTypes.insert({ "VkIndirectCommandsLayoutNV",	{ VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV,	"VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV" } });
 
 
 		// TODO: validation
