@@ -1537,7 +1537,7 @@ namespace RDE
 		CHECK_ERR( write_ds.size() );
 
 		for (auto listener : _listeners) {
-			listener->UpdateDescriptorSetWithTemplate( _chunkCounter, threadId, timestamp, device, descriptorSet, descriptorUpdateTemplate, write_ds );
+			listener->UpdateDescriptorSetWithTemplate( _chunkCounter, threadId, timestamp, device, descriptorSet, descriptorUpdateTemplate, (const void *)&write_ds );
 		}
 		return true;
 	}
