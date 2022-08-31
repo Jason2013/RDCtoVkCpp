@@ -38,7 +38,7 @@ namespace FGC
 	}
 
     template <typename T, size_t N>
-    ND_ forceinline constexpr size_t  CountOf(T(&)[N])
+    ND_ forceinline constexpr size_t  CountOf(const T(&)[N])
     {
         return N;
     }
