@@ -1549,6 +1549,9 @@ namespace RDE
 */
 	bool  RdCaptureReader::_Parse_QueuePresentKHR(const Node_t& root, uint64_t threadId, uint64_t timestamp)
 	{
+		CHECK_ERR(&root);
+		CHECK_ERR(threadId);
+		CHECK_ERR(timestamp);
 		return true;
 	}
 
@@ -1559,6 +1562,9 @@ namespace RDE
 */
 	bool  RdCaptureReader::_Parse_CreateInstance(const Node_t& root, uint64_t threadId, uint64_t timestamp)
 	{
+		CHECK_ERR(&root);
+		CHECK_ERR(threadId);
+		CHECK_ERR(timestamp);
 		return true;
 	}
 
