@@ -1084,7 +1084,7 @@ void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestam
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*blendConstants*/ " << "StaticArray<float, " << IntToString(/*CountOf(blendConstants)*/4) << ">{ ";
-	for (uint i = 0; i < CountOf(blendConstants); ++i) {
+	for (uint i = 0; i < /*CountOf(blendConstants)*/4; ++i) {
 		result << (i ? ", " : "") << FloatToString(blendConstants[i]);
 	}
 	result << " }";
@@ -3481,13 +3481,13 @@ void CmdSetFragmentShadingRateKHR (uint chunkIndex, uint64_t threadID, uint64_t 
 		before << Serialize_VkExtent2D( pFragmentSize, nameSer, remapper, indent );
 	}
 	if ( combinerOps ) {
-		CHECK( CountOf(combinerOps) > 0 );
+		// CHECK( CountOf(combinerOps) > 0 );
 		before << indent << "const VkFragmentShadingRateCombinerOpKHR  " << nameSer.MakeUnique( &combinerOps, "combinerOps"s ) << "[] = {";
-		for (uint i = 0; i < CountOf(combinerOps); ++i) {
+		for (uint i = 0; i < /*CountOf(combinerOps)*/2; ++i) {
 			before << (i ? "," : "") << (i%4 == 0 ? "\n\t"s << indent : " ") << Serialize_VkFragmentShadingRateCombinerOpKHR( combinerOps[i] );
 		}
 		before << "\n" << indent << " };\n";
-		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &combinerOps ) << ") == " << IntToString(CountOf(combinerOps)) << " );\n\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &combinerOps ) << ") == " << IntToString(/*CountOf(combinerOps)*/2) << " );\n\n";
 	}
 	result << indent << "app.vkCmdSetFragmentShadingRateKHR( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
