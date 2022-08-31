@@ -2188,7 +2188,7 @@ bool  RdCaptureReader::_Parse_VkSubpassDescription2 (const Node_t *node, OUT VkS
 	CHECK_ERR( _ParseStructArray( _FindByAttribName( *node, "pInputAttachments" ), OUT const_cast<VkAttachmentReference2 * &>(result.pInputAttachments), INOUT result.inputAttachmentCount ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "colorAttachmentCount" ), OUT result.colorAttachmentCount ));
 	CHECK_ERR( _ParseStructArray( _FindByAttribName( *node, "pColorAttachments" ), OUT const_cast<VkAttachmentReference2 * &>(result.pColorAttachments), INOUT result.colorAttachmentCount ));
-	CHECK_ERR( _ParseStruct( _FindByAttribName( *node, "pResolveAttachments" ), OUT const_cast<VkAttachmentReference2 * &>(result.pResolveAttachments) ));
+	CHECK_ERR( _ParseStructArray( _FindByAttribName( *node, "pResolveAttachments" ), OUT const_cast<VkAttachmentReference2 * &>(result.pResolveAttachments), INOUT result.colorAttachmentCount ));
 	CHECK_ERR( _ParseStruct( _FindByAttribName( *node, "pDepthStencilAttachment" ), OUT const_cast<VkAttachmentReference2 * &>(result.pDepthStencilAttachment) ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "preserveAttachmentCount" ), OUT result.preserveAttachmentCount ));
 	CHECK_ERR( _ParseArray( _FindByAttribName( *node, "pPreserveAttachments" ), OUT const_cast<uint32_t * &>(result.pPreserveAttachments), INOUT result.preserveAttachmentCount ));
@@ -13139,7 +13139,7 @@ bool  RdCaptureReader::_Parse_VkPhysicalDeviceGroupPropertiesKHR (const Node_t *
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "sType" ), OUT result.sType ));
 	CHECK_ERR( _ParseStruct( _FindByAttribName( *node, "pNext" ), OUT const_cast<void **>(&result.pNext) ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "physicalDeviceCount" ), OUT result.physicalDeviceCount ));
-	//CHECK_ERR( _ParseResource( _FindByAttribName( *node, "physicalDevices" ), OUT result.physicalDevices ));
+	CHECK_ERR( _ParseResource( _FindByAttribName( *node, "physicalDevices" ), OUT result.physicalDevices ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "subsetAllocation" ), OUT result.subsetAllocation ));
 	return true;
 }
