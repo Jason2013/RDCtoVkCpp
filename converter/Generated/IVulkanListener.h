@@ -35,7 +35,7 @@ namespace RDE
 		
 		virtual void DebugMarkerSetObjectNameEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID resId, StringView name) {}
 	
-		virtual void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, ArrayView<VkWriteDescriptorSet> data) {}
+		virtual void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * pData) {}
 	
 		virtual void CreateDevice (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkPhysicalDevice physicalDevice, const VkDeviceCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDevice * pDevice) {}
 		virtual void GetDeviceQueue (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue * pQueue) {}
@@ -145,12 +145,12 @@ namespace RDE
 		virtual void CmdSetDeviceMask (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t deviceMask) {}
 		virtual void CmdDispatchBase (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY, uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) {}
 		virtual void GetDeviceQueue2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDeviceQueueInfo2 * pQueueInfo, VkQueue * pQueue) {}
-		virtual void CmdDrawIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) {}
-		virtual void CmdDrawIndexedIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) {}
-		virtual void CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) {}
-		virtual void CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfoKHR * pSubpassBeginInfo) {}
-		virtual void CmdNextSubpass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassBeginInfoKHR * pSubpassBeginInfo, const VkSubpassEndInfoKHR * pSubpassEndInfo) {}
-		virtual void CmdEndRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo) {}
+		virtual void CmdDrawIndirectCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) {}
+		virtual void CmdDrawIndexedIndirectCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) {}
+		virtual void CreateRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2 * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) {}
+		virtual void CmdBeginRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfo * pSubpassBeginInfo) {}
+		virtual void CmdNextSubpass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassBeginInfo * pSubpassBeginInfo, const VkSubpassEndInfo * pSubpassEndInfo) {}
+		virtual void CmdEndRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfo * pSubpassEndInfo) {}
 		virtual void CmdBindTransformFeedbackBuffersEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount, const VkBuffer * pBuffers, const VkDeviceSize * pOffsets, const VkDeviceSize * pSizes) {}
 		virtual void CmdBeginQueryIndexedEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query, VkQueryControlFlags flags, uint32_t index) {}
 		virtual void CmdEndQueryIndexedEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query, uint32_t index) {}
@@ -159,8 +159,47 @@ namespace RDE
 		virtual void CmdEndConditionalRenderingEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer) {}
 		virtual void CmdSetSampleLocationsEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSampleLocationsInfoEXT * pSampleLocationsInfo) {}
 		virtual void CmdSetDiscardRectangleEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t firstDiscardRectangle, uint32_t discardRectangleCount, const VkRect2D * pDiscardRectangles) {}
-		virtual void ResetQueryPoolEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {}
+		virtual void ResetQueryPool (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {}
 		virtual void CmdSetLineStippleEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t lineStippleFactor, uint16_t lineStipplePattern) {}
+		virtual void GetSemaphoreCounterValue (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkSemaphore semaphore, uint64_t * pValue) {}
+		virtual void WaitSemaphores (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkSemaphoreWaitInfo * pWaitInfo, uint64_t timeout) {}
+		virtual void SignalSemaphore (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkSemaphoreSignalInfo * pSignalInfo) {}
+		virtual void QueuePresentKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR * pPresentInfo) {}
+		virtual void CmdSetCullMode (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkCullModeFlags cullMode) {}
+		virtual void CmdSetFrontFace (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkFrontFace frontFace) {}
+		virtual void CmdSetPrimitiveTopology (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPrimitiveTopology primitiveTopology) {}
+		virtual void CmdSetViewportWithCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t viewportCount, const VkViewport * pViewports) {}
+		virtual void CmdSetScissorWithCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t scissorCount, const VkRect2D * pScissors) {}
+		virtual void CmdBindVertexBuffers2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount, const VkBuffer * pBuffers, const VkDeviceSize * pOffsets, const VkDeviceSize * pSizes, const VkDeviceSize * pStrides) {}
+		virtual void CmdSetDepthTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthTestEnable) {}
+		virtual void CmdSetDepthWriteEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthWriteEnable) {}
+		virtual void CmdSetDepthCompareOp (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkCompareOp depthCompareOp) {}
+		virtual void CmdSetDepthBoundsTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthBoundsTestEnable) {}
+		virtual void CmdSetStencilTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 stencilTestEnable) {}
+		virtual void CmdSetStencilOp (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkStencilFaceFlags faceMask, VkStencilOp failOp, VkStencilOp passOp, VkStencilOp depthFailOp, VkCompareOp compareOp) {}
+		virtual void CmdCopyBuffer2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyBufferInfo2 * pCopyBufferInfo) {}
+		virtual void CmdCopyImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyImageInfo2 * pCopyImageInfo) {}
+		virtual void CmdCopyBufferToImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyBufferToImageInfo2 * pCopyBufferToImageInfo) {}
+		virtual void CmdCopyImageToBuffer2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyImageToBufferInfo2 * pCopyImageToBufferInfo) {}
+		virtual void CmdBlitImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkBlitImageInfo2 * pBlitImageInfo) {}
+		virtual void CmdResolveImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkResolveImageInfo2 * pResolveImageInfo) {}
+		virtual void CmdSetEvent2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkEvent event, const VkDependencyInfo * pDependencyInfo) {}
+		virtual void CmdResetEvent2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags2 stageMask) {}
+		virtual void CmdWaitEvents2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent * pEvents, const VkDependencyInfo * pDependencyInfos) {}
+		virtual void CmdPipelineBarrier2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkDependencyInfo * pDependencyInfo) {}
+		virtual void CmdWriteTimestamp2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query) {}
+		virtual void QueueSubmit2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, uint32_t submitCount, const VkSubmitInfo2 * pSubmits, VkFence fence) {}
+		virtual void CmdWriteBufferMarker2AMD (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker) {}
+		virtual void CmdSetColorWriteEnableEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t attachmentCount, const VkBool32 * pColorWriteEnables) {}
+		virtual void CmdSetDepthBiasEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthBiasEnable) {}
+		virtual void CmdSetLogicOpEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkLogicOp logicOp) {}
+		virtual void CmdSetPatchControlPointsEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t patchControlPoints) {}
+		virtual void CmdSetPrimitiveRestartEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 primitiveRestartEnable) {}
+		virtual void CmdSetRasterizerDiscardEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 rasterizerDiscardEnable) {}
+		virtual void CmdSetVertexInputEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t vertexBindingDescriptionCount, const VkVertexInputBindingDescription2EXT * pVertexBindingDescriptions, uint32_t vertexAttributeDescriptionCount, const VkVertexInputAttributeDescription2EXT * pVertexAttributeDescriptions) {}
+		virtual void CmdBeginRendering (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderingInfo * pRenderingInfo) {}
+		virtual void CmdEndRendering (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer) {}
+		virtual void CmdSetFragmentShadingRateKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkExtent2D * pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]) {}
 
 	};
 

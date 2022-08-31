@@ -1075,20 +1075,20 @@ void CmdSetDepthBias (uint chunkIndex, uint64_t threadID, uint64_t timestamp, Vk
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const float blendConstants[4]) override
+void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const float (&blendConstants)[4]) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
 	before << "	{\n";
-	before << indent << "StaticArray<float,4> blendConstants{ ";
-	for (uint i = 0; i < 4; ++i) {
-		before << (i ? ", " : "") << FloatToString(blendConstants[i]);
-	}
-	before << " };\n";
 	result << indent << "app.vkCmdSetBlendConstants( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
-	result << indent << "		/*blendConstants*/ blendConstants.data() );\n";
+	result << indent << "		/*blendConstants*/ " << "StaticArray<float, " << IntToString(CountOf(blendConstants)) << ">{ ";
+	for (uint i = 0; i < CountOf(blendConstants); ++i) {
+		result << (i ? ", " : "") << FloatToString(blendConstants[i]);
+	}
+	result << " }";
+	result << " );\n";
 	result << "	}\n";
 	FlushCommandBuffer( commandBuffer );
 }
@@ -2404,12 +2404,12 @@ void GetDeviceQueue2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, Vk
 	FlushGlobal();
 }
 
-void CmdDrawIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) override
+void CmdDrawIndirectCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
 	before << "	{\n";
-	result << indent << "app.vkCmdDrawIndirectCountKHR( \n";
+	result << indent << "app.vkCmdDrawIndirectCount( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*buffer*/ " << remapper( VK_OBJECT_TYPE_BUFFER, buffer );
@@ -2428,12 +2428,12 @@ void CmdDrawIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_t times
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CmdDrawIndexedIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) override
+void CmdDrawIndexedIndirectCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
 	before << "	{\n";
-	result << indent << "app.vkCmdDrawIndexedIndirectCountKHR( \n";
+	result << indent << "app.vkCmdDrawIndexedIndirectCount( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*buffer*/ " << remapper( VK_OBJECT_TYPE_BUFFER, buffer );
@@ -2452,7 +2452,7 @@ void CmdDrawIndexedIndirectCountKHR (uint chunkIndex, uint64_t threadID, uint64_
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) override
+void CreateRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkRenderPassCreateInfo2 * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
@@ -2461,7 +2461,7 @@ void CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestam
 		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pCreateInfo), nameSer, remapper, indent );
 	}
 	remapper.CreateResource( VK_OBJECT_TYPE_RENDER_PASS, VkResourceID(*pRenderPass), chunkIndex );
-	result << indent << "VK_CALL( app.vkCreateRenderPass2KHR( \n";
+	result << indent << "VK_CALL( app.vkCreateRenderPass2( \n";
 	result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, device );
 	result << ",\n";
 	result << indent << "		/*pCreateInfo*/ " << nameSer.GetPtr(pCreateInfo);
@@ -2474,7 +2474,7 @@ void CreateRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestam
 	FlushGlobal();
 }
 
-void CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfoKHR * pSubpassBeginInfo) override
+void CmdBeginRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo * pRenderPassBegin, const VkSubpassBeginInfo * pSubpassBeginInfo) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
@@ -2485,7 +2485,7 @@ void CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timest
 	if ( pSubpassBeginInfo ) {
 		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pSubpassBeginInfo), nameSer, remapper, indent );
 	}
-	result << indent << "app.vkCmdBeginRenderPass2KHR( \n";
+	result << indent << "app.vkCmdBeginRenderPass2( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*pRenderPassBegin*/ " << nameSer.GetPtr(pRenderPassBegin);
@@ -2496,7 +2496,7 @@ void CmdBeginRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timest
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CmdNextSubpass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassBeginInfoKHR * pSubpassBeginInfo, const VkSubpassEndInfoKHR * pSubpassEndInfo) override
+void CmdNextSubpass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassBeginInfo * pSubpassBeginInfo, const VkSubpassEndInfo * pSubpassEndInfo) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
@@ -2507,7 +2507,7 @@ void CmdNextSubpass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp,
 	if ( pSubpassEndInfo ) {
 		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pSubpassEndInfo), nameSer, remapper, indent );
 	}
-	result << indent << "app.vkCmdNextSubpass2KHR( \n";
+	result << indent << "app.vkCmdNextSubpass2( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*pSubpassBeginInfo*/ " << nameSer.GetPtr(pSubpassBeginInfo);
@@ -2518,7 +2518,7 @@ void CmdNextSubpass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp,
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CmdEndRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfoKHR * pSubpassEndInfo) override
+void CmdEndRenderPass2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkSubpassEndInfo * pSubpassEndInfo) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
@@ -2526,7 +2526,7 @@ void CmdEndRenderPass2KHR (uint chunkIndex, uint64_t threadID, uint64_t timestam
 	if ( pSubpassEndInfo ) {
 		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pSubpassEndInfo), nameSer, remapper, indent );
 	}
-	result << indent << "app.vkCmdEndRenderPass2KHR( \n";
+	result << indent << "app.vkCmdEndRenderPass2( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
 	result << indent << "		/*pSubpassEndInfo*/ " << nameSer.GetPtr(pSubpassEndInfo);
@@ -2718,12 +2718,12 @@ void CmdSetDiscardRectangleEXT (uint chunkIndex, uint64_t threadID, uint64_t tim
 	FlushCommandBuffer( commandBuffer );
 }
 
-void ResetQueryPoolEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) override
+void ResetQueryPool (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
 	before << "	{\n";
-	result << indent << "app.vkResetQueryPoolEXT( \n";
+	result << indent << "app.vkResetQueryPool( \n";
 	result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, device );
 	result << ",\n";
 	result << indent << "		/*queryPool*/ " << remapper( VK_OBJECT_TYPE_QUERY_POOL, queryPool );
@@ -2747,6 +2747,754 @@ void CmdSetLineStippleEXT (uint chunkIndex, uint64_t threadID, uint64_t timestam
 	result << indent << "		/*lineStippleFactor*/ " << IntToString(lineStippleFactor);
 	result << ",\n";
 	result << indent << "		/*lineStipplePattern*/ " << IntToString(lineStipplePattern);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void GetSemaphoreCounterValue (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkSemaphore semaphore, uint64_t * pValue) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	before << "	uint64_t " << nameSer.MakeUnique( &pValue, "value"s ) << " = {};\n";
+	result << indent << "VK_CALL( app.vkGetSemaphoreCounterValue( \n";
+	result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, device );
+	result << ",\n";
+	result << indent << "		/*semaphore*/ " << remapper( VK_OBJECT_TYPE_SEMAPHORE, semaphore );
+	result << ",\n";
+	result << indent << "		/*pValue*/ " << nameSer.Get( &pValue );
+	result << " ));\n";
+	result << "	}\n";
+	FlushGlobal();
+}
+
+void WaitSemaphores (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkSemaphoreWaitInfo * pWaitInfo, uint64_t timeout) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pWaitInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pWaitInfo), nameSer, remapper, indent );
+	}
+	result << indent << "VK_CALL( app.vkWaitSemaphores( \n";
+	result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, device );
+	result << ",\n";
+	result << indent << "		/*pWaitInfo*/ " << nameSer.GetPtr(pWaitInfo);
+	result << ",\n";
+	result << indent << "		/*timeout*/ " << IntToString(timeout);
+	result << " ));\n";
+	result << "	}\n";
+	FlushGlobal();
+}
+
+void SignalSemaphore (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkSemaphoreSignalInfo * pSignalInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pSignalInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pSignalInfo), nameSer, remapper, indent );
+	}
+	result << indent << "VK_CALL( app.vkSignalSemaphore( \n";
+	result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, device );
+	result << ",\n";
+	result << indent << "		/*pSignalInfo*/ " << nameSer.GetPtr(pSignalInfo);
+	result << " ));\n";
+	result << "	}\n";
+	FlushGlobal();
+}
+
+void QueuePresentKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR * pPresentInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pPresentInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pPresentInfo), nameSer, remapper, indent );
+	}
+	result << indent << "VK_CALL( app.vkQueuePresentKHR( \n";
+	result << indent << "		/*queue*/ " << remapper( VK_OBJECT_TYPE_QUEUE, queue );
+	result << ",\n";
+	result << indent << "		/*pPresentInfo*/ " << nameSer.GetPtr(pPresentInfo);
+	result << " ));\n";
+	result << "	}\n";
+	FlushQueue( queue );
+}
+
+void CmdSetCullMode (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkCullModeFlags cullMode) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetCullMode( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*cullMode*/ " << Serialize_VkCullModeFlags(cullMode);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetFrontFace (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkFrontFace frontFace) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetFrontFace( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*frontFace*/ " << Serialize_VkFrontFace(frontFace);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetPrimitiveTopology (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPrimitiveTopology primitiveTopology) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetPrimitiveTopology( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*primitiveTopology*/ " << Serialize_VkPrimitiveTopology(primitiveTopology);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetViewportWithCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t viewportCount, const VkViewport * pViewports) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pViewports ) {
+		CHECK( viewportCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &pViewports, "viewports"s, "viewport"s );
+		before << indent << "VkViewport  " << arr_name << "[" << IntToString(viewportCount) << "] = {};\n";
+		for (uint i = 0; i < viewportCount; ++i) {
+			Serialize2_VkViewport( pViewports + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+	}
+	result << indent << "app.vkCmdSetViewportWithCount( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*viewportCount*/ " << IntToString(viewportCount);
+	result << ",\n";
+	result << indent << "		/*pViewports*/ " << nameSer.Get( &pViewports );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetScissorWithCount (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t scissorCount, const VkRect2D * pScissors) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pScissors ) {
+		CHECK( scissorCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &pScissors, "scissors"s, "rect2D"s );
+		before << indent << "VkRect2D  " << arr_name << "[" << IntToString(scissorCount) << "] = {};\n";
+		for (uint i = 0; i < scissorCount; ++i) {
+			Serialize2_VkRect2D( pScissors + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+	}
+	result << indent << "app.vkCmdSetScissorWithCount( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*scissorCount*/ " << IntToString(scissorCount);
+	result << ",\n";
+	result << indent << "		/*pScissors*/ " << nameSer.Get( &pScissors );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdBindVertexBuffers2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount, const VkBuffer * pBuffers, const VkDeviceSize * pOffsets, const VkDeviceSize * pSizes, const VkDeviceSize * pStrides) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pBuffers ) {
+		CHECK( bindingCount > 0 );
+		before << indent << "const VkBuffer  " << nameSer.MakeUnique( &pBuffers, "buffers"s, "buffer"s ) << "[] = {";
+		for (uint i = 0; i < bindingCount; ++i) {
+			before << (i ? "," : "") << (i%4 == 0 ? "\n\t"s << indent : " ") << remapper( VK_OBJECT_TYPE_BUFFER, pBuffers[i] );
+		}
+		before << "\n" << indent << "};\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pBuffers ) << ") == " << IntToString(bindingCount) << " );\n\n";
+	}
+	if ( pOffsets ) {
+		CHECK( bindingCount > 0 );
+		before << indent << "const VkDeviceSize  " << nameSer.MakeUnique( &pOffsets, "offsets"s ) << "[] = { ";
+		for (uint i = 0; i < bindingCount; ++i) {
+			before << (i ? ", " : "") << (i%16 == 0 ? "\n\t"s << indent : " ") << IntToString(pOffsets[i]);
+		}
+		before << indent << " };\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pOffsets ) << ") == " << IntToString(bindingCount) << " );\n\n";
+	}
+	if ( pSizes ) {
+		CHECK( bindingCount > 0 );
+		before << indent << "const VkDeviceSize  " << nameSer.MakeUnique( &pSizes, "sizes"s ) << "[] = { ";
+		for (uint i = 0; i < bindingCount; ++i) {
+			before << (i ? ", " : "") << (i%16 == 0 ? "\n\t"s << indent : " ") << IntToString(pSizes[i]);
+		}
+		before << indent << " };\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pSizes ) << ") == " << IntToString(bindingCount) << " );\n\n";
+	}
+	if ( pStrides ) {
+		CHECK( bindingCount > 0 );
+		before << indent << "const VkDeviceSize  " << nameSer.MakeUnique( &pStrides, "strides"s ) << "[] = { ";
+		for (uint i = 0; i < bindingCount; ++i) {
+			before << (i ? ", " : "") << (i%16 == 0 ? "\n\t"s << indent : " ") << IntToString(pStrides[i]);
+		}
+		before << indent << " };\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pStrides ) << ") == " << IntToString(bindingCount) << " );\n\n";
+	}
+	result << indent << "app.vkCmdBindVertexBuffers2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*firstBinding*/ " << IntToString(firstBinding);
+	result << ",\n";
+	result << indent << "		/*bindingCount*/ " << IntToString(bindingCount);
+	result << ",\n";
+	result << indent << "		/*pBuffers*/ " << nameSer.Get( &pBuffers );
+	result << ",\n";
+	result << indent << "		/*pOffsets*/ " << nameSer.Get( &pOffsets );
+	result << ",\n";
+	result << indent << "		/*pSizes*/ " << nameSer.Get( &pSizes );
+	result << ",\n";
+	result << indent << "		/*pStrides*/ " << nameSer.Get( &pStrides );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetDepthTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthTestEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetDepthTestEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*depthTestEnable*/ " << BoolToString(depthTestEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetDepthWriteEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthWriteEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetDepthWriteEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*depthWriteEnable*/ " << BoolToString(depthWriteEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetDepthCompareOp (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkCompareOp depthCompareOp) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetDepthCompareOp( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*depthCompareOp*/ " << Serialize_VkCompareOp(depthCompareOp);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetDepthBoundsTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthBoundsTestEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetDepthBoundsTestEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*depthBoundsTestEnable*/ " << BoolToString(depthBoundsTestEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetStencilTestEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 stencilTestEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetStencilTestEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*stencilTestEnable*/ " << BoolToString(stencilTestEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetStencilOp (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkStencilFaceFlags faceMask, VkStencilOp failOp, VkStencilOp passOp, VkStencilOp depthFailOp, VkCompareOp compareOp) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetStencilOp( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*faceMask*/ " << Serialize_VkStencilFaceFlags(faceMask);
+	result << ",\n";
+	result << indent << "		/*failOp*/ " << Serialize_VkStencilOp(failOp);
+	result << ",\n";
+	result << indent << "		/*passOp*/ " << Serialize_VkStencilOp(passOp);
+	result << ",\n";
+	result << indent << "		/*depthFailOp*/ " << Serialize_VkStencilOp(depthFailOp);
+	result << ",\n";
+	result << indent << "		/*compareOp*/ " << Serialize_VkCompareOp(compareOp);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdCopyBuffer2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyBufferInfo2 * pCopyBufferInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pCopyBufferInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pCopyBufferInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdCopyBuffer2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pCopyBufferInfo*/ " << nameSer.GetPtr(pCopyBufferInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdCopyImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyImageInfo2 * pCopyImageInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pCopyImageInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pCopyImageInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdCopyImage2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pCopyImageInfo*/ " << nameSer.GetPtr(pCopyImageInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdCopyBufferToImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyBufferToImageInfo2 * pCopyBufferToImageInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pCopyBufferToImageInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pCopyBufferToImageInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdCopyBufferToImage2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pCopyBufferToImageInfo*/ " << nameSer.GetPtr(pCopyBufferToImageInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdCopyImageToBuffer2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkCopyImageToBufferInfo2 * pCopyImageToBufferInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pCopyImageToBufferInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pCopyImageToBufferInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdCopyImageToBuffer2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pCopyImageToBufferInfo*/ " << nameSer.GetPtr(pCopyImageToBufferInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdBlitImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkBlitImageInfo2 * pBlitImageInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pBlitImageInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pBlitImageInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdBlitImage2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pBlitImageInfo*/ " << nameSer.GetPtr(pBlitImageInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdResolveImage2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkResolveImageInfo2 * pResolveImageInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pResolveImageInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pResolveImageInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdResolveImage2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pResolveImageInfo*/ " << nameSer.GetPtr(pResolveImageInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetEvent2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkEvent event, const VkDependencyInfo * pDependencyInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pDependencyInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pDependencyInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdSetEvent2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*event*/ " << remapper( VK_OBJECT_TYPE_EVENT, event );
+	result << ",\n";
+	result << indent << "		/*pDependencyInfo*/ " << nameSer.GetPtr(pDependencyInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdResetEvent2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags2 stageMask) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdResetEvent2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*event*/ " << remapper( VK_OBJECT_TYPE_EVENT, event );
+	result << ",\n";
+	result << indent << "		/*stageMask*/ " << Serialize_VkPipelineStageFlags2(stageMask);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdWaitEvents2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent * pEvents, const VkDependencyInfo * pDependencyInfos) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pEvents ) {
+		CHECK( eventCount > 0 );
+		before << indent << "const VkEvent  " << nameSer.MakeUnique( &pEvents, "events"s, "event"s ) << "[] = {";
+		for (uint i = 0; i < eventCount; ++i) {
+			before << (i ? "," : "") << (i%4 == 0 ? "\n\t"s << indent : " ") << remapper( VK_OBJECT_TYPE_EVENT, pEvents[i] );
+		}
+		before << "\n" << indent << "};\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pEvents ) << ") == " << IntToString(eventCount) << " );\n\n";
+	}
+	if ( pDependencyInfos ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pDependencyInfos), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdWaitEvents2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*eventCount*/ " << IntToString(eventCount);
+	result << ",\n";
+	result << indent << "		/*pEvents*/ " << nameSer.Get( &pEvents );
+	result << ",\n";
+	result << indent << "		/*pDependencyInfos*/ " << nameSer.GetPtr(pDependencyInfos);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdPipelineBarrier2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkDependencyInfo * pDependencyInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pDependencyInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pDependencyInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdPipelineBarrier2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pDependencyInfo*/ " << nameSer.GetPtr(pDependencyInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdWriteTimestamp2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdWriteTimestamp2( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*stage*/ " << Serialize_VkPipelineStageFlags2(stage);
+	result << ",\n";
+	result << indent << "		/*queryPool*/ " << remapper( VK_OBJECT_TYPE_QUERY_POOL, queryPool );
+	result << ",\n";
+	result << indent << "		/*query*/ " << IntToString(query);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void QueueSubmit2 (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, uint32_t submitCount, const VkSubmitInfo2 * pSubmits, VkFence fence) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pSubmits ) {
+		CHECK( submitCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &pSubmits, "submits"s, "submitInfo2"s, "info"s );
+		before << indent << "VkSubmitInfo2  " << arr_name << "[" << IntToString(submitCount) << "] = {};\n";
+		for (uint i = 0; i < submitCount; ++i) {
+			Serialize2_VkSubmitInfo2( pSubmits + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+	}
+	result << indent << "VK_CALL( app.vkQueueSubmit2( \n";
+	result << indent << "		/*queue*/ " << remapper( VK_OBJECT_TYPE_QUEUE, queue );
+	result << ",\n";
+	result << indent << "		/*submitCount*/ " << IntToString(submitCount);
+	result << ",\n";
+	result << indent << "		/*pSubmits*/ " << nameSer.Get( &pSubmits );
+	result << ",\n";
+	result << indent << "		/*fence*/ " << remapper( VK_OBJECT_TYPE_FENCE, fence );
+	result << " ));\n";
+	result << "	}\n";
+	FlushQueue( queue );
+}
+
+void CmdWriteBufferMarker2AMD (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdWriteBufferMarker2AMD( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*stage*/ " << Serialize_VkPipelineStageFlags2(stage);
+	result << ",\n";
+	result << indent << "		/*dstBuffer*/ " << remapper( VK_OBJECT_TYPE_BUFFER, dstBuffer );
+	result << ",\n";
+	result << indent << "		/*dstOffset*/ " << IntToString(dstOffset);
+	result << ",\n";
+	result << indent << "		/*marker*/ " << IntToString(marker);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetColorWriteEnableEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t attachmentCount, const VkBool32 * pColorWriteEnables) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pColorWriteEnables ) {
+		CHECK( attachmentCount > 0 );
+		before << indent << "const VkBool32  " << nameSer.MakeUnique( &pColorWriteEnables, "colorWriteEnables"s ) << "[] = { ";
+		for (uint i = 0; i < attachmentCount; ++i) {
+			before << (i ? ", " : "") << (i%16 == 0 ? "\n\t"s << indent : " ") << BoolToString(pColorWriteEnables[i]);
+		}
+		before << indent << " };\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &pColorWriteEnables ) << ") == " << IntToString(attachmentCount) << " );\n\n";
+	}
+	result << indent << "app.vkCmdSetColorWriteEnableEXT( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*attachmentCount*/ " << IntToString(attachmentCount);
+	result << ",\n";
+	result << indent << "		/*pColorWriteEnables*/ " << nameSer.Get( &pColorWriteEnables );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetDepthBiasEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 depthBiasEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetDepthBiasEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*depthBiasEnable*/ " << BoolToString(depthBiasEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetLogicOpEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkLogicOp logicOp) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetLogicOpEXT( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*logicOp*/ " << Serialize_VkLogicOp(logicOp);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetPatchControlPointsEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t patchControlPoints) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetPatchControlPointsEXT( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*patchControlPoints*/ " << IntToString(patchControlPoints);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetPrimitiveRestartEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 primitiveRestartEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetPrimitiveRestartEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*primitiveRestartEnable*/ " << BoolToString(primitiveRestartEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetRasterizerDiscardEnable (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, VkBool32 rasterizerDiscardEnable) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdSetRasterizerDiscardEnable( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*rasterizerDiscardEnable*/ " << BoolToString(rasterizerDiscardEnable);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetVertexInputEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, uint32_t vertexBindingDescriptionCount, const VkVertexInputBindingDescription2EXT * pVertexBindingDescriptions, uint32_t vertexAttributeDescriptionCount, const VkVertexInputAttributeDescription2EXT * pVertexAttributeDescriptions) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pVertexBindingDescriptions ) {
+		CHECK( vertexBindingDescriptionCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &pVertexBindingDescriptions, "vertexBindingDescriptions"s, "vertexInputBindingDescription2"s );
+		before << indent << "VkVertexInputBindingDescription2EXT  " << arr_name << "[" << IntToString(vertexBindingDescriptionCount) << "] = {};\n";
+		for (uint i = 0; i < vertexBindingDescriptionCount; ++i) {
+			Serialize2_VkVertexInputBindingDescription2EXT( pVertexBindingDescriptions + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+	}
+	if ( pVertexAttributeDescriptions ) {
+		CHECK( vertexAttributeDescriptionCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &pVertexAttributeDescriptions, "vertexAttributeDescriptions"s, "vertexInputAttributeDescription2"s );
+		before << indent << "VkVertexInputAttributeDescription2EXT  " << arr_name << "[" << IntToString(vertexAttributeDescriptionCount) << "] = {};\n";
+		for (uint i = 0; i < vertexAttributeDescriptionCount; ++i) {
+			Serialize2_VkVertexInputAttributeDescription2EXT( pVertexAttributeDescriptions + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
+	}
+	result << indent << "app.vkCmdSetVertexInputEXT( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*vertexBindingDescriptionCount*/ " << IntToString(vertexBindingDescriptionCount);
+	result << ",\n";
+	result << indent << "		/*pVertexBindingDescriptions*/ " << nameSer.Get( &pVertexBindingDescriptions );
+	result << ",\n";
+	result << indent << "		/*vertexAttributeDescriptionCount*/ " << IntToString(vertexAttributeDescriptionCount);
+	result << ",\n";
+	result << indent << "		/*pVertexAttributeDescriptions*/ " << nameSer.Get( &pVertexAttributeDescriptions );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdBeginRendering (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkRenderingInfo * pRenderingInfo) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pRenderingInfo ) {
+		before << SerializeStruct( BitCast<VkBaseInStructure const*>(pRenderingInfo), nameSer, remapper, indent );
+	}
+	result << indent << "app.vkCmdBeginRendering( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pRenderingInfo*/ " << nameSer.GetPtr(pRenderingInfo);
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdEndRendering (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	result << indent << "app.vkCmdEndRendering( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << " );\n";
+	result << "	}\n";
+	FlushCommandBuffer( commandBuffer );
+}
+
+void CmdSetFragmentShadingRateKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const VkExtent2D * pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]) override
+{
+	nameSer.Clear();
+	remapper.SetCurrentPos( chunkIndex );
+	before << "	{\n";
+	if ( pFragmentSize ) {
+		before << Serialize_VkExtent2D( pFragmentSize, nameSer, remapper, indent );
+	}
+	if ( combinerOps ) {
+		CHECK( CountOf(combinerOps) > 0 );
+		before << indent << "const VkFragmentShadingRateCombinerOpKHR  " << nameSer.MakeUnique( &combinerOps, "combinerOps"s ) << "[] = {";
+		for (uint i = 0; i < CountOf(combinerOps); ++i) {
+			before << (i ? "," : "") << (i%4 == 0 ? "\n\t"s << indent : " ") << Serialize_VkFragmentShadingRateCombinerOpKHR( combinerOps[i] );
+		}
+		before << "\n" << indent << " };\n";
+		before << indent << "STATIC_ASSERT( CountOf(" << nameSer.Get( &combinerOps ) << ") == " << IntToString(CountOf(combinerOps)) << " );\n\n";
+	}
+	result << indent << "app.vkCmdSetFragmentShadingRateKHR( \n";
+	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
+	result << ",\n";
+	result << indent << "		/*pFragmentSize*/ " << nameSer.GetPtr(pFragmentSize);
+	result << ",\n";
+	result << indent << "		/*combinerOps*/ " << nameSer.Get( &combinerOps );
 	result << " );\n";
 	result << "	}\n";
 	FlushCommandBuffer( commandBuffer );

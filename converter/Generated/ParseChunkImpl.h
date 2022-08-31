@@ -941,7 +941,7 @@ bool RdCaptureReader::Parse_vkCmdSetBlendConstants (const Node_t &root, uint64_t
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
 	_ParseResource( commandBuffer_node, OUT commandBuffer );
-	Node_t* blendConstants_node = _FindByAttribName( root, "blendConst" );
+	Node_t* blendConstants_node = _FindByAttribName( root, "blendConstants" );
 	float  blendConstants[4] = {};
 	_ParseValue( blendConstants_node, OUT blendConstants );
 	for (auto listener : _listeners) {
@@ -1289,7 +1289,7 @@ bool RdCaptureReader::Parse_vkCmdFillBuffer (const Node_t &root, uint64_t thread
 	Node_t* dstBuffer_node = _FindByAttribName( root, "destBuffer" );
 	VkBuffer  dstBuffer = {};
 	_ParseResource( dstBuffer_node, OUT dstBuffer );
-	Node_t* dstOffset_node = _FindByAttribName( root, "dstOffset" );
+	Node_t* dstOffset_node = _FindByAttribName( root, "destOffset" );
 	VkDeviceSize  dstOffset = {};
 	_ParseValue( dstOffset_node, OUT dstOffset );
 	Node_t* size_node = _FindByAttribName( root, "size" );
@@ -1764,7 +1764,7 @@ bool RdCaptureReader::Parse_vkCmdDebugMarkerBeginEXT (const Node_t &root, uint64
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
 	_ParseResource( commandBuffer_node, OUT commandBuffer );
-	Node_t* pMarkerInfo_node = _FindByAttribName( root, "pMarker" );
+	Node_t* pMarkerInfo_node = _FindByAttribName( root, "pMarkerInfo" );
 	VkDebugMarkerMarkerInfoEXT *  pMarkerInfo = {};
 	_ParseStruct( pMarkerInfo_node, OUT const_cast<VkDebugMarkerMarkerInfoEXT * &>(pMarkerInfo) );
 	for (auto listener : _listeners) {
@@ -1952,7 +1952,7 @@ bool RdCaptureReader::Parse_vkCmdWriteBufferMarkerAMD (const Node_t &root, uint6
 	Node_t* dstBuffer_node = _FindByAttribName( root, "destBuffer" );
 	VkBuffer  dstBuffer = {};
 	_ParseResource( dstBuffer_node, OUT dstBuffer );
-	Node_t* dstOffset_node = _FindByAttribName( root, "dstOffset" );
+	Node_t* dstOffset_node = _FindByAttribName( root, "destOffset" );
 	VkDeviceSize  dstOffset = {};
 	_ParseValue( dstOffset_node, OUT dstOffset );
 	Node_t* marker_node = _FindByAttribName( root, "marker" );
@@ -2136,7 +2136,7 @@ bool RdCaptureReader::Parse_vkGetDeviceQueue2 (const Node_t &root, uint64_t thre
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCmdDrawIndirectCountKHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCmdDrawIndirectCount (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
@@ -2160,12 +2160,12 @@ bool RdCaptureReader::Parse_vkCmdDrawIndirectCountKHR (const Node_t &root, uint6
 	uint32_t  stride = {};
 	_ParseValue( stride_node, OUT stride );
 	for (auto listener : _listeners) {
-		listener->CmdDrawIndirectCountKHR( _chunkCounter, threadId, timestamp, commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride );
+		listener->CmdDrawIndirectCount( _chunkCounter, threadId, timestamp, commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride );
 	}
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCmdDrawIndexedIndirectCountKHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCmdDrawIndexedIndirectCount (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
@@ -2189,19 +2189,19 @@ bool RdCaptureReader::Parse_vkCmdDrawIndexedIndirectCountKHR (const Node_t &root
 	uint32_t  stride = {};
 	_ParseValue( stride_node, OUT stride );
 	for (auto listener : _listeners) {
-		listener->CmdDrawIndexedIndirectCountKHR( _chunkCounter, threadId, timestamp, commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride );
+		listener->CmdDrawIndexedIndirectCount( _chunkCounter, threadId, timestamp, commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride );
 	}
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCreateRenderPass2KHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCreateRenderPass2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* device_node = _FindByAttribName( root, "device" );
 	VkDevice  device = {};
 	_ParseResource( device_node, OUT device );
 	Node_t* pCreateInfo_node = _FindByAttribName( root, "CreateInfo" );
-	VkRenderPassCreateInfo2KHR *  pCreateInfo = {};
-	_ParseStruct( pCreateInfo_node, OUT const_cast<VkRenderPassCreateInfo2KHR * &>(pCreateInfo) );
+	VkRenderPassCreateInfo2 *  pCreateInfo = {};
+	_ParseStruct( pCreateInfo_node, OUT const_cast<VkRenderPassCreateInfo2 * &>(pCreateInfo) );
 	Node_t* pAllocator_node = _FindByAttribName( root, "pAllocator" );
 	VkAllocationCallbacks *  pAllocator = {};
 	_ParseStruct( pAllocator_node, OUT const_cast<VkAllocationCallbacks * &>(pAllocator) );
@@ -2209,12 +2209,12 @@ bool RdCaptureReader::Parse_vkCreateRenderPass2KHR (const Node_t &root, uint64_t
 	VkRenderPass *  pRenderPass = {};
 	_ParseResource( pRenderPass_node, OUT const_cast<VkRenderPass * &>(pRenderPass) );
 	for (auto listener : _listeners) {
-		listener->CreateRenderPass2KHR( _chunkCounter, threadId, timestamp, device, pCreateInfo, pAllocator, pRenderPass );
+		listener->CreateRenderPass2( _chunkCounter, threadId, timestamp, device, pCreateInfo, pAllocator, pRenderPass );
 	}
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCmdBeginRenderPass2KHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCmdBeginRenderPass2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
@@ -2223,41 +2223,41 @@ bool RdCaptureReader::Parse_vkCmdBeginRenderPass2KHR (const Node_t &root, uint64
 	VkRenderPassBeginInfo *  pRenderPassBegin = {};
 	_ParseStruct( pRenderPassBegin_node, OUT const_cast<VkRenderPassBeginInfo * &>(pRenderPassBegin) );
 	Node_t* pSubpassBeginInfo_node = _FindByAttribName( root, "pSubpassBeginInfo" );
-	VkSubpassBeginInfoKHR *  pSubpassBeginInfo = {};
-	_ParseStruct( pSubpassBeginInfo_node, OUT const_cast<VkSubpassBeginInfoKHR * &>(pSubpassBeginInfo) );
+	VkSubpassBeginInfo *  pSubpassBeginInfo = {};
+	_ParseStruct( pSubpassBeginInfo_node, OUT const_cast<VkSubpassBeginInfo * &>(pSubpassBeginInfo) );
 	for (auto listener : _listeners) {
-		listener->CmdBeginRenderPass2KHR( _chunkCounter, threadId, timestamp, commandBuffer, pRenderPassBegin, pSubpassBeginInfo );
+		listener->CmdBeginRenderPass2( _chunkCounter, threadId, timestamp, commandBuffer, pRenderPassBegin, pSubpassBeginInfo );
 	}
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCmdNextSubpass2KHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCmdNextSubpass2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
 	_ParseResource( commandBuffer_node, OUT commandBuffer );
 	Node_t* pSubpassBeginInfo_node = _FindByAttribName( root, "pSubpassBeginInfo" );
-	VkSubpassBeginInfoKHR *  pSubpassBeginInfo = {};
-	_ParseStruct( pSubpassBeginInfo_node, OUT const_cast<VkSubpassBeginInfoKHR * &>(pSubpassBeginInfo) );
+	VkSubpassBeginInfo *  pSubpassBeginInfo = {};
+	_ParseStruct( pSubpassBeginInfo_node, OUT const_cast<VkSubpassBeginInfo * &>(pSubpassBeginInfo) );
 	Node_t* pSubpassEndInfo_node = _FindByAttribName( root, "pSubpassEndInfo" );
-	VkSubpassEndInfoKHR *  pSubpassEndInfo = {};
-	_ParseStruct( pSubpassEndInfo_node, OUT const_cast<VkSubpassEndInfoKHR * &>(pSubpassEndInfo) );
+	VkSubpassEndInfo *  pSubpassEndInfo = {};
+	_ParseStruct( pSubpassEndInfo_node, OUT const_cast<VkSubpassEndInfo * &>(pSubpassEndInfo) );
 	for (auto listener : _listeners) {
-		listener->CmdNextSubpass2KHR( _chunkCounter, threadId, timestamp, commandBuffer, pSubpassBeginInfo, pSubpassEndInfo );
+		listener->CmdNextSubpass2( _chunkCounter, threadId, timestamp, commandBuffer, pSubpassBeginInfo, pSubpassEndInfo );
 	}
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkCmdEndRenderPass2KHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkCmdEndRenderPass2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
 	VkCommandBuffer  commandBuffer = {};
 	_ParseResource( commandBuffer_node, OUT commandBuffer );
 	Node_t* pSubpassEndInfo_node = _FindByAttribName( root, "pSubpassEndInfo" );
-	VkSubpassEndInfoKHR *  pSubpassEndInfo = {};
-	_ParseStruct( pSubpassEndInfo_node, OUT const_cast<VkSubpassEndInfoKHR * &>(pSubpassEndInfo) );
+	VkSubpassEndInfo *  pSubpassEndInfo = {};
+	_ParseStruct( pSubpassEndInfo_node, OUT const_cast<VkSubpassEndInfo * &>(pSubpassEndInfo) );
 	for (auto listener : _listeners) {
-		listener->CmdEndRenderPass2KHR( _chunkCounter, threadId, timestamp, commandBuffer, pSubpassEndInfo );
+		listener->CmdEndRenderPass2( _chunkCounter, threadId, timestamp, commandBuffer, pSubpassEndInfo );
 	}
 	return true;
 }
@@ -2419,7 +2419,7 @@ bool RdCaptureReader::Parse_vkCmdSetDiscardRectangleEXT (const Node_t &root, uin
 	return true;
 }
 
-bool RdCaptureReader::Parse_vkResetQueryPoolEXT (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+bool RdCaptureReader::Parse_vkResetQueryPool (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 {
 	Node_t* device_node = _FindByAttribName( root, "device" );
 	VkDevice  device = {};
@@ -2434,7 +2434,7 @@ bool RdCaptureReader::Parse_vkResetQueryPoolEXT (const Node_t &root, uint64_t th
 	uint32_t  queryCount = {};
 	_ParseValue( queryCount_node, OUT queryCount );
 	for (auto listener : _listeners) {
-		listener->ResetQueryPoolEXT( _chunkCounter, threadId, timestamp, device, queryPool, firstQuery, queryCount );
+		listener->ResetQueryPool( _chunkCounter, threadId, timestamp, device, queryPool, firstQuery, queryCount );
 	}
 	return true;
 }
@@ -2452,6 +2452,636 @@ bool RdCaptureReader::Parse_vkCmdSetLineStippleEXT (const Node_t &root, uint64_t
 	_ParseValue( lineStipplePattern_node, OUT lineStipplePattern );
 	for (auto listener : _listeners) {
 		listener->CmdSetLineStippleEXT( _chunkCounter, threadId, timestamp, commandBuffer, lineStippleFactor, lineStipplePattern );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkGetSemaphoreCounterValue (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* device_node = _FindByAttribName( root, "device" );
+	VkDevice  device = {};
+	_ParseResource( device_node, OUT device );
+	Node_t* semaphore_node = _FindByAttribName( root, "semaphore" );
+	VkSemaphore  semaphore = {};
+	_ParseResource( semaphore_node, OUT semaphore );
+	Node_t* pValue_node = _FindByAttribName( root, "pValue" );
+	uint64_t *  pValue = {};
+	//_ParseValue( pValue_node, OUT const_cast<uint64_t * &>(pValue) );
+	for (auto listener : _listeners) {
+		listener->GetSemaphoreCounterValue( _chunkCounter, threadId, timestamp, device, semaphore, pValue );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkWaitSemaphores (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* device_node = _FindByAttribName( root, "device" );
+	VkDevice  device = {};
+	_ParseResource( device_node, OUT device );
+	Node_t* pWaitInfo_node = _FindByAttribName( root, "pWaitInfo" );
+	VkSemaphoreWaitInfo *  pWaitInfo = {};
+	_ParseStruct( pWaitInfo_node, OUT const_cast<VkSemaphoreWaitInfo * &>(pWaitInfo) );
+	Node_t* timeout_node = _FindByAttribName( root, "timeout" );
+	uint64_t  timeout = {};
+	_ParseValue( timeout_node, OUT timeout );
+	for (auto listener : _listeners) {
+		listener->WaitSemaphores( _chunkCounter, threadId, timestamp, device, pWaitInfo, timeout );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkSignalSemaphore (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* device_node = _FindByAttribName( root, "device" );
+	VkDevice  device = {};
+	_ParseResource( device_node, OUT device );
+	Node_t* pSignalInfo_node = _FindByAttribName( root, "pSignalInfo" );
+	VkSemaphoreSignalInfo *  pSignalInfo = {};
+	_ParseStruct( pSignalInfo_node, OUT const_cast<VkSemaphoreSignalInfo * &>(pSignalInfo) );
+	for (auto listener : _listeners) {
+		listener->SignalSemaphore( _chunkCounter, threadId, timestamp, device, pSignalInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkQueuePresentKHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* queue_node = _FindByAttribName( root, "queue" );
+	VkQueue  queue = {};
+	_ParseResource( queue_node, OUT queue );
+	Node_t* pPresentInfo_node = _FindByAttribName( root, "pPresentInfo" );
+	VkPresentInfoKHR *  pPresentInfo = {};
+	_ParseStruct( pPresentInfo_node, OUT const_cast<VkPresentInfoKHR * &>(pPresentInfo) );
+	for (auto listener : _listeners) {
+		listener->QueuePresentKHR( _chunkCounter, threadId, timestamp, queue, pPresentInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetCullMode (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* cullMode_node = _FindByAttribName( root, "cullMode" );
+	VkCullModeFlags  cullMode = {};
+	_ParseValue( cullMode_node, OUT cullMode );
+	for (auto listener : _listeners) {
+		listener->CmdSetCullMode( _chunkCounter, threadId, timestamp, commandBuffer, cullMode );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetFrontFace (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* frontFace_node = _FindByAttribName( root, "frontFace" );
+	VkFrontFace  frontFace = {};
+	_ParseValue( frontFace_node, OUT frontFace );
+	for (auto listener : _listeners) {
+		listener->CmdSetFrontFace( _chunkCounter, threadId, timestamp, commandBuffer, frontFace );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetPrimitiveTopology (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* primitiveTopology_node = _FindByAttribName( root, "primitiveTopology" );
+	VkPrimitiveTopology  primitiveTopology = {};
+	_ParseValue( primitiveTopology_node, OUT primitiveTopology );
+	for (auto listener : _listeners) {
+		listener->CmdSetPrimitiveTopology( _chunkCounter, threadId, timestamp, commandBuffer, primitiveTopology );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetViewportWithCount (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* viewportCount_node = _FindByAttribName( root, "viewportCount" );
+	uint32_t  viewportCount = {};
+	_ParseValue( viewportCount_node, OUT viewportCount );
+	Node_t* pViewports_node = _FindByAttribName( root, "pViewports" );
+	VkViewport *  pViewports = {};
+	_ParseStructArray( pViewports_node, OUT const_cast<VkViewport * &>(pViewports), INOUT viewportCount );
+	for (auto listener : _listeners) {
+		listener->CmdSetViewportWithCount( _chunkCounter, threadId, timestamp, commandBuffer, viewportCount, pViewports );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetScissorWithCount (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* scissorCount_node = _FindByAttribName( root, "scissorCount" );
+	uint32_t  scissorCount = {};
+	_ParseValue( scissorCount_node, OUT scissorCount );
+	Node_t* pScissors_node = _FindByAttribName( root, "pScissors" );
+	VkRect2D *  pScissors = {};
+	_ParseStructArray( pScissors_node, OUT const_cast<VkRect2D * &>(pScissors), INOUT scissorCount );
+	for (auto listener : _listeners) {
+		listener->CmdSetScissorWithCount( _chunkCounter, threadId, timestamp, commandBuffer, scissorCount, pScissors );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdBindVertexBuffers2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* firstBinding_node = _FindByAttribName( root, "firstBinding" );
+	uint32_t  firstBinding = {};
+	_ParseValue( firstBinding_node, OUT firstBinding );
+	Node_t* bindingCount_node = _FindByAttribName( root, "bindingCount" );
+	uint32_t  bindingCount = {};
+	_ParseValue( bindingCount_node, OUT bindingCount );
+	Node_t* pBuffers_node = _FindByAttribName( root, "pBuffers" );
+	VkBuffer *  pBuffers = {};
+	_ParseResources( pBuffers_node, OUT const_cast<VkBuffer * &>(pBuffers), INOUT bindingCount );
+	Node_t* pOffsets_node = _FindByAttribName( root, "pOffsets" );
+	VkDeviceSize *  pOffsets = {};
+	_ParseArray( pOffsets_node, OUT const_cast<VkDeviceSize * &>(pOffsets), INOUT bindingCount );
+	Node_t* pSizes_node = _FindByAttribName( root, "pSizes" );
+	VkDeviceSize *  pSizes = {};
+	_ParseArray( pSizes_node, OUT const_cast<VkDeviceSize * &>(pSizes), INOUT bindingCount );
+	Node_t* pStrides_node = _FindByAttribName( root, "pStrides" );
+	VkDeviceSize *  pStrides = {};
+	_ParseArray( pStrides_node, OUT const_cast<VkDeviceSize * &>(pStrides), INOUT bindingCount );
+	for (auto listener : _listeners) {
+		listener->CmdBindVertexBuffers2( _chunkCounter, threadId, timestamp, commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetDepthTestEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* depthTestEnable_node = _FindByAttribName( root, "depthTestEnable" );
+	VkBool32  depthTestEnable = {};
+	_ParseValue( depthTestEnable_node, OUT depthTestEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetDepthTestEnable( _chunkCounter, threadId, timestamp, commandBuffer, depthTestEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetDepthWriteEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* depthWriteEnable_node = _FindByAttribName( root, "depthWriteEnable" );
+	VkBool32  depthWriteEnable = {};
+	_ParseValue( depthWriteEnable_node, OUT depthWriteEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetDepthWriteEnable( _chunkCounter, threadId, timestamp, commandBuffer, depthWriteEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetDepthCompareOp (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* depthCompareOp_node = _FindByAttribName( root, "depthCompareOp" );
+	VkCompareOp  depthCompareOp = {};
+	_ParseValue( depthCompareOp_node, OUT depthCompareOp );
+	for (auto listener : _listeners) {
+		listener->CmdSetDepthCompareOp( _chunkCounter, threadId, timestamp, commandBuffer, depthCompareOp );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetDepthBoundsTestEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* depthBoundsTestEnable_node = _FindByAttribName( root, "depthBoundsTestEnable" );
+	VkBool32  depthBoundsTestEnable = {};
+	_ParseValue( depthBoundsTestEnable_node, OUT depthBoundsTestEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetDepthBoundsTestEnable( _chunkCounter, threadId, timestamp, commandBuffer, depthBoundsTestEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetStencilTestEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* stencilTestEnable_node = _FindByAttribName( root, "stencilTestEnable" );
+	VkBool32  stencilTestEnable = {};
+	_ParseValue( stencilTestEnable_node, OUT stencilTestEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetStencilTestEnable( _chunkCounter, threadId, timestamp, commandBuffer, stencilTestEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetStencilOp (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* faceMask_node = _FindByAttribName( root, "faceMask" );
+	VkStencilFaceFlags  faceMask = {};
+	_ParseValue( faceMask_node, OUT faceMask );
+	Node_t* failOp_node = _FindByAttribName( root, "failOp" );
+	VkStencilOp  failOp = {};
+	_ParseValue( failOp_node, OUT failOp );
+	Node_t* passOp_node = _FindByAttribName( root, "passOp" );
+	VkStencilOp  passOp = {};
+	_ParseValue( passOp_node, OUT passOp );
+	Node_t* depthFailOp_node = _FindByAttribName( root, "depthFailOp" );
+	VkStencilOp  depthFailOp = {};
+	_ParseValue( depthFailOp_node, OUT depthFailOp );
+	Node_t* compareOp_node = _FindByAttribName( root, "compareOp" );
+	VkCompareOp  compareOp = {};
+	_ParseValue( compareOp_node, OUT compareOp );
+	for (auto listener : _listeners) {
+		listener->CmdSetStencilOp( _chunkCounter, threadId, timestamp, commandBuffer, faceMask, failOp, passOp, depthFailOp, compareOp );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdCopyBuffer2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pCopyBufferInfo_node = _FindByAttribName( root, "pCopyBufferInfo" );
+	VkCopyBufferInfo2 *  pCopyBufferInfo = {};
+	_ParseStruct( pCopyBufferInfo_node, OUT const_cast<VkCopyBufferInfo2 * &>(pCopyBufferInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdCopyBuffer2( _chunkCounter, threadId, timestamp, commandBuffer, pCopyBufferInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdCopyImage2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pCopyImageInfo_node = _FindByAttribName( root, "pCopyImageInfo" );
+	VkCopyImageInfo2 *  pCopyImageInfo = {};
+	_ParseStruct( pCopyImageInfo_node, OUT const_cast<VkCopyImageInfo2 * &>(pCopyImageInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdCopyImage2( _chunkCounter, threadId, timestamp, commandBuffer, pCopyImageInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdCopyBufferToImage2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pCopyBufferToImageInfo_node = _FindByAttribName( root, "pCopyBufferToImageInfo" );
+	VkCopyBufferToImageInfo2 *  pCopyBufferToImageInfo = {};
+	_ParseStruct( pCopyBufferToImageInfo_node, OUT const_cast<VkCopyBufferToImageInfo2 * &>(pCopyBufferToImageInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdCopyBufferToImage2( _chunkCounter, threadId, timestamp, commandBuffer, pCopyBufferToImageInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdCopyImageToBuffer2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pCopyImageToBufferInfo_node = _FindByAttribName( root, "pCopyImageToBufferInfo" );
+	VkCopyImageToBufferInfo2 *  pCopyImageToBufferInfo = {};
+	_ParseStruct( pCopyImageToBufferInfo_node, OUT const_cast<VkCopyImageToBufferInfo2 * &>(pCopyImageToBufferInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdCopyImageToBuffer2( _chunkCounter, threadId, timestamp, commandBuffer, pCopyImageToBufferInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdBlitImage2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pBlitImageInfo_node = _FindByAttribName( root, "pBlitImageInfo" );
+	VkBlitImageInfo2 *  pBlitImageInfo = {};
+	_ParseStruct( pBlitImageInfo_node, OUT const_cast<VkBlitImageInfo2 * &>(pBlitImageInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdBlitImage2( _chunkCounter, threadId, timestamp, commandBuffer, pBlitImageInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdResolveImage2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pResolveImageInfo_node = _FindByAttribName( root, "pResolveImageInfo" );
+	VkResolveImageInfo2 *  pResolveImageInfo = {};
+	_ParseStruct( pResolveImageInfo_node, OUT const_cast<VkResolveImageInfo2 * &>(pResolveImageInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdResolveImage2( _chunkCounter, threadId, timestamp, commandBuffer, pResolveImageInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetEvent2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* event_node = _FindByAttribName( root, "event" );
+	VkEvent  event = {};
+	_ParseResource( event_node, OUT event );
+	Node_t* pDependencyInfo_node = _FindByAttribName( root, "pDependencyInfo" );
+	VkDependencyInfo *  pDependencyInfo = {};
+	_ParseStruct( pDependencyInfo_node, OUT const_cast<VkDependencyInfo * &>(pDependencyInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdSetEvent2( _chunkCounter, threadId, timestamp, commandBuffer, event, pDependencyInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdResetEvent2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* event_node = _FindByAttribName( root, "event" );
+	VkEvent  event = {};
+	_ParseResource( event_node, OUT event );
+	Node_t* stageMask_node = _FindByAttribName( root, "stageMask" );
+	VkPipelineStageFlags2  stageMask = {};
+	_ParseValue( stageMask_node, OUT stageMask );
+	for (auto listener : _listeners) {
+		listener->CmdResetEvent2( _chunkCounter, threadId, timestamp, commandBuffer, event, stageMask );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdWaitEvents2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* eventCount_node = _FindByAttribName( root, "eventCount" );
+	uint32_t  eventCount = {};
+	_ParseValue( eventCount_node, OUT eventCount );
+	Node_t* pEvents_node = _FindByAttribName( root, "pEvents" );
+	VkEvent *  pEvents = {};
+	_ParseResources( pEvents_node, OUT const_cast<VkEvent * &>(pEvents), INOUT eventCount );
+	Node_t* pDependencyInfos_node = _FindByAttribName( root, "pDependencyInfos" );
+	VkDependencyInfo *  pDependencyInfos = {};
+	_ParseStruct( pDependencyInfos_node, OUT const_cast<VkDependencyInfo * &>(pDependencyInfos) );
+	for (auto listener : _listeners) {
+		listener->CmdWaitEvents2( _chunkCounter, threadId, timestamp, commandBuffer, eventCount, pEvents, pDependencyInfos );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdPipelineBarrier2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pDependencyInfo_node = _FindByAttribName( root, "pDependencyInfo" );
+	VkDependencyInfo *  pDependencyInfo = {};
+	_ParseStruct( pDependencyInfo_node, OUT const_cast<VkDependencyInfo * &>(pDependencyInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdPipelineBarrier2( _chunkCounter, threadId, timestamp, commandBuffer, pDependencyInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdWriteTimestamp2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* stage_node = _FindByAttribName( root, "stage" );
+	VkPipelineStageFlags2  stage = {};
+	_ParseValue( stage_node, OUT stage );
+	Node_t* queryPool_node = _FindByAttribName( root, "queryPool" );
+	VkQueryPool  queryPool = {};
+	_ParseResource( queryPool_node, OUT queryPool );
+	Node_t* query_node = _FindByAttribName( root, "query" );
+	uint32_t  query = {};
+	_ParseValue( query_node, OUT query );
+	for (auto listener : _listeners) {
+		listener->CmdWriteTimestamp2( _chunkCounter, threadId, timestamp, commandBuffer, stage, queryPool, query );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkQueueSubmit2 (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* queue_node = _FindByAttribName( root, "queue" );
+	VkQueue  queue = {};
+	_ParseResource( queue_node, OUT queue );
+	Node_t* submitCount_node = _FindByAttribName( root, "submitCount" );
+	uint32_t  submitCount = {};
+	_ParseValue( submitCount_node, OUT submitCount );
+	Node_t* pSubmits_node = _FindByAttribName( root, "pSubmits" );
+	VkSubmitInfo2 *  pSubmits = {};
+	_ParseStructArray( pSubmits_node, OUT const_cast<VkSubmitInfo2 * &>(pSubmits), INOUT submitCount );
+	Node_t* fence_node = _FindByAttribName( root, "fence" );
+	VkFence  fence = {};
+	_ParseResource( fence_node, OUT fence );
+	for (auto listener : _listeners) {
+		listener->QueueSubmit2( _chunkCounter, threadId, timestamp, queue, submitCount, pSubmits, fence );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdWriteBufferMarker2AMD (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* stage_node = _FindByAttribName( root, "stage" );
+	VkPipelineStageFlags2  stage = {};
+	_ParseValue( stage_node, OUT stage );
+	Node_t* dstBuffer_node = _FindByAttribName( root, "destBuffer" );
+	VkBuffer  dstBuffer = {};
+	_ParseResource( dstBuffer_node, OUT dstBuffer );
+	Node_t* dstOffset_node = _FindByAttribName( root, "destOffset" );
+	VkDeviceSize  dstOffset = {};
+	_ParseValue( dstOffset_node, OUT dstOffset );
+	Node_t* marker_node = _FindByAttribName( root, "marker" );
+	uint32_t  marker = {};
+	_ParseValue( marker_node, OUT marker );
+	for (auto listener : _listeners) {
+		listener->CmdWriteBufferMarker2AMD( _chunkCounter, threadId, timestamp, commandBuffer, stage, dstBuffer, dstOffset, marker );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetColorWriteEnableEXT (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* attachmentCount_node = _FindByAttribName( root, "attachmentCount" );
+	uint32_t  attachmentCount = {};
+	_ParseValue( attachmentCount_node, OUT attachmentCount );
+	Node_t* pColorWriteEnables_node = _FindByAttribName( root, "pColorWriteEnables" );
+	VkBool32 *  pColorWriteEnables = {};
+	_ParseArray( pColorWriteEnables_node, OUT const_cast<VkBool32 * &>(pColorWriteEnables), INOUT attachmentCount );
+	for (auto listener : _listeners) {
+		listener->CmdSetColorWriteEnableEXT( _chunkCounter, threadId, timestamp, commandBuffer, attachmentCount, pColorWriteEnables );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetDepthBiasEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* depthBiasEnable_node = _FindByAttribName( root, "depthBiasEnable" );
+	VkBool32  depthBiasEnable = {};
+	_ParseValue( depthBiasEnable_node, OUT depthBiasEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetDepthBiasEnable( _chunkCounter, threadId, timestamp, commandBuffer, depthBiasEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetLogicOpEXT (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* logicOp_node = _FindByAttribName( root, "logicOp" );
+	VkLogicOp  logicOp = {};
+	_ParseValue( logicOp_node, OUT logicOp );
+	for (auto listener : _listeners) {
+		listener->CmdSetLogicOpEXT( _chunkCounter, threadId, timestamp, commandBuffer, logicOp );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetPatchControlPointsEXT (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* patchControlPoints_node = _FindByAttribName( root, "patchControlPoints" );
+	uint32_t  patchControlPoints = {};
+	_ParseValue( patchControlPoints_node, OUT patchControlPoints );
+	for (auto listener : _listeners) {
+		listener->CmdSetPatchControlPointsEXT( _chunkCounter, threadId, timestamp, commandBuffer, patchControlPoints );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetPrimitiveRestartEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* primitiveRestartEnable_node = _FindByAttribName( root, "primitiveRestartEnable" );
+	VkBool32  primitiveRestartEnable = {};
+	_ParseValue( primitiveRestartEnable_node, OUT primitiveRestartEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetPrimitiveRestartEnable( _chunkCounter, threadId, timestamp, commandBuffer, primitiveRestartEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetRasterizerDiscardEnable (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* rasterizerDiscardEnable_node = _FindByAttribName( root, "rasterizerDiscardEnable" );
+	VkBool32  rasterizerDiscardEnable = {};
+	_ParseValue( rasterizerDiscardEnable_node, OUT rasterizerDiscardEnable );
+	for (auto listener : _listeners) {
+		listener->CmdSetRasterizerDiscardEnable( _chunkCounter, threadId, timestamp, commandBuffer, rasterizerDiscardEnable );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetVertexInputEXT (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* vertexBindingDescriptionCount_node = _FindByAttribName( root, "vertexBindingDescriptionCount" );
+	uint32_t  vertexBindingDescriptionCount = {};
+	_ParseValue( vertexBindingDescriptionCount_node, OUT vertexBindingDescriptionCount );
+	Node_t* pVertexBindingDescriptions_node = _FindByAttribName( root, "pVertexBindingDescriptions" );
+	VkVertexInputBindingDescription2EXT *  pVertexBindingDescriptions = {};
+	_ParseStructArray( pVertexBindingDescriptions_node, OUT const_cast<VkVertexInputBindingDescription2EXT * &>(pVertexBindingDescriptions), INOUT vertexBindingDescriptionCount );
+	Node_t* vertexAttributeDescriptionCount_node = _FindByAttribName( root, "vertexAttributeDescriptionCount" );
+	uint32_t  vertexAttributeDescriptionCount = {};
+	_ParseValue( vertexAttributeDescriptionCount_node, OUT vertexAttributeDescriptionCount );
+	Node_t* pVertexAttributeDescriptions_node = _FindByAttribName( root, "pVertexAttributeDescriptions" );
+	VkVertexInputAttributeDescription2EXT *  pVertexAttributeDescriptions = {};
+	_ParseStructArray( pVertexAttributeDescriptions_node, OUT const_cast<VkVertexInputAttributeDescription2EXT * &>(pVertexAttributeDescriptions), INOUT vertexAttributeDescriptionCount );
+	for (auto listener : _listeners) {
+		listener->CmdSetVertexInputEXT( _chunkCounter, threadId, timestamp, commandBuffer, vertexBindingDescriptionCount, pVertexBindingDescriptions, vertexAttributeDescriptionCount, pVertexAttributeDescriptions );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdBeginRendering (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pRenderingInfo_node = _FindByAttribName( root, "pRenderingInfo" );
+	VkRenderingInfo *  pRenderingInfo = {};
+	_ParseStruct( pRenderingInfo_node, OUT const_cast<VkRenderingInfo * &>(pRenderingInfo) );
+	for (auto listener : _listeners) {
+		listener->CmdBeginRendering( _chunkCounter, threadId, timestamp, commandBuffer, pRenderingInfo );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdEndRendering (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	for (auto listener : _listeners) {
+		listener->CmdEndRendering( _chunkCounter, threadId, timestamp, commandBuffer );
+	}
+	return true;
+}
+
+bool RdCaptureReader::Parse_vkCmdSetFragmentShadingRateKHR (const Node_t &root, uint64_t threadId, uint64_t timestamp)
+{
+	Node_t* commandBuffer_node = _FindByAttribName( root, "commandBuffer" );
+	VkCommandBuffer  commandBuffer = {};
+	_ParseResource( commandBuffer_node, OUT commandBuffer );
+	Node_t* pFragmentSize_node = _FindByAttribName( root, "pFragmentSize" );
+	VkExtent2D *  pFragmentSize = {};
+	_ParseStruct( pFragmentSize_node, OUT const_cast<VkExtent2D * &>(pFragmentSize) );
+	Node_t* combinerOps_node = _FindByAttribName( root, "combinerOps" );
+	VkFragmentShadingRateCombinerOpKHR  combinerOps[2] = {};
+	_ParseValue( combinerOps_node, OUT combinerOps );
+	for (auto listener : _listeners) {
+		listener->CmdSetFragmentShadingRateKHR( _chunkCounter, threadId, timestamp, commandBuffer, pFragmentSize, combinerOps );
 	}
 	return true;
 }
