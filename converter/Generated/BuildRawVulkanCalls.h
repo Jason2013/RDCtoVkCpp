@@ -1075,7 +1075,7 @@ void CmdSetDepthBias (uint chunkIndex, uint64_t threadID, uint64_t timestamp, Vk
 	FlushCommandBuffer( commandBuffer );
 }
 
-void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const float (&blendConstants)[4]) override
+void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer, const float blendConstants[4]) override
 {
 	nameSer.Clear();
 	remapper.SetCurrentPos( chunkIndex );
@@ -1083,7 +1083,7 @@ void CmdSetBlendConstants (uint chunkIndex, uint64_t threadID, uint64_t timestam
 	result << indent << "app.vkCmdSetBlendConstants( \n";
 	result << indent << "		/*commandBuffer*/ " << remapper( VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer );
 	result << ",\n";
-	result << indent << "		/*blendConstants*/ " << "StaticArray<float, " << IntToString(CountOf(blendConstants)) << ">{ ";
+	result << indent << "		/*blendConstants*/ " << "StaticArray<float, " << IntToString(/*CountOf(blendConstants)*/4) << ">{ ";
 	for (uint i = 0; i < CountOf(blendConstants); ++i) {
 		result << (i ? ", " : "") << FloatToString(blendConstants[i]);
 	}
