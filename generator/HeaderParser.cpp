@@ -964,6 +964,7 @@ namespace RDE
 		AddCounter( "VkWriteDescriptorSet",					"pImageInfo",					"descriptorCount" );
 		AddCounter( "VkWriteDescriptorSet",					"pBufferInfo",					"descriptorCount" );
 		AddCounter( "VkWriteDescriptorSet",					"pTexelBufferView",				"descriptorCount" );
+		AddCounter("VkSubpassDescription2", "pResolveAttachments", "colorAttachmentCount");
 		AddCounter( "VkSubpassDescription",					"pResolveAttachments",			"colorAttachmentCount" );
 		AddCounter( "VkRenderPassCreateInfo",				"pDependencies",				"dependencyCount" );
 		AddCounter( "VkBindBufferMemoryDeviceGroupInfo",	"pDeviceIndices",				"deviceIndexCount" );
