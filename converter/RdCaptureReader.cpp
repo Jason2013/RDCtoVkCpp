@@ -714,17 +714,27 @@ namespace RDE
 		}
 
 		CHECK_ERR( root );
-		result = _allocator.Alloc<T>( count );
-		
-		const uint	max_count = count;
-		count = 0;
+		CHECK_ERR(StringView{ root->name() } == "array");
 
-		for (auto* node = root->first_node(); node and count < max_count; node = node->next_sibling())
+		auto* node = root->first_node();
+		if (node)
 		{
-			CHECK_ERR( _ParseResource( node, OUT result[count++] ));
+			result = _allocator.Alloc<T>(count);
+
+			const uint	max_count = count;
+			count = 0;
+
+			for (/*auto* node = root->first_node()*/; node and count < max_count; node = node->next_sibling())
+			{
+				CHECK_ERR(_ParseResource(node, OUT result[count++]));
+			}
+
+			CHECK_ERR( count == max_count );
 		}
-		
-		//CHECK_ERR( count == max_count );
+		else // array is empty
+		{
+			result = nullptr;
+		}
 		return true;
 	}
 	
