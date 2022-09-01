@@ -477,15 +477,26 @@ namespace RDE
 			return _ParseStruct( root, OUT *result );
 		}
 
-		const uint	max_count = count;
-		count = 0;
+		CHECK_ERR(StringView{ root->name() } == "array");
 
-		for (auto* node = root->first_node(); node and count < max_count; node = node->next_sibling())
+		auto* node = root->first_node();
+        if (node != nullptr)
+        {
+            const uint	max_count = count;
+            count = 0;
+
+            for (/*auto* node = root->first_node()*/; node and count < max_count; node = node->next_sibling())
+            {
+                CHECK_ERR(_ParseStruct(node, OUT result[count++]));
+            }
+
+            CHECK_ERR(count == max_count);
+
+        }
+		else // array is empty
 		{
-			CHECK_ERR( _ParseStruct( node, OUT result[count++] ));
+			result = nullptr;
 		}
-
-		CHECK_ERR( count == max_count );
 		return true;
 	}
 	
