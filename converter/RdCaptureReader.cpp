@@ -714,7 +714,7 @@ namespace RDE
 		}
 
 		CHECK_ERR( root );
-		CHECK_ERR(StringView{ root->name() } == "array");
+		CHECK_ERR(StringView{ root->name() } == "array" or StringView{ root->name() } == "ResourceId");
 
 		auto* node = root->first_node();
 		if (node)
