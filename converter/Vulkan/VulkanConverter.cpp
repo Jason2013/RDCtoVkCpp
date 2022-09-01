@@ -1216,7 +1216,7 @@ namespace RDE
 	{
 		CHECK( remapper.CreateResource( VK_OBJECT_TYPE_SWAPCHAIN_KHR, VkResourceID(*pSwapchain), chunkIndex ));
 		CHECK( pCreateInfo->imageArrayLayers == 1 );
-		CHECK( pCreateInfo->flags == 0 );
+		//CHECK( pCreateInfo->flags == 0 );
 		CHECK( pCreateInfo->imageSharingMode == VK_SHARING_MODE_EXCLUSIVE );
 		CHECK( _swapchainImages.empty() );
 
