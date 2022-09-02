@@ -810,7 +810,7 @@
 		}
 		END_ENUM_CHECKS();
 		//RETURN_ERR( "unsupported value: "s << EnumToString( value ), "<unknown>" );
-		return "0";
+		return std::to_string(static_cast<uint32_t>(value));
 	}
 
 	ND_ String  Serialize_VkCommandBufferLevel (VkCommandBufferLevel value)
