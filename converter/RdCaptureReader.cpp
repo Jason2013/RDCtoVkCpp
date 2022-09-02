@@ -1368,38 +1368,34 @@ namespace RDE
 			auto* name_attr = root->first_attribute("typename");
 			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceRange"s);
 		}
-		//{
-		//	auto* node = _FindByAttribName(*root, "layerCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.layerCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "levelCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.levelCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "sampleCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "extent");
-		//	CHECK_ERR(_ParseStruct(node, OUT out.extent));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "format");
-		//	CHECK_ERR(_ParseValue(node, OUT out.format));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "imageType");
-		//	CHECK_ERR(_ParseValue(node, OUT out.imageType));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "initialLayout");
-		//	CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "sharingMode");
-		//	CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
-		//}
+		{
+			auto* node = _FindByAttribName(*root, "aspectMask");
+			CHECK_ERR(_ParseValue(node, OUT out.aspectMask));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "baseMipLevel");
+			CHECK_ERR(_ParseValue(node, OUT out.baseMipLevel));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "levelCount");
+			CHECK_ERR(_ParseValue(node, OUT out.levelCount));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "baseArrayLayer");
+			CHECK_ERR(_ParseStruct(node, OUT out.baseArrayLayer));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "layerCount");
+			CHECK_ERR(_ParseValue(node, OUT out.layerCount));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "baseDepthSlice");
+			CHECK_ERR(_ParseValue(node, OUT out.baseDepthSlice));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "sliceCount");
+			CHECK_ERR(_ParseValue(node, OUT out.sliceCount));
+		}
 
 		return true;
 	}
