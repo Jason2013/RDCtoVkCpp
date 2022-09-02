@@ -82,12 +82,12 @@ namespace RDE
 		_chunkParser["vkGetSwapchainImagesKHR"] = &RdCaptureReader::_Parse_GetSwapchainImagesKHR;
 		_chunkParser["vkSetDebugUtilsObjectNameEXT"] = &RdCaptureReader::_Parse_SetDebugUtilsObjectName;
 		_chunkParser["Internal: Driver Initialisation Parameters"] = &RdCaptureReader::_Parse_DriverInitialisationParameters;
-		_chunkParser["Internal: Initial Contents"] = &RdCaptureReader::_Parse_InitialContents;
-		_chunkParser["Internal: Beginning of Capture"] = &RdCaptureReader::_Parse_BeginningOfCapture;
-		_chunkParser["Internal: End of Capture"] = &RdCaptureReader::_Parse_EndOfCapture;
-		_chunkParser["Internal: List of Initial Contents Resources"] = &RdCaptureReader::_Parse_ListOfInitialContentsResources;
+		_chunkParser["Internal::Initial Contents"] = &RdCaptureReader::_Parse_InitialContents;
+		_chunkParser["Internal::Beginning of Capture"] = &RdCaptureReader::_Parse_BeginningOfCapture;
+		_chunkParser["Internal::End of Capture"] = &RdCaptureReader::_Parse_EndOfCapture;
+		_chunkParser["Internal::List of Initial Contents Resources"] = &RdCaptureReader::_Parse_ListOfInitialContentsResources;
 		_chunkParser["vkEnumeratePhysicalDevices"] = &RdCaptureReader::_Parse_vkEnumeratePhysicalDevices;
-		_chunkParser["Internal: Frame Metadata"] = &RdCaptureReader::_Parse_FrameMetadata;
+		_chunkParser["Internal::Frame Metadata"] = &RdCaptureReader::_Parse_FrameMetadata;
 		_chunkParser["vkFlushMappedMemoryRanges"] = &RdCaptureReader::_Parse_FlushMappedMemoryRanges;
 		_chunkParser["vkDebugMarkerSetObjectNameEXT"] = &RdCaptureReader::_Parse_DebugMarkerSetObjectNameEXT;
 		_chunkParser["vkUpdateDescriptorSetWithTemplate"] = &RdCaptureReader::_Parse_UpdateDescriptorSetWithTemplate;
@@ -102,7 +102,7 @@ namespace RDE
 
 			case 16 :
 			case 20:
-				_chunkParser["Internal: Device Memory References"] = &RdCaptureReader::_Parse_DeviceMemoryRef;
+				_chunkParser["Internal::Device Memory References"] = &RdCaptureReader::_Parse_DeviceMemoryRef;
 				_chunkParser["Image References"] = &RdCaptureReader::_Parse_ImageReferences;
 				break;
 
