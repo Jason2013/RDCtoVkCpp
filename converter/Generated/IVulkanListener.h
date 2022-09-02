@@ -22,6 +22,7 @@ namespace RDE
 		virtual void OnOpenCapture (const FS::path &filename) {}
 
 		virtual void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageLayouts> imageLayouts) {}
+		virtual void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageState> imageStates) {}
 
 		virtual void EndOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID presentedImage) {}
 
