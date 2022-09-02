@@ -86,6 +86,7 @@ namespace RDE
 		_chunkParser["Internal::Beginning of Capture"] = &RdCaptureReader::_Parse_BeginningOfCapture;
 		_chunkParser["Internal::End of Capture"] = &RdCaptureReader::_Parse_EndOfCapture;
 		_chunkParser["Internal::List of Initial Contents Resources"] = &RdCaptureReader::_Parse_ListOfInitialContentsResources;
+		_chunkParser["Internal::Coherent Mapped Memory Write"] = &RdCaptureReader::_Parse_CoherentMappedMemoryWrite;
 		_chunkParser["vkEnumeratePhysicalDevices"] = &RdCaptureReader::_Parse_vkEnumeratePhysicalDevices;
 		_chunkParser["Internal::Frame Metadata"] = &RdCaptureReader::_Parse_FrameMetadata;
 		_chunkParser["vkFlushMappedMemoryRanges"] = &RdCaptureReader::_Parse_FlushMappedMemoryRanges;
@@ -902,6 +903,17 @@ namespace RDE
 =================================================
 */
 	bool  RdCaptureReader::_Parse_ListOfInitialContentsResources (const Node_t &, uint64_t, uint64_t)
+	{
+		return true;
+	}
+
+/*
+=================================================
+	_Parse_CoherentMappedMemoryWrite
+=================================================
+*/
+
+	bool RdCaptureReader::_Parse_CoherentMappedMemoryWrite(const Node_t&, uint64_t, uint64_t)
 	{
 		return true;
 	}

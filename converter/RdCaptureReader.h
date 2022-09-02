@@ -135,6 +135,7 @@ namespace RDE
 		bool  _Parse_EndOfCapture (const Node_t &, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_vkEnumeratePhysicalDevices (const Node_t &, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_ListOfInitialContentsResources (const Node_t &, uint64_t threadId, uint64_t timestamp);
+		bool  _Parse_CoherentMappedMemoryWrite(const Node_t&, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_FrameMetadata (const Node_t &, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_BeginningOfCapture (const Node_t &, uint64_t threadId, uint64_t timestamp);
 		bool  _Parse_DeviceMemoryRef (const Node_t &, uint64_t threadId, uint64_t timestamp);
