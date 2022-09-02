@@ -1527,7 +1527,8 @@ namespace RDE
 */
 	bool  RdCaptureReader::_Parse_BeginningOfCapture (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 	{
-		Array<ImageState>	image_layouts;
+		Array<ImageState>	image_states;
+		uint32_t NumImages = 0;
 
 		for (auto* node = root.first_node(); node; node = node->next_sibling())
 		{
@@ -1539,7 +1540,7 @@ namespace RDE
 				StringView	name = _GetAttribName( *node );
 				if ( name == "Image" )
 				{
-					auto&	state = image_layouts.emplace_back();
+					auto&	state = image_states.emplace_back();
 					node = node->next_sibling();
 
 					CHECK_ERR( _ParseImageState( node, OUT state ));
@@ -1550,13 +1551,17 @@ namespace RDE
 			}
 			else
 			if ( _GetAttribName( *node ) == "NumImages" )
-			{}
+			{
+				CHECK_ERR(_ParseValue(node, OUT NumImages));
+			}
             else if (StringView{ node->name() } == "buffer")
             {
             }
 			else
 				CHECK( false );
 		}
+
+		CHECK_ERR(NumImages == image_states.size());
 
 		for (auto listener : _listeners) {
 			//listener->BeginningOfCapture( _chunkCounter, threadId, timestamp, image_layouts );
