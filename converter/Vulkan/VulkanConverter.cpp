@@ -200,7 +200,7 @@ namespace RDE
 								   bool isSparse, BytesU contentSize, ContentID contentId) override;
 		void InitialDescriptorSetContent (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<VkWriteDescriptorSet> slots) override;
 		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageLayouts> imageLayouts) override;
-		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageStates> imageStates) override;
+		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageState> imageStates) override;
 		void EndOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID presentedImage) override;
 		void EnumeratePhysicalDevices (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkInstance instance, uint32_t PhysicalDeviceIndex, VkPhysicalDevice PhysicalDevice,
 										uint32_t memIdxMap[VK_MAX_MEMORY_TYPES], const VkPhysicalDeviceProperties &physProps,
@@ -1093,7 +1093,7 @@ namespace RDE
 	BeginningOfCapture
 =================================================
 */
-	void VulkanFnToCpp2::BeginningOfCapture(uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageStates> imageStates)
+	void VulkanFnToCpp2::BeginningOfCapture(uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageState> imageStates)
 	{
 		_captureStarted = true;
 
