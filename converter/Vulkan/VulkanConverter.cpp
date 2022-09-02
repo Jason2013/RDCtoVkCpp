@@ -200,6 +200,7 @@ namespace RDE
 								   bool isSparse, BytesU contentSize, ContentID contentId) override;
 		void InitialDescriptorSetContent (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<VkWriteDescriptorSet> slots) override;
 		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageLayouts> imageLayouts) override;
+		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageStates> imageStates) override;
 		void EndOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID presentedImage) override;
 		void EnumeratePhysicalDevices (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkInstance instance, uint32_t PhysicalDeviceIndex, VkPhysicalDevice PhysicalDevice,
 										uint32_t memIdxMap[VK_MAX_MEMORY_TYPES], const VkPhysicalDeviceProperties &physProps,
@@ -1084,6 +1085,29 @@ namespace RDE
 
 		for (auto& layout : imageLayouts) {
 			_initialLayouts[ VkResourceID(layout.imageId) ] = layout;
+		}
+	}
+
+/*
+=================================================
+	BeginningOfCapture
+=================================================
+*/
+	void VulkanFnToCpp2::BeginningOfCapture(uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageStates> imageStates)
+	{
+		_captureStarted = true;
+
+		_globalSrcBefore
+			<< "#include \"Resources.h\"\n\n"
+			<< "extern void Initialize (const VApp &app);\n"
+			<< "extern void CreatePipelines (const VApp &app);\n"
+			<< "extern void Frame (const VApp &app);\n"
+			<< "extern void ResetFrame (const VApp &app);\n";
+
+		_initialLayouts.clear();
+
+		for (auto& layout : imageStates) {
+			//_initialLayouts[VkResourceID(layout.imageId)] = layout;
 		}
 	}
 	

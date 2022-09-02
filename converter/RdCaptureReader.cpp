@@ -1564,7 +1564,7 @@ namespace RDE
 		CHECK_ERR(NumImages == image_states.size());
 
 		for (auto listener : _listeners) {
-			//listener->BeginningOfCapture( _chunkCounter, threadId, timestamp, image_layouts );
+			listener->BeginningOfCapture( _chunkCounter, threadId, timestamp, image_states );
 		}
 		return true;
 	}
