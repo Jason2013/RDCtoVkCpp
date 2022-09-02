@@ -46,5 +46,58 @@ namespace RDE
 		VkFormat				format;
 	};
 
+	enum FrameRefType
+	{
+		eFrameRef_None = 0,
+		eFrameRef_PartialWrite = 1,
+		eFrameRef_CompleteWrite = 2,
+		eFrameRef_Read = 3,
+		eFrameRef_ReadBeforeWrite = 4,
+		eFrameRef_WriteBeforeRead = 5,
+		eFrameRef_CompleteWriteAndDiscard = 6,
+		eFrameRef_Unknown = 1000000000,
+	};
+
+	struct ImageState
+	{
+		struct ImageInfo
+		{
+			uint32_t layerCount;
+			uint32_t levelCount;
+			uint32_t sampleCount;
+			VkExtent3D  extent;
+			VkFormat format;
+			VkImageType imageType;
+			VkImageLayout initialLayout;
+			VkSharingMode sharingMode;
+		};
+		struct ImageSubresourceStateForRange
+		{
+			struct ImageSubresourceRange
+			{
+				VkImageAspectFlags aspectMask;
+				uint32_t baseMipLevel;
+				uint32_t levelCount;
+				uint32_t baseArrayLayer;
+				uint32_t layerCount;
+				uint32_t baseDepthSlice;
+				uint32_t sliceCount;
+			};
+			struct ImageSubresourceState
+			{
+				uint32_t oldQueueFamilyIndex;
+				uint32_t newQueueFamilyIndex;
+				VkImageLayout oldLayout;
+				VkImageLayout newLayout;
+				FrameRefType refType;
+			};
+			ImageSubresourceRange range;
+			ImageSubresourceState state;
+		};
+		ImageInfo imageInfo;
+		Array<ImageSubresourceStateForRange> subresourceStates;
+		Array<VkImageMemoryBarrier> oldQueueFamilyTransfers;
+		Array<VkImageMemoryBarrier> newQueueFamilyTransfers;
+	};
 
 }	// RDE
