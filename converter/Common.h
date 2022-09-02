@@ -94,6 +94,7 @@ namespace RDE
 			ImageSubresourceRange range;
 			ImageSubresourceState state;
 		};
+		VkResourceID			imageId;
 		ImageInfo imageInfo;
 		Array<ImageSubresourceStateForRange> subresourceStates;
 		Array<VkImageMemoryBarrier> oldQueueFamilyTransfers;
