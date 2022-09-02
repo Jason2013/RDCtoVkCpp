@@ -116,6 +116,9 @@ namespace RDE
 
 		bool  _ParseImageState (const Node_t *node, OUT ImageLayouts &state);
 		bool  _ParseImageInfo (const Node_t* node, OUT ImageState::ImageInfo& state);
+		bool  _ParseImageSubresourceRange(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange::ImageSubresourceRange& out);
+		bool  _ParseImageSubresourceState(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange::ImageSubresourceState& out);
+		bool  _ParseImageSubresourceStateForRange(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange& out);
 		bool  _ParseImageState (const Node_t *node, OUT ImageState &state);
 
 		bool  _ReadContent (const FS::path &);

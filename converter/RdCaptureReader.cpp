@@ -1354,6 +1354,162 @@ namespace RDE
 
 /*
 =================================================
+	_ParseImageSubresourceRange
+=================================================
+*/
+	bool RdCaptureReader::_ParseImageSubresourceRange(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange::ImageSubresourceRange& out)
+	{
+		CHECK_ERR(root);
+		{
+			auto* name_attr = root->first_attribute("name");
+			CHECK_ERR(name_attr and name_attr->value() == "range"s);
+		}
+		{
+			auto* name_attr = root->first_attribute("typename");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceRange"s);
+		}
+		//{
+		//	auto* node = _FindByAttribName(*root, "layerCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.layerCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "levelCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.levelCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sampleCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "extent");
+		//	CHECK_ERR(_ParseStruct(node, OUT out.extent));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "format");
+		//	CHECK_ERR(_ParseValue(node, OUT out.format));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "imageType");
+		//	CHECK_ERR(_ParseValue(node, OUT out.imageType));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "initialLayout");
+		//	CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sharingMode");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
+		//}
+
+		return true;
+	}
+
+/*
+=================================================
+	_ParseImageSubresourceState
+=================================================
+*/
+	bool RdCaptureReader::_ParseImageSubresourceState(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange::ImageSubresourceState& out)
+	{
+		CHECK_ERR(root);
+		{
+			auto* name_attr = root->first_attribute("name");
+			CHECK_ERR(name_attr and name_attr->value() == "state"s);
+		}
+		{
+			auto* name_attr = root->first_attribute("typename");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceState"s);
+		}
+		//{
+		//	auto* node = _FindByAttribName(*root, "layerCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.layerCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "levelCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.levelCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sampleCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "extent");
+		//	CHECK_ERR(_ParseStruct(node, OUT out.extent));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "format");
+		//	CHECK_ERR(_ParseValue(node, OUT out.format));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "imageType");
+		//	CHECK_ERR(_ParseValue(node, OUT out.imageType));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "initialLayout");
+		//	CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sharingMode");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
+		//}
+
+		return true;
+	}
+
+/*
+=================================================
+	_ParseImageSubresourceStateForRange
+=================================================
+*/
+	bool RdCaptureReader::_ParseImageSubresourceStateForRange(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange& out)
+	{
+		CHECK_ERR(root);
+		{
+			auto* name_attr = root->first_attribute("name");
+			CHECK_ERR(name_attr and name_attr->value() == "state"s);
+		}
+		{
+			auto* name_attr = root->first_attribute("typename");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceState"s);
+		}
+		//{
+		//	auto* node = _FindByAttribName(*root, "layerCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.layerCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "levelCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.levelCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sampleCount");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "extent");
+		//	CHECK_ERR(_ParseStruct(node, OUT out.extent));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "format");
+		//	CHECK_ERR(_ParseValue(node, OUT out.format));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "imageType");
+		//	CHECK_ERR(_ParseValue(node, OUT out.imageType));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "initialLayout");
+		//	CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
+		//}
+		//{
+		//	auto* node = _FindByAttribName(*root, "sharingMode");
+		//	CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
+		//}
+
+		return true;
+	}
+
+/*
+=================================================
 	_ParseImageState
 =================================================
 */
