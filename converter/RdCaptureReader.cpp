@@ -1416,38 +1416,26 @@ namespace RDE
 			auto* name_attr = root->first_attribute("typename");
 			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceState"s);
 		}
-		//{
-		//	auto* node = _FindByAttribName(*root, "layerCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.layerCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "levelCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.levelCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "sampleCount");
-		//	CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "extent");
-		//	CHECK_ERR(_ParseStruct(node, OUT out.extent));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "format");
-		//	CHECK_ERR(_ParseValue(node, OUT out.format));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "imageType");
-		//	CHECK_ERR(_ParseValue(node, OUT out.imageType));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "initialLayout");
-		//	CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
-		//}
-		//{
-		//	auto* node = _FindByAttribName(*root, "sharingMode");
-		//	CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
-		//}
+		{
+			auto* node = _FindByAttribName(*root, "oldQueueFamilyIndex");
+			CHECK_ERR(_ParseValue(node, OUT out.oldQueueFamilyIndex));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "newQueueFamilyIndex");
+			CHECK_ERR(_ParseValue(node, OUT out.newQueueFamilyIndex));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "oldLayout");
+			CHECK_ERR(_ParseValue(node, OUT out.oldLayout));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "newLayout");
+			CHECK_ERR(_ParseStruct(node, OUT out.newLayout));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "refType");
+			CHECK_ERR(_ParseValue(node, OUT out.refType));
+		}
 
 		return true;
 	}
