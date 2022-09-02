@@ -1382,7 +1382,7 @@ namespace RDE
 		}
 		{
 			auto* node = _FindByAttribName(*root, "baseArrayLayer");
-			CHECK_ERR(_ParseStruct(node, OUT out.baseArrayLayer));
+			CHECK_ERR(_ParseValue(node, OUT out.baseArrayLayer));
 		}
 		{
 			auto* node = _FindByAttribName(*root, "layerCount");
@@ -1430,7 +1430,7 @@ namespace RDE
 		}
 		{
 			auto* node = _FindByAttribName(*root, "newLayout");
-			CHECK_ERR(_ParseStruct(node, OUT out.newLayout));
+			CHECK_ERR(_ParseValue(node, OUT out.newLayout));
 		}
 		{
 			auto* node = _FindByAttribName(*root, "refType");
@@ -1449,12 +1449,8 @@ namespace RDE
 	{
 		CHECK_ERR(root);
 		{
-			auto* name_attr = root->first_attribute("name");
-			CHECK_ERR(name_attr and name_attr->value() == "state"s);
-		}
-		{
 			auto* name_attr = root->first_attribute("typename");
-			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceState"s);
+			CHECK_ERR(name_attr and name_attr->value() == "ImageSubresourceStateForRange"s);
 		}
 		{
 			auto* node = _FindByAttribName(*root, "range");
@@ -1489,42 +1485,37 @@ namespace RDE
 			auto* node = _FindByAttribName(*root, "imageInfo");
 			CHECK_ERR(_ParseImageInfo(node, OUT outState.imageInfo));
 		}
-		//auto* queueFamilyIndex_node = _FindByAttribName(*root, "queueFamilyIndex");
-		//CHECK_ERR(_ParseValue(queueFamilyIndex_node, OUT outState.queueFamilyIndex));
+		{
+			auto* nodes = _FindByAttribName(*root, "subresourceStates");
+			CHECK_ERR(nodes and nodes->name() == "array"s);
 
-		//auto* subresourceStates_node = _FindByAttribName(*root, "subresourceStates");
-		//CHECK_ERR(subresourceStates_node);
+			for (auto* node = nodes->first_node(); node; node = node->next_sibling())
+			{
+				auto& out = outState.subresourceStates.emplace_back();
+				CHECK_ERR(_ParseImageSubresourceStateForRange(node, OUT out));
+			}
+		}
+		{
+			auto* nodes = _FindByAttribName(*root, "oldQueueFamilyTransfers");
+			CHECK_ERR(nodes and nodes->name() == "array"s);
 
-		//for (auto* node = subresourceStates_node->first_node(); node; node = node->next_sibling())
-		//{
-		//	auto* dstQueueFamilyIndex_node = _FindByAttribName(*node, "dstQueueFamilyIndex");
-		//	auto* subresourceRange_node = _FindByAttribName(*node, "subresourceRange");
-		//	auto* oldLayout_node = _FindByAttribName(*node, "oldLayout");
-		//	auto* newLayout_node = _FindByAttribName(*node, "newLayout");
-		//	auto& region = outState.subresourceStates.emplace_back();
+			for (auto* node = nodes->first_node(); node; node = node->next_sibling())
+			{
+				auto& out = outState.oldQueueFamilyTransfers.emplace_back();
+				CHECK_ERR(_ParseStruct(node, OUT out));
+			}
+		}
+		{
+			auto* nodes = _FindByAttribName(*root, "newQueueFamilyTransfers");
+			CHECK_ERR(nodes and nodes->name() == "array"s);
 
-		//	CHECK_ERR(_ParseValue(dstQueueFamilyIndex_node, OUT region.dstQueueFamilyIndex));
-		//	CHECK_ERR(_ParseStruct(subresourceRange_node, OUT region.subresourceRange));
-		//	CHECK_ERR(_ParseValue(oldLayout_node, OUT region.oldLayout));
-		//	CHECK_ERR(_ParseValue(newLayout_node, OUT region.newLayout));
-		//}
+			for (auto* node = nodes->first_node(); node; node = node->next_sibling())
+			{
+				auto& out = outState.newQueueFamilyTransfers.emplace_back();
+				CHECK_ERR(_ParseStruct(node, OUT out));
+			}
+		}
 
-		//auto* imageInfo_node = _FindByAttribName(*root, "imageInfo");
-
-		//if (imageInfo_node)
-		//	root = imageInfo_node;
-
-		//auto* layerCount_node = _FindByAttribName(*root, "layerCount");
-		//auto* levelCount_node = _FindByAttribName(*root, "levelCount");
-		//auto* sampleCount_node = _FindByAttribName(*root, "sampleCount");
-		//auto* extent_node = _FindByAttribName(*root, "extent");
-		//auto* format_node = _FindByAttribName(*root, "format");
-
-		//CHECK_ERR(_ParseValue(layerCount_node, OUT outState.layerCount));
-		//CHECK_ERR(_ParseValue(levelCount_node, OUT outState.levelCount));
-		//CHECK_ERR(_ParseValue(sampleCount_node, OUT outState.sampleCount));
-		//CHECK_ERR(_ParseValue(format_node, OUT outState.format));
-		//CHECK_ERR(_ParseStruct(extent_node, OUT outState.extent));
 		return true;
 	}
 
@@ -1568,7 +1559,7 @@ namespace RDE
 		}
 
 		for (auto listener : _listeners) {
-			listener->BeginningOfCapture( _chunkCounter, threadId, timestamp, image_layouts );
+			//listener->BeginningOfCapture( _chunkCounter, threadId, timestamp, image_layouts );
 		}
 		return true;
 	}
