@@ -1302,6 +1302,16 @@ namespace RDE
 
 /*
 =================================================
+	_ParseImageInfo
+=================================================
+*/
+	bool RdCaptureReader::_ParseImageInfo(const Node_t* root, OUT ImageState::ImageInfo& outValue)
+	{
+		return true;
+	}
+
+/*
+=================================================
 	_ParseImageState
 =================================================
 */

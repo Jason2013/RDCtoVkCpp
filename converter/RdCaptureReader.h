@@ -115,6 +115,7 @@ namespace RDE
 		ND_ EResourceType  _AttribToResourceType (const Node_t *node) const;
 
 		bool  _ParseImageState (const Node_t *node, OUT ImageLayouts &state);
+		bool  _ParseImageInfo (const Node_t* node, OUT ImageState::ImageInfo& state);
 		bool  _ParseImageState (const Node_t *node, OUT ImageState &state);
 
 		bool  _ReadContent (const FS::path &);
