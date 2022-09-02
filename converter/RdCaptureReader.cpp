@@ -1305,8 +1305,50 @@ namespace RDE
 	_ParseImageInfo
 =================================================
 */
-	bool RdCaptureReader::_ParseImageInfo(const Node_t* root, OUT ImageState::ImageInfo& outValue)
+	bool RdCaptureReader::_ParseImageInfo(const Node_t* root, OUT ImageState::ImageInfo& out)
 	{
+		CHECK_ERR(root);
+		{
+			auto* name_attr = root->first_attribute("name");
+			CHECK_ERR(name_attr and name_attr->value() == "imageInfo"s);
+		}
+		{
+			auto* name_attr = root->first_attribute("typename");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageInfo"s);
+		}
+		{
+			auto* node = _FindByAttribName(*root, "layerCount");
+			CHECK_ERR(_ParseValue(node, OUT out.layerCount));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "levelCount");
+			CHECK_ERR(_ParseValue(node, OUT out.levelCount));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "sampleCount");
+			CHECK_ERR(_ParseValue(node, OUT out.sampleCount));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "extent");
+			CHECK_ERR(_ParseStruct(node, OUT out.extent));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "format");
+			CHECK_ERR(_ParseValue(node, OUT out.format));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "imageType");
+			CHECK_ERR(_ParseValue(node, OUT out.imageType));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "initialLayout");
+			CHECK_ERR(_ParseValue(node, OUT out.initialLayout));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "sharingMode");
+			CHECK_ERR(_ParseValue(node, OUT out.sharingMode));
+		}
+
 		return true;
 	}
 
@@ -1326,6 +1368,10 @@ namespace RDE
 		{
 			auto* name_attr = root->first_attribute("typename");
 			CHECK_ERR(name_attr and name_attr->value() == "ImageState"s);
+		}
+		{
+			auto* node = _FindByAttribName(*root, "imageInfo");
+			CHECK_ERR(_ParseImageInfo(node, OUT outState.imageInfo));
 		}
 		//auto* queueFamilyIndex_node = _FindByAttribName(*root, "queueFamilyIndex");
 		//CHECK_ERR(_ParseValue(queueFamilyIndex_node, OUT outState.queueFamilyIndex));
@@ -1374,7 +1420,7 @@ namespace RDE
 */
 	bool  RdCaptureReader::_Parse_BeginningOfCapture (const Node_t &root, uint64_t threadId, uint64_t timestamp)
 	{
-		Array<ImageLayouts>	image_layouts;
+		Array<ImageState>	image_layouts;
 
 		for (auto* node = root.first_node(); node; node = node->next_sibling())
 		{
