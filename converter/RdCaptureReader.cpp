@@ -1302,6 +1302,63 @@ namespace RDE
 
 /*
 =================================================
+	_ParseImageState
+=================================================
+*/
+	bool  RdCaptureReader::_ParseImageState(const Node_t* root, OUT ImageState& outState)
+	{
+		CHECK_ERR(root);
+
+		{
+			auto* name_attr = root->first_attribute("name");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageState"s);
+		}
+		{
+			auto* name_attr = root->first_attribute("typename");
+			CHECK_ERR(name_attr and name_attr->value() == "ImageState"s);
+		}
+		//auto* queueFamilyIndex_node = _FindByAttribName(*root, "queueFamilyIndex");
+		//CHECK_ERR(_ParseValue(queueFamilyIndex_node, OUT outState.queueFamilyIndex));
+
+		//auto* subresourceStates_node = _FindByAttribName(*root, "subresourceStates");
+		//CHECK_ERR(subresourceStates_node);
+
+		//for (auto* node = subresourceStates_node->first_node(); node; node = node->next_sibling())
+		//{
+		//	auto* dstQueueFamilyIndex_node = _FindByAttribName(*node, "dstQueueFamilyIndex");
+		//	auto* subresourceRange_node = _FindByAttribName(*node, "subresourceRange");
+		//	auto* oldLayout_node = _FindByAttribName(*node, "oldLayout");
+		//	auto* newLayout_node = _FindByAttribName(*node, "newLayout");
+		//	auto& region = outState.subresourceStates.emplace_back();
+
+		//	CHECK_ERR(_ParseValue(dstQueueFamilyIndex_node, OUT region.dstQueueFamilyIndex));
+		//	CHECK_ERR(_ParseStruct(subresourceRange_node, OUT region.subresourceRange));
+		//	CHECK_ERR(_ParseValue(oldLayout_node, OUT region.oldLayout));
+		//	CHECK_ERR(_ParseValue(newLayout_node, OUT region.newLayout));
+		//}
+
+		//auto* imageInfo_node = _FindByAttribName(*root, "imageInfo");
+
+		//if (imageInfo_node)
+		//	root = imageInfo_node;
+
+		//auto* layerCount_node = _FindByAttribName(*root, "layerCount");
+		//auto* levelCount_node = _FindByAttribName(*root, "levelCount");
+		//auto* sampleCount_node = _FindByAttribName(*root, "sampleCount");
+		//auto* extent_node = _FindByAttribName(*root, "extent");
+		//auto* format_node = _FindByAttribName(*root, "format");
+
+		//CHECK_ERR(_ParseValue(layerCount_node, OUT outState.layerCount));
+		//CHECK_ERR(_ParseValue(levelCount_node, OUT outState.levelCount));
+		//CHECK_ERR(_ParseValue(sampleCount_node, OUT outState.sampleCount));
+		//CHECK_ERR(_ParseValue(format_node, OUT outState.format));
+		//CHECK_ERR(_ParseStruct(extent_node, OUT outState.extent));
+		return true;
+	}
+
+
+/*
+=================================================
 	_Parse_BeginningOfCapture
 =================================================
 */
@@ -1331,6 +1388,9 @@ namespace RDE
 			else
 			if ( _GetAttribName( *node ) == "NumImages" )
 			{}
+            else if (StringView{ node->name() } == "buffer")
+            {
+            }
 			else
 				CHECK( false );
 		}
