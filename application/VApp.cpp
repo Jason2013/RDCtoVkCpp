@@ -309,6 +309,7 @@ bool  VApp::CreateShaderModule (StringView name, VkShaderStageFlagBits stage, co
 
 			case VK_SHADER_STAGE_ALL_GRAPHICS :
 			case VK_SHADER_STAGE_ALL :
+			case VK_SHADER_STAGE_SUBPASS_SHADING_BIT_HUAWEI :
 			default :											CHECK(false);	break;
 		}
 		END_ENUM_CHECKS();
@@ -918,6 +919,7 @@ bool  VApp::CreateSwapchainImage (ImageID image, uint2 dim, VkFormat format, VkI
 				case VK_IMAGE_USAGE_SHADING_RATE_IMAGE_BIT_NV :		CHECK( !"not supported" );							break;
 				case VK_IMAGE_USAGE_FRAGMENT_DENSITY_MAP_BIT_EXT :	CHECK( !"not supported" );							break;
 				case VK_IMAGE_USAGE_FLAG_BITS_MAX_ENUM :			CHECK( !"not supported" );							break;
+				case VK_IMAGE_USAGE_INVOCATION_MASK_BIT_HUAWEI :	CHECK(!"not supported");							break;
 				default :											CHECK( !"unknown" );								break;
 			}
 			END_ENUM_CHECKS();
