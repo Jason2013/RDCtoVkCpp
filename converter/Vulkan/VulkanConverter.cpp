@@ -138,6 +138,8 @@ namespace RDE
 		String					_initFrameSrc;
 		String					_initPipelines;
 
+		uint32_t				_windowWidth;
+		uint32_t				_windowHeight;
 		String					_globalSrcBefore;
 		String					_globalSrcAfter;
 		
@@ -414,6 +416,9 @@ namespace RDE
 				<< "\tapp.SetShaderFolder( \"" << shader_folder << "\" );\n"
 				<< "\tapp.SetContentFolder( \"" << content_folder << "\" );\n\n"
 				<< remapper.GetResourceCount() << '\n';
+
+			FindAndReplace(_globalSrcAfter, "{WIDTH}", ToString(_windowWidth));
+			FindAndReplace(_globalSrcAfter, "{HEIGHT}", ToString(_windowHeight));
 
 			_globalSrcAfter
 				<< "\tInitialize( app );\n\n"
@@ -1180,7 +1185,7 @@ namespace RDE
 
 		CHECK( remapper.CreateResource( VK_OBJECT_TYPE_DEVICE, VkResourceID(*pDevice), chunkIndex ));
 		
-		_globalSrcAfter << "\tCHECK( app.CreateWindow( 1024, 768, \"Player\" ));\n\n";
+		_globalSrcAfter << "\tCHECK( app.CreateWindow( {WIDTH}, {HEIGHT}, \"Player\" ));\n\n";
 
 		_globalSrcAfter << "\t{\n"
 			<< "\t\tconst VApp::QueueInfo queues[] = {\n";
@@ -1247,6 +1252,8 @@ namespace RDE
 		_swapchainFormat	= pCreateInfo->imageFormat;
 		_swapchainUsage		= pCreateInfo->imageUsage;
 		_swapchainDim		= { pCreateInfo->imageExtent.width, pCreateInfo->imageExtent.height };
+		_windowWidth		= pCreateInfo->imageExtent.width;
+		_windowHeight		= pCreateInfo->imageExtent.height;
 
 		// validate 
 
