@@ -1668,6 +1668,8 @@ namespace RDE
 				case spv::ExecutionModelClosestHitNV :			stage = VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV;				break;
 				case spv::ExecutionModelMissNV :				stage = VK_SHADER_STAGE_MISS_BIT_NV;					break;
 				case spv::ExecutionModelCallableNV :			stage = VK_SHADER_STAGE_CALLABLE_BIT_NV;				break;
+				case spv::ExecutionModelTaskEXT:				stage = VK_SHADER_STAGE_TASK_BIT_NV;					break;
+				case spv::ExecutionModelMeshEXT:				stage = VK_SHADER_STAGE_MESH_BIT_NV;					break;
 				case spv::ExecutionModelKernel :
 				case spv::ExecutionModelMax :					CHECK(false); break;
 			}
