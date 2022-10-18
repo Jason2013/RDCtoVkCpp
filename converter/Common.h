@@ -99,6 +99,8 @@ namespace RDE
 		Array<ImageSubresourceStateForRange> subresourceStates;
 		Array<VkImageMemoryBarrier> oldQueueFamilyTransfers;
 		Array<VkImageMemoryBarrier> newQueueFamilyTransfers;
+
+		void f();
 	};
 
 }	// RDE
