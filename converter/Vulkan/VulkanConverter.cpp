@@ -1004,6 +1004,20 @@ namespace RDE
 
 		str << indent << "VkImageMemoryBarrier barriers[" << ToString(layouts.subresourceStates.size()) << "];\n";
 
+		Array<VkImageMemoryBarrier> barriers;
+		layouts.ResetToOldState(VkImage(layouts.imageId), barriers);
+
+		for (decltype(barriers.size()) i = 0; i < barriers.size(); ++i)
+		{
+			Serialize2_VkImageMemoryBarrier(&barriers[i], "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
+
+			str << str2 << str1;
+			str1.clear();
+			str2.clear();
+		}
+
+		return str;
+
 		for (size_t i = 0; i < layouts.subresourceStates.size(); ++i)
 		{
 			const auto& src = layouts.subresourceStates[i];
