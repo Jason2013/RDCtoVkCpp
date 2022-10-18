@@ -113,7 +113,7 @@ namespace RDE
             layout = VK_IMAGE_LAYOUT_GENERAL;
     }
 
-    void ImageState::ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers)
+    void ImageState::ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers) const
     {
         VkAccessFlags srcAccessMask = VK_ACCESS_ALL_WRITE_BITS;
         VkAccessFlags dstAccessMask = VK_ACCESS_ALL_READ_BITS;
