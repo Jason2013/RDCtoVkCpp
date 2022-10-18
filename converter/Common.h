@@ -82,6 +82,10 @@ namespace RDE
 				uint32_t layerCount;
 				uint32_t baseDepthSlice;
 				uint32_t sliceCount;
+                operator VkImageSubresourceRange() const
+                {
+                    return { aspectMask, baseMipLevel, levelCount, baseArrayLayer, layerCount };
+                }
 			};
 			struct ImageSubresourceState
 			{
@@ -100,7 +104,7 @@ namespace RDE
 		Array<VkImageMemoryBarrier> oldQueueFamilyTransfers;
 		Array<VkImageMemoryBarrier> newQueueFamilyTransfers;
 
-		void f();
+		void ImageState::ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers);
 	};
 
 }	// RDE
