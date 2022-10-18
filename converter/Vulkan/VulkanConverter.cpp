@@ -1161,7 +1161,12 @@ namespace RDE
 		_initialStates.clear();
 
 		for (auto& state : imageStates) {
-			//VkImageLayout initialLayout = state.imageInfo.initialLayout;
+			// The following logic is from `Renderdoc` source file:
+			// $(RENDERDOC)/renderdoc/driver/vulkan/vk_manager.cpp: VulkanResourceManager::SerialiseImageStates
+			// 
+			// Set the current image state (`newLayout`, `newQueueFamilyIndex`, `refType`) to the
+			// initial image state, so that calling `ResetToOldState` will move the image from the
+			// initial state to the state it was in at the beginning of the capture.
 			for (auto& subst : state.subresourceStates) {
 				subst.state.newLayout = state.imageInfo.initialLayout;
 				subst.state.newQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
