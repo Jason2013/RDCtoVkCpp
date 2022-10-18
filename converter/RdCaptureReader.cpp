@@ -1813,6 +1813,29 @@ namespace RDE
 		CHECK_ERR(&root);
 		CHECK_ERR(threadId);
 		CHECK_ERR(timestamp);
+
+		VkQueue	queue = {};
+		{
+			Node_t* node = _FindByAttribName(root, "queue");
+			CHECK_ERR(_ParseResource(node, OUT queue));
+		}
+
+		VkPresentInfoKHR	presentInfo = {};
+		//{
+		//	Node_t* node = _FindByAttribName(root, "PresentInfo");
+		//	CHECK_ERR(_ParseStruct(node, OUT presentInfo));
+		//}
+
+		VkImage PresentedImage;
+		{
+			Node_t* node = _FindByAttribName(root, "PresentedImage");
+			CHECK_ERR(_ParseResource(node, OUT PresentedImage));
+		}
+
+		for (auto listener : _listeners) {
+			listener->QueuePresentKHR2(_chunkCounter, threadId, timestamp, queue, &presentInfo, PresentedImage);
+		}
+
 		return true;
 	}
 

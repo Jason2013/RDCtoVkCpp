@@ -268,6 +268,7 @@ namespace RDE
 		void DebugMarkerSetObjectNameEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID resId, StringView name) override;
 		void CreateDescriptorUpdateTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorUpdateTemplateCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDescriptorUpdateTemplate * pDescriptorUpdateTemplate) override;
 		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data) override;
+		void QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR* pPresentInfo, VkImage image);
 		
 		ND_ String _ConvertLayouts (const ImageLayouts &layouts);
 		ND_ String _ConvertLayouts (const ImageState& layouts);
@@ -1010,40 +1011,6 @@ namespace RDE
 		for (decltype(barriers.size()) i = 0; i < barriers.size(); ++i)
 		{
 			Serialize2_VkImageMemoryBarrier(&barriers[i], "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
-
-			str << str2 << str1;
-			str1.clear();
-			str2.clear();
-		}
-
-		return str;
-
-		for (size_t i = 0; i < layouts.subresourceStates.size(); ++i)
-		{
-			const auto& src = layouts.subresourceStates[i];
-			VkImageMemoryBarrier	dst = {};
-
-			CHECK(src.state.newQueueFamilyIndex == VK_QUEUE_FAMILY_IGNORED or src.state.newQueueFamilyIndex == src.state.oldQueueFamilyIndex);
-
-			dst.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-			dst.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			dst.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			dst.image = VkImage(layouts.imageId);
-			dst.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			dst.newLayout = src.state.newLayout;
-			//dst.subresourceRange = src.range.subresourceRange;
-
-			dst.subresourceRange.aspectMask = src.range.aspectMask;
-			dst.subresourceRange.baseMipLevel = src.range.baseMipLevel;
-			dst.subresourceRange.levelCount = src.range.levelCount;
-			dst.subresourceRange.baseArrayLayer = src.range.layerCount;
-			dst.subresourceRange.layerCount = src.range.layerCount;
-
-
-			if (dst.newLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR or dst.newLayout == VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR)
-				dst.newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-
-			Serialize2_VkImageMemoryBarrier(&dst, "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
 
 			str << str2 << str1;
 			str1.clear();
@@ -3031,6 +2998,22 @@ namespace RDE
 	}
 //-----------------------------------------------------------------------------
 
+
+	/*
+=================================================
+	QueuePresentKHR
+=================================================
+*/
+	void VulkanFnToCpp2::QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR * pPresentInfo, VkImage image)
+	{
+		auto it = _queues.find(queue);
+		CHECK_ERR(it != _queues.end(), void());
+
+        auto index = remapper.GetAliveResourceUID(VK_OBJECT_TYPE_IMAGE, VkResourceID(image));
+		auto& info = _imageMap[index];
+
+		info.lastQueue = _queues[queue];
+	}
 
 
 /*

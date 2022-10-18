@@ -23,6 +23,7 @@ namespace RDE
 
 		virtual void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageLayouts> imageLayouts) {}
 		virtual void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, Array<ImageState> imageStates) {}
+		virtual void QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR* pPresentInfo, VkImage image) {}
 
 		virtual void EndOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID presentedImage) {}
 
