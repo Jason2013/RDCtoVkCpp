@@ -105,6 +105,7 @@ namespace RDE
 		using DeviceProps_t			= HashMap< VkPhysicalDevice, DeviceInfo >;
 
 		using ImageLayouts_t		= HashMap< VkResourceID, ImageLayouts >;
+		using ImageStates_t			= HashMap< VkResourceID, ImageState >;
 		using SwapchainImages_t		= FixedArray< VkResourceID, 8 >;
 
 		struct DescriptorSetInfo
@@ -131,6 +132,7 @@ namespace RDE
 		BufferMap_t				_bufferMap;
 		MemoryMap_t				_memoryMap;
 		ImageLayouts_t			_initialLayouts;
+		ImageStates_t			_initialStates;
 		DescriptorInit_t		_initialDS;
 		DSTemplateMap_t			_dsTemplates;
 
@@ -202,7 +204,7 @@ namespace RDE
 								   bool isSparse, BytesU contentSize, ContentID contentId) override;
 		void InitialDescriptorSetContent (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<VkWriteDescriptorSet> slots) override;
 		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageLayouts> imageLayouts) override;
-		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageState> imageStates) override;
+		void BeginningOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, Array<ImageState> imageStates) override;
 		void EndOfCapture (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID presentedImage) override;
 		void EnumeratePhysicalDevices (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkInstance instance, uint32_t PhysicalDeviceIndex, VkPhysicalDevice PhysicalDevice,
 										uint32_t memIdxMap[VK_MAX_MEMORY_TYPES], const VkPhysicalDeviceProperties &physProps,
@@ -268,6 +270,7 @@ namespace RDE
 		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data) override;
 		
 		ND_ String _ConvertLayouts (const ImageLayouts &layouts);
+		ND_ String _ConvertLayouts (const ImageState& layouts);
 
 		ND_ bool _IsSwapchainImage (VkResourceID id) const;
 
@@ -822,7 +825,7 @@ namespace RDE
 */
 	void VulkanFnToCpp2::AddInitialLayouts ()
 	{
-		for (auto& layout : _initialLayouts)
+		for (auto& layout : _initialStates)
 		{
 			const auto	img = VkResourceID(layout.second.imageId);
 
@@ -856,7 +859,7 @@ namespace RDE
 					<< "\t{\n"
 					<< _ConvertLayouts( layout.second )
 					<< "\t	app.UploadImage( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-						<< "EQueueFamily(" << IntToString(layout.second.queueFamilyIndex) << "), "
+						<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
 						<< "barriers, CountOf(barriers), "
 						<< ContentIDtoName( info.initialContent ) << " );\n"
 					<< "\t}\n";
@@ -867,12 +870,12 @@ namespace RDE
 					<< "\t{\n"
 					<< _ConvertLayouts( layout.second )
 					<< "\t	app.SetImageInitialLayout( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-						<< "EQueueFamily(" << IntToString(layout.second.queueFamilyIndex) << "), "
+						<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
 						<< "barriers, CountOf(barriers) );\n"
 					<< "\t}\n";
 			}
 		}
-		_initialLayouts.clear();
+		_initialStates.clear();
 	}
 	
 /*
@@ -992,6 +995,52 @@ namespace RDE
 
 /*
 =================================================
+	_ConvertLayouts
+=================================================
+*/
+	String  VulkanFnToCpp2::_ConvertLayouts(const ImageState& layouts)
+	{
+		String	str, str1, str2;
+
+		str << indent << "VkImageMemoryBarrier barriers[" << ToString(layouts.subresourceStates.size()) << "];\n";
+
+		for (size_t i = 0; i < layouts.subresourceStates.size(); ++i)
+		{
+			const auto& src = layouts.subresourceStates[i];
+			VkImageMemoryBarrier	dst = {};
+
+			CHECK(src.state.newQueueFamilyIndex == VK_QUEUE_FAMILY_IGNORED or src.state.newQueueFamilyIndex == src.state.oldQueueFamilyIndex);
+
+			dst.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			dst.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			dst.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			dst.image = VkImage(layouts.imageId);
+			dst.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			dst.newLayout = src.state.newLayout;
+			//dst.subresourceRange = src.range.subresourceRange;
+
+			dst.subresourceRange.aspectMask = src.range.aspectMask;
+			dst.subresourceRange.baseMipLevel = src.range.baseMipLevel;
+			dst.subresourceRange.levelCount = src.range.levelCount;
+			dst.subresourceRange.baseArrayLayer = src.range.layerCount;
+			dst.subresourceRange.layerCount = src.range.layerCount;
+
+
+			if (dst.newLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR or dst.newLayout == VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR)
+				dst.newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+
+			Serialize2_VkImageMemoryBarrier(&dst, "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
+
+			str << str2 << str1;
+			str1.clear();
+			str2.clear();
+		}
+
+		return str;
+	}
+
+/*
+=================================================
 	InitialMemoryContent
 =================================================
 */
@@ -1098,7 +1147,7 @@ namespace RDE
 	BeginningOfCapture
 =================================================
 */
-	void VulkanFnToCpp2::BeginningOfCapture(uint chunkIndex, uint64_t threadID, uint64_t timestamp, ArrayView<ImageState> imageStates)
+	void VulkanFnToCpp2::BeginningOfCapture(uint chunkIndex, uint64_t threadID, uint64_t timestamp, Array<ImageState> imageStates)
 	{
 		_captureStarted = true;
 
@@ -1109,10 +1158,15 @@ namespace RDE
 			<< "extern void Frame (const VApp &app);\n"
 			<< "extern void ResetFrame (const VApp &app);\n";
 
-		_initialLayouts.clear();
+		_initialStates.clear();
 
-		for (auto& layout : imageStates) {
-			//_initialLayouts[VkResourceID(layout.imageId)] = layout;
+		for (auto& state : imageStates) {
+			//VkImageLayout initialLayout = state.imageInfo.initialLayout;
+			for (auto& subst : state.subresourceStates) {
+				subst.state.newLayout = state.imageInfo.initialLayout;
+				subst.state.newQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			}
+			_initialStates[VkResourceID(state.imageId)] = state;
 		}
 	}
 	
