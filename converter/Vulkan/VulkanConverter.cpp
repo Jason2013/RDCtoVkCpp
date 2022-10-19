@@ -856,24 +856,31 @@ namespace RDE
 			{
 				CHECK( info.handle );
 
+				auto const& barriers = _ConvertLayouts(layout.second);
+				CHECK_ERR(barriers != "", void())
+
 				_initFrameSrc
 					<< "\t{\n"
-					<< _ConvertLayouts( layout.second )
+					<< barriers // _ConvertLayouts( layout.second )
 					<< "\t	app.UploadImage( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-						<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
-						<< "barriers, CountOf(barriers), "
-						<< ContentIDtoName( info.initialContent ) << " );\n"
+					<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
+					<< "barriers, CountOf(barriers), "
+					<< ContentIDtoName( info.initialContent ) << " );\n"
 					<< "\t}\n";
 			}
 			else
 			{
-				_initFrameSrc
-					<< "\t{\n"
-					<< _ConvertLayouts( layout.second )
-					<< "\t	app.SetImageInitialLayout( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
+				auto const& barriers = _ConvertLayouts(layout.second);
+				if (barriers != "")
+				{
+					_initFrameSrc
+						<< "\t{\n"
+						<< barriers // _ConvertLayouts( layout.second )
+						<< "\t	app.SetImageInitialLayout( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
 						<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
 						<< "barriers, CountOf(barriers) );\n"
-					<< "\t}\n";
+						<< "\t}\n";
+				}
 			}
 		}
 		_initialStates.clear();
@@ -1003,18 +1010,21 @@ namespace RDE
 	{
 		String	str, str1, str2;
 
-		str << indent << "VkImageMemoryBarrier barriers[" << ToString(layouts.subresourceStates.size()) << "];\n";
-
 		Array<VkImageMemoryBarrier> barriers;
 		layouts.ResetToOldState(VkImage(layouts.imageId), barriers);
 
-		for (decltype(barriers.size()) i = 0; i < barriers.size(); ++i)
+		if (barriers.size() > 0)
 		{
-			Serialize2_VkImageMemoryBarrier(&barriers[i], "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
+			str << indent << "VkImageMemoryBarrier barriers[" << ToString(barriers.size()) << "];\n";
 
-			str << str2 << str1;
-			str1.clear();
-			str2.clear();
+			for (decltype(barriers.size()) i = 0; i < barriers.size(); ++i)
+			{
+				Serialize2_VkImageMemoryBarrier(&barriers[i], "barriers["s << ToString(i) << "]", nameSer, remapper, indent, OUT str1, OUT str2);
+
+				str << str2 << str1;
+				str1.clear();
+				str2.clear();
+			}
 		}
 
 		return str;
