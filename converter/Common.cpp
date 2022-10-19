@@ -203,6 +203,7 @@ namespace RDE
                 continue;
             }
 
+            VkImageSubresourceRange subresourceRange = (VkImageSubresourceRange)subIt.range;
             VkImageAspectFlags aspects = FormatImageAspects(imageInfo.format);
             if ((aspects & (VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT)) ==
                 (VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT))
@@ -214,8 +215,8 @@ namespace RDE
                 // depth-only aspect to include both depth and stencil aspects.
                 if (subIt.range.aspectMask == VK_IMAGE_ASPECT_STENCIL_BIT)
                     continue;
-                //if (subIt.range.aspectMask == VK_IMAGE_ASPECT_DEPTH_BIT)
-                //    subIt.range.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+                if (subresourceRange.aspectMask == VK_IMAGE_ASPECT_DEPTH_BIT)
+                    subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
             }
 
             VkImageMemoryBarrier barrier = {
@@ -228,7 +229,7 @@ namespace RDE
                 /* srcQueueFamilyIndex = */ srcQueueFamilyIndex,
                 /* dstQueueFamilyIndex = */ dstQueueFamilyIndex,
                 /* image = wrappedHandle */ image,
-                /* subresourceRange = */ subIt.range,
+                /* subresourceRange = */ subresourceRange,
             };
             barriers.emplace_back(barrier);
             //barriers.AddWrapped(MAIN_BATCH_INDEX, submitQueueFamilyIndex, barrier);
