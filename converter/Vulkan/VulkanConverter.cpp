@@ -857,13 +857,14 @@ namespace RDE
 				CHECK( info.handle );
 
 				auto const& barriers = _ConvertLayouts(layout.second);
-				CHECK_ERR(barriers != "", void())
+				CHECK_ERR(barriers != "", void());
+				CHECK_ERR(info.initialQueue != Default, void());
 
 				_initFrameSrc
 					<< "\t{\n"
 					<< barriers // _ConvertLayouts( layout.second )
 					<< "\t	app.UploadImage( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-					<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
+					<< "EQueueFamily(" << IntToString((uint)info.initialQueue) << "), "
 					<< "barriers, CountOf(barriers), "
 					<< ContentIDtoName( info.initialContent ) << " );\n"
 					<< "\t}\n";
@@ -873,11 +874,13 @@ namespace RDE
 				auto const& barriers = _ConvertLayouts(layout.second);
 				if (barriers != "")
 				{
+					CHECK_ERR(info.initialQueue != Default, void());
+
 					_initFrameSrc
 						<< "\t{\n"
 						<< barriers // _ConvertLayouts( layout.second )
 						<< "\t	app.SetImageInitialLayout( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-						<< "EQueueFamily(" << IntToString(layout.second.subresourceStates[0].state.oldQueueFamilyIndex) << "), "
+						<< "EQueueFamily(" << IntToString((uint)info.initialQueue) << "), "
 						<< "barriers, CountOf(barriers) );\n"
 						<< "\t}\n";
 				}
