@@ -269,6 +269,8 @@ namespace RDE
 		void CreateDescriptorUpdateTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorUpdateTemplateCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDescriptorUpdateTemplate * pDescriptorUpdateTemplate) override;
 		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data) override;
 		void QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR* pPresentInfo, VkImage image);
+
+		void InsertImageState(VkResourceID id, const ImageState::ImageInfo& info, FrameRefType refType, bool* inserted);
 		
 		ND_ String _ConvertLayouts (const ImageLayouts &layouts);
 		ND_ String _ConvertLayouts (const ImageState& layouts);
@@ -3028,6 +3030,29 @@ namespace RDE
 		info.lastQueue = _queues[queue];
 	}
 
+/*
+=================================================
+	InsertImageState
+=================================================
+*/
+	void VulkanFnToCpp2::InsertImageState(VkResourceID id, const ImageState::ImageInfo& info, FrameRefType refType, bool* inserted)
+	{
+		//SCOPED_LOCK(m_ImageStatesLock);
+		auto it = _initialStates.find(id);
+		if (it != _initialStates.end())
+		{
+			if (inserted != NULL)
+				*inserted = false;
+			//return it->second.LockWrite();
+		}
+		else
+		{
+			if (inserted != NULL)
+				*inserted = true;
+			/*it = */_initialStates.insert({ id, ImageState(info, refType) })/*.first*/;
+			//return it->second.LockWrite();
+		}
+	}
 
 /*
 =================================================
