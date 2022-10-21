@@ -730,7 +730,7 @@ namespace RDE
 				CHECK_ERR(_ParseResource(node, OUT result[count++]));
 			}
 
-			CHECK_ERR( count == max_count );
+			CHECK_ERR(0 < count && count <= max_count );
 		}
 		else // array is empty
 		{
