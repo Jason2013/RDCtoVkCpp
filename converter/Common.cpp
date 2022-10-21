@@ -13,10 +13,24 @@
    VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT | \
    VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_MEMORY_WRITE_BIT)
 
-#define UNKNOWN_PREV_IMG_LAYOUT ((VkImageLayout)0xffffffff)
-
 namespace RDE
 {
+    ImageState::ImageState(const ImageInfo& imageInfo, FrameRefType refType)
+        : imageInfo(imageInfo)
+    {
+        subresourceStates.resize(1);
+        auto& stateForRange = subresourceStates.back();
+        stateForRange.range.baseArrayLayer = 0;
+        stateForRange.range.layerCount = imageInfo.layerCount;
+        stateForRange.range.baseMipLevel = 0;
+        stateForRange.range.levelCount = imageInfo.levelCount;
+        stateForRange.range.baseDepthSlice = 0;
+        stateForRange.range.sliceCount = imageInfo.extent.depth;
+        stateForRange.range.aspectMask = imageInfo.format;
+
+        stateForRange.state = ImageSubresourceStateForRange::ImageSubresourceState(VK_QUEUE_FAMILY_IGNORED, (VkImageLayout)UNKNOWN_PREV_IMG_LAYOUT, refType);
+    }
+
     bool IsDepthAndStencilFormat(VkFormat f)
     {
         switch (f)

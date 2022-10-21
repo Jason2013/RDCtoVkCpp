@@ -11,6 +11,8 @@
 
 #include <filesystem>
 
+#define UNKNOWN_PREV_IMG_LAYOUT ((VkImageLayout)0xffffffff)
+
 namespace RDE
 {
 	using namespace FGC;
@@ -94,6 +96,16 @@ namespace RDE
 				VkImageLayout oldLayout;
 				VkImageLayout newLayout;
 				FrameRefType refType;
+
+                ImageSubresourceState(uint32_t queueFamilyIndex, VkImageLayout layout, FrameRefType refType = eFrameRef_None)
+                    : oldQueueFamilyIndex(queueFamilyIndex),
+                    newQueueFamilyIndex(queueFamilyIndex),
+                    oldLayout(layout),
+                    newLayout(layout),
+                    refType(refType)
+                {
+                }
+				ImageSubresourceState() {}
 			};
 			ImageSubresourceRange range;
 			ImageSubresourceState state;
@@ -105,6 +117,9 @@ namespace RDE
 		Array<VkImageMemoryBarrier> newQueueFamilyTransfers;
 
 		void ImageState::ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers) const;
+
+        ImageState() {}
+		ImageState(const ImageInfo& imageInfo, FrameRefType refType);
 	};
 
 }	// RDE
