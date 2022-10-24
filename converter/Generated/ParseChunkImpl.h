@@ -2612,11 +2612,12 @@ bool RdCaptureReader::Parse_vkCmdBindVertexBuffers2 (const Node_t &root, uint64_
 	VkDeviceSize *  pOffsets = {};
 	_ParseArray( pOffsets_node, OUT const_cast<VkDeviceSize * &>(pOffsets), INOUT bindingCount );
 	Node_t* pSizes_node = _FindByAttribName( root, "pSizes" );
+	uint32_t  realCount = 0;
 	VkDeviceSize *  pSizes = {};
-	_ParseArray( pSizes_node, OUT const_cast<VkDeviceSize * &>(pSizes), INOUT bindingCount );
+	_ParseArray2( pSizes_node, OUT const_cast<VkDeviceSize * &>(pSizes), bindingCount, OUT realCount );
 	Node_t* pStrides_node = _FindByAttribName( root, "pStrides" );
 	VkDeviceSize *  pStrides = {};
-	_ParseArray( pStrides_node, OUT const_cast<VkDeviceSize * &>(pStrides), INOUT bindingCount );
+	_ParseArray2( pStrides_node, OUT const_cast<VkDeviceSize * &>(pStrides), bindingCount, OUT realCount );
 	for (auto listener : _listeners) {
 		listener->CmdBindVertexBuffers2( _chunkCounter, threadId, timestamp, commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides );
 	}
