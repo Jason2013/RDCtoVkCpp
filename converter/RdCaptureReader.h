@@ -105,10 +105,13 @@ namespace RDE
 
 		template <typename T>			bool  _ParseArray (const Node_t *node, OUT T* &result, INOUT uint &count);
 		template <typename T>			bool  _ParseArray (const Node_t *node, OUT T* &result, INOUT size_t &size);
+		template <typename T>			bool  _ParseArray2 (const Node_t* node, OUT T*& result, uint count, OUT uint& real_count);
+		//template <typename T>			bool  _ParseArray2 (const Node_t* node, OUT T*& result, size_t size, OUT size_t& real_size);
 		template <typename T>			bool  _ParseArrayOpt (const Node_t *node, OUT T* &result, uint count);
 										bool  _ParseArray (const Node_t *node, OUT void *&result, INOUT uint &size);
 
 		template <typename T>			bool  _ParseResources (const Node_t *node, OUT T* &result, INOUT uint &count);
+		template <typename T>			bool  _ParseResources2 (const Node_t *node, OUT T* &result, uint count, OUT uint& real_count);
 		template <typename T>			bool  _ParseResourcesOpt (const Node_t *node, OUT T* &result, uint count);
 		template <typename T, size_t I> bool  _ParseResources (const Node_t *node, OUT T (&result)[I], INOUT uint &count);
 		

@@ -626,6 +626,55 @@ namespace RDE
 		return _LoadByteBuffer( *root, OUT result, size );
 	}
 
+	template <typename T>
+	bool  RdCaptureReader::_ParseArray2(const Node_t* root, OUT T*& result, uint count, OUT uint& real_count)
+	{
+		if (count == 0)
+		{
+			result = null;
+			return true;
+		}
+
+		CHECK_ERR(root);
+		result = _allocator.Alloc<T>(count);
+
+		if (StringView{ root->name() } == "struct")
+		{
+			count = 1;
+			return _ParseValue(root, OUT * result);
+		}
+
+		const uint	max_count = count;
+		real_count = 0;
+
+		for (auto* node = root->first_node(); node and real_count < max_count; node = node->next_sibling())
+		{
+			CHECK_ERR(_ParseValue(node, OUT result[real_count++]));
+		}
+
+		CHECK_ERR(real_count <= max_count);
+		return true;
+	}
+
+	//template <typename T>
+	//bool  RdCaptureReader::_ParseArray2(const Node_t* root, OUT T*& result, size_t size, OUT size_t& real_size)
+	//{
+	//	if (size == 0)
+	//	{
+	//		result = null;
+	//		return true;
+	//	}
+
+	//	STATIC_ASSERT(IsPOD<T> or IsSameTypes<T, void>);
+	//	CHECK_ERR(root);
+	//	result = Cast<T>(_allocator.Alloc(BytesU{ size }, 16_b));
+
+	//	StringView	type_name = _GetAttribTypename(*root);
+	//	CHECK_ERR(type_name == "Byte Buffer");
+
+	//	return _LoadByteBuffer(*root, OUT result, size);
+	//}
+
 
 	template <typename T>
 	bool  RdCaptureReader::_ParseArrayOpt (const Node_t *root, OUT T* &result, const uint count)
@@ -730,7 +779,42 @@ namespace RDE
 				CHECK_ERR(_ParseResource(node, OUT result[count++]));
 			}
 
-			CHECK_ERR(0 < count && count <= max_count );
+			CHECK_ERR( count == max_count );
+		}
+		else // array is empty
+		{
+			result = nullptr;
+		}
+		return true;
+	}
+
+
+	template <typename T>
+	bool  RdCaptureReader::_ParseResources2(const Node_t* root, OUT T*& result, uint count, INOUT uint& real_count)
+	{
+		if (count == 0)
+		{
+			result = null;
+			return true;
+		}
+
+		CHECK_ERR(root);
+		CHECK_ERR(StringView{ root->name() } == "array" or StringView{ root->name() } == "ResourceId");
+
+		auto* node = root->first_node();
+		if (node)
+		{
+			result = _allocator.Alloc<T>(count);
+
+			const uint	max_count = count;
+			real_count = 0;
+
+			for (/*auto* node = root->first_node()*/; node and real_count < max_count; node = node->next_sibling())
+			{
+				CHECK_ERR(_ParseResource(node, OUT real_count[count++]));
+			}
+
+			CHECK_ERR(0 < real_count && real_count <= max_count);
 		}
 		else // array is empty
 		{
