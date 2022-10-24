@@ -792,10 +792,10 @@ namespace RDE
 
 			for (/*auto* node = root->first_node()*/; node and real_count < max_count; node = node->next_sibling())
 			{
-				CHECK_ERR(_ParseResource(node, OUT real_count[count++]));
+				CHECK_ERR(_ParseResource(node, OUT result[real_count++]));
 			}
 
-			CHECK_ERR(0 < real_count && real_count <= max_count);
+			CHECK_ERR( real_count <= max_count );
 		}
 		else // array is empty
 		{
