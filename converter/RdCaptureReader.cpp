@@ -656,25 +656,6 @@ namespace RDE
 		return true;
 	}
 
-	//template <typename T>
-	//bool  RdCaptureReader::_ParseArray2(const Node_t* root, OUT T*& result, size_t size, OUT size_t& real_size)
-	//{
-	//	if (size == 0)
-	//	{
-	//		result = null;
-	//		return true;
-	//	}
-
-	//	STATIC_ASSERT(IsPOD<T> or IsSameTypes<T, void>);
-	//	CHECK_ERR(root);
-	//	result = Cast<T>(_allocator.Alloc(BytesU{ size }, 16_b));
-
-	//	StringView	type_name = _GetAttribTypename(*root);
-	//	CHECK_ERR(type_name == "Byte Buffer");
-
-	//	return _LoadByteBuffer(*root, OUT result, size);
-	//}
-
 
 	template <typename T>
 	bool  RdCaptureReader::_ParseArrayOpt (const Node_t *root, OUT T* &result, const uint count)
