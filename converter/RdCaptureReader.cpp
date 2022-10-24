@@ -1059,11 +1059,11 @@ namespace RDE
 
 		for (size_t i = 0, bind = 0; i < bindings.size(); ++i, ++bind)
 		{
-			for (; node and bind < bindings[i].binding; ++bind)
-			{
-				node = node->next_sibling();
-			}
-			CHECK_ERR( bind == bindings[i].binding );
+			//for (; node and bind < bindings[i].binding; ++bind)
+			//{
+			//	node = node->next_sibling();
+			//}
+			//CHECK_ERR( bind == bindings[i].binding );
 
 			VkWriteDescriptorSet	slot = {};
 			slot.sType				= VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
