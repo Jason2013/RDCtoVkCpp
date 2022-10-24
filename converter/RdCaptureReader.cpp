@@ -1714,7 +1714,7 @@ namespace RDE
 		VkMappedMemoryRange *	pMemoryRanges		= {};
 		_ParseStructArray( pMemoryRanges_node, OUT const_cast<VkMappedMemoryRange * &>(pMemoryRanges), INOUT memoryRangeCount );
 
-		Node_t*		mappedData_node	= _FindByAttribName( root, "MappedData" );
+		Node_t*		mappedData_node	= _FindByAttribName( root, "MapData" );
 		uint		content_id		= ~0u;
 		CHECK_ERR( _ParseValue( mappedData_node, OUT content_id ));
 		
