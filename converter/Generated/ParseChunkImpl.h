@@ -123,8 +123,10 @@ bool RdCaptureReader::Parse_vkAllocateCommandBuffers (const Node_t &root, uint64
 	VkCommandBufferAllocateInfo *  pAllocateInfo = {};
 	_ParseStruct( pAllocateInfo_node, OUT const_cast<VkCommandBufferAllocateInfo * &>(pAllocateInfo) );
 	Node_t* pCommandBuffers_node = _FindByAttribName( root, "CommandBuffer" );
+	uint realCount = 0;
 	VkCommandBuffer *  pCommandBuffers = {};
-	_ParseResources( pCommandBuffers_node, OUT const_cast<VkCommandBuffer * &>(pCommandBuffers), INOUT pAllocateInfo->commandBufferCount );
+	_ParseResources2( pCommandBuffers_node, OUT const_cast<VkCommandBuffer * &>(pCommandBuffers), pAllocateInfo->commandBufferCount, OUT realCount );
+	pAllocateInfo->commandBufferCount = realCount;
 	for (auto listener : _listeners) {
 		listener->AllocateCommandBuffers( _chunkCounter, threadId, timestamp, device, pAllocateInfo, pCommandBuffers );
 	}
