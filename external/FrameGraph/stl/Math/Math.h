@@ -111,7 +111,7 @@ namespace FGC
 	{
 		using T = Conditional< IsSameTypes<LT, RT>, LT, decltype(lhs + rhs) >;
 		
-		return lhs > rhs ? T(lhs) : T(rhs);
+		return T(lhs) > T(rhs) ? T(lhs) : T(rhs);
 	}
 
 	template <typename T1, typename ...Types>
@@ -130,7 +130,7 @@ namespace FGC
 	{
 		using T = Conditional< IsSameTypes<LT, RT>, LT, decltype(lhs + rhs) >;
 		
-		return lhs > rhs ? T(rhs) : T(lhs);
+		return T(lhs) > T(rhs) ? T(rhs) : T(lhs);
 	}
 
 	template <typename T1, typename ...Types>
