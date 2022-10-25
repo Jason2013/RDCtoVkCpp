@@ -1269,7 +1269,27 @@ namespace RDE
 		_globalSrcAfter.erase( _globalSrcAfter.end()-2, _globalSrcAfter.end() );	// remove ',\n'
 		_globalSrcAfter << "\n\t\t};\n\n";
 
-		_globalSrcAfter << "\t\tconst char* extensions[] = {\n";
+		if (_instanceLayers.size() > 0)
+		{
+			_globalSrcAfter << "\t\tconst char* instanceLayers[] = {\n";
+
+			for (uint i = 0; i < _instanceLayers.size(); ++i)
+			{
+				_globalSrcAfter << "\t\t\t\"" << _instanceLayers[i] << '"' << ((i + 1 < _instanceLayers.size()) ? ", " : "") << '\n';
+			}
+			_globalSrcAfter << "\t\t};\n\n";
+		}
+
+		CHECK_ERR(_instanceExtensions.size() > 0, void());
+		_globalSrcAfter << "\t\tconst char* instanceExtensions[] = {\n";
+
+		for (uint i = 0; i < _instanceExtensions.size(); ++i)
+		{
+			_globalSrcAfter << "\t\t\t\"" << _instanceExtensions[i] << '"' << ((i + 1 < _instanceExtensions.size()) ? ", " : "") << '\n';
+		}
+		_globalSrcAfter << "\t\t};\n\n";
+
+		_globalSrcAfter << "\t\tconst char* deviceExtensions[] = {\n";
 
 		for (uint i = 0; i < pCreateInfo->enabledExtensionCount; ++i)
 		{
@@ -1285,9 +1305,9 @@ namespace RDE
 			<< "\t\t	\"" << dprops.physProps.deviceName << "\",\n"
 			<< "\t\t	VK_MAKE_VERSION( " << ToString(VK_VERSION_MAJOR(_apiVersion)) << ", " << ToString(VK_VERSION_MINOR(_apiVersion)) << ", 0 ),\n"
 			<< "\t\t	queues,\n"
-			<< "\t\t	VulkanDevice::GetRecomendedInstanceLayers(),\n"
-			<< "\t\t	VulkanDevice::GetRecomendedInstanceExtensions(),\n"
-			<< "\t\t	extensions ));\n"
+			<< "\t\t	" << (_instanceLayers.size() > 0 ? "instanceLayers" : "/* instanceLayers */ ArrayView<const char *>()") << ",\n"
+			<< "\t\t	instanceExtensions,\n"
+			<< "\t\t	deviceExtensions ));\n"
 			<< "\t}\n"
 			<< "\tapp.SetObjectName( " << remapper.GetResourceName( VK_OBJECT_TYPE_DEVICE, VkResourceID(_vkLogicalDevice) )
 				<< ", \"" << remapper.GetResourceName( VK_OBJECT_TYPE_DEVICE, VkResourceID(_vkLogicalDevice) ) << "\" );\n";
