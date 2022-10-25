@@ -1388,6 +1388,72 @@ namespace RDE
 
 /*
 =================================================
+	_ParseInitParams
+=================================================
+*/
+	bool  RdCaptureReader::_ParseInitParams(const Node_t* root, OUT InitParams& initParams)
+	{
+		CHECK_ERR(root);
+
+		auto* name_attr = root->first_attribute("name");
+		CHECK_ERR(name_attr and name_attr->value() == "InitParams"s);
+
+		{
+			auto* node = _FindByAttribName(*root, "AppName");
+			CHECK_ERR(_ParseValue(node, OUT initParams.AppName));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "EngineName");
+			CHECK_ERR(_ParseValue(node, OUT initParams.EngineName));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "AppVersion");
+			CHECK_ERR(_ParseValue(node, OUT initParams.AppVersion));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "EngineVersion");
+			CHECK_ERR(_ParseValue(node, OUT initParams.EngineVersion));
+		}
+		{
+			auto* node = _FindByAttribName(*root, "APIVersion");
+			CHECK_ERR(_ParseValue(node, OUT initParams.APIVersion));
+		}
+		{
+            auto* nodes = _FindByAttribName(*root, "Layers");
+            CHECK_ERR(nodes);
+
+			initParams.Layers.clear();
+
+            for (auto* node = nodes->first_node(); node; node = node->next_sibling())
+            {
+				String str;
+				CHECK_ERR(_ParseValue(node, OUT str));
+				initParams.Layers.emplace_back(str);
+            }
+		}
+		{
+			auto* nodes = _FindByAttribName(*root, "Extensions");
+			CHECK_ERR(nodes);
+
+			initParams.Extensions.clear();
+
+			for (auto* node = nodes->first_node(); node; node = node->next_sibling())
+			{
+				String str;
+				CHECK_ERR(_ParseValue(node, OUT str));
+				initParams.Extensions.emplace_back(str);
+			}
+		}
+		{
+			auto* node = _FindByAttribName(*root, "InstanceID");
+			CHECK_ERR(_ParseResource(node, OUT initParams.InstanceID));
+		}
+
+		return true;
+	}
+
+/*
+=================================================
 	_ParseImageInfo
 =================================================
 */

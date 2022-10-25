@@ -123,6 +123,7 @@ namespace RDE
 		bool  _ParseImageSubresourceState(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange::ImageSubresourceState& out);
 		bool  _ParseImageSubresourceStateForRange(const Node_t* root, OUT ImageState::ImageSubresourceStateForRange& out);
 		bool  _ParseImageState (const Node_t *node, OUT ImageState &state);
+		bool  _ParseInitParams (const Node_t *node, OUT InitParams &initParams);
 
 		bool  _ReadContent (const FS::path &);
 		bool  _LoadByteBuffer (const Node_t &node, OUT void* data, size_t dataSize);
