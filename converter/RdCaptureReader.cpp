@@ -1989,6 +1989,17 @@ namespace RDE
 		CHECK_ERR(&root);
 		CHECK_ERR(threadId);
 		CHECK_ERR(timestamp);
+
+		struct InitParams initParams;
+		{
+            Node_t* node = _FindByAttribName(root, "InitParams");
+			CHECK_ERR(_ParseInitParams(node, initParams));
+		}
+
+		for (auto listener : _listeners) {
+			listener->CreateInstance(_chunkCounter, threadId, timestamp, &initParams);
+		}
+
 		return true;
 	}
 
