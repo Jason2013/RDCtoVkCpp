@@ -133,6 +133,8 @@ namespace RDE
 		MemoryMap_t				_memoryMap;
 		ImageLayouts_t			_initialLayouts;
 		ImageStates_t			_initialStates;
+		Array<String>			_instanceLayers;
+		Array<String>			_instanceExtensions;
 		DescriptorInit_t		_initialDS;
 		DSTemplateMap_t			_dsTemplates;
 
@@ -269,6 +271,7 @@ namespace RDE
 		void CreateDescriptorUpdateTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorUpdateTemplateCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDescriptorUpdateTemplate * pDescriptorUpdateTemplate) override;
 		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data) override;
 		void QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR* pPresentInfo, VkImage image);
+		void CreateInstance(uint chunkIndex, uint64_t threadID, uint64_t timestamp, const InitParams * pInitParams);
 
 		void InsertImageState(VkResourceID id, const ImageState::ImageInfo& info, FrameRefType refType, bool* inserted);
 		
@@ -3028,6 +3031,17 @@ namespace RDE
 		auto& info = _imageMap[index];
 
 		info.lastQueue = _queues[queue];
+	}
+
+/*
+=================================================
+	CreateInstance
+=================================================
+*/
+	void VulkanFnToCpp2::CreateInstance(uint chunkIndex, uint64_t threadID, uint64_t timestamp, const InitParams* pInitParams)
+	{
+		_instanceLayers = pInitParams->Layers;
+		_instanceExtensions = pInitParams->Extensions;
 	}
 
 /*
