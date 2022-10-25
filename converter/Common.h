@@ -122,4 +122,15 @@ namespace RDE
 		ImageState(const ImageInfo& imageInfo, FrameRefType refType);
 	};
 
+	struct InitParams {
+		String AppName;
+		String EngineName;
+		uint32_t AppVersion;
+		uint32_t EngineVersion;
+		uint32_t APIVersion;
+		Array<String> Layers;
+		Array<String> Extensions;
+		VkInstance InstanceID;
+	};
+
 }	// RDE
