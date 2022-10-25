@@ -116,9 +116,9 @@ namespace RDE
 		Array<VkImageMemoryBarrier> oldQueueFamilyTransfers;
 		Array<VkImageMemoryBarrier> newQueueFamilyTransfers;
 
-		void ImageState::ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers) const;
+		void ResetToOldState(VkImage image, Array<VkImageMemoryBarrier>& barriers) const;
 
-        ImageState() {}
+		ImageState() {}
 		ImageState(const ImageInfo& imageInfo, FrameRefType refType);
 	};
 
