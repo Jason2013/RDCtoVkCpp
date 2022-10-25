@@ -350,6 +350,15 @@ namespace RDE
 	}
 	
 
+	bool  RdCaptureReader::_ParseValue(const Node_t* node, OUT String &result)
+	{
+		CHECK_ERR(node);
+		result = node->value();
+
+		return true;
+	}
+
+
 	bool  RdCaptureReader::_ParseValue (const Node_t *node, OUT void* &)
 	{
 		CHECK_ERR( node );

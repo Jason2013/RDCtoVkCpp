@@ -84,6 +84,7 @@ namespace RDE
 		bool  _ParseValue (const Node_t *node, OUT float &result);
 		bool  _ParseValue (const Node_t *node, OUT double &result);
 		bool  _ParseValue (const Node_t *node, OUT char* &result);
+		bool  _ParseValue (const Node_t* node, OUT String &result);
 		bool  _ParseValue (const Node_t *node, OUT void* &result);
 		bool  _ParseValue (const Node_t *node, OUT uint32_t* &result);
 		
