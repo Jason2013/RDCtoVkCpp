@@ -139,15 +139,15 @@ namespace RDE
 			"VkDebugReportCallbackEXT",
 		};
 
-		const auto	ParseArgs	= [&mode, &is_voidfunc, &curr_func, &outFunctions] (ArrayView<StringView> tokens, size_t j)
+		const auto	ParseArgs	= [&mode, &is_voidfunc, &curr_func, &outFunctions] (const ArrayView<StringView> &_tokens, size_t j)
 								{{
 									FuncArg		curr_arg;
 
-									for (; j < tokens.size(); ++j)
+									for (; j < _tokens.size(); ++j)
 									{
 										if ( not is_voidfunc )
 										{
-											if ( tokens[j] == "," or tokens[j] == ")" )
+											if ( _tokens[j] == "," or _tokens[j] == ")" )
 											{
 												// skip array type
 												if ( curr_arg.type.back() == "]" )
@@ -170,12 +170,12 @@ namespace RDE
 											}
 											else
 											{
-												CHECK( _IsTypeOrQual( tokens[j] ) );
-												curr_arg.type.push_back( tokens[j] );
+												CHECK( _IsTypeOrQual( _tokens[j] ) );
+												curr_arg.type.push_back( _tokens[j] );
 											}
 										}
 
-										if ( tokens[j] == ")" )
+										if ( _tokens[j] == ")" )
 										{
 											mode = EMode::None;
 											break;
@@ -191,27 +191,27 @@ namespace RDE
 									}
 								}};
 
-		const auto	ParseEnumField	= [] (ArrayView<StringView> tokens, size_t i, OUT EnumField &outValue)
+		const auto	ParseEnumField	= [] (const ArrayView<StringView> &_tokens, size_t i, OUT EnumField &outValue)
 									{{
 										// find name
-										if ( i < tokens.size() )
+										if ( i < _tokens.size() )
 										{
-											CHECK( StartsWith( tokens[i], "VK_" ) );
-											CHECK( _IsWord( tokens[i] ) );
+											CHECK( StartsWith( _tokens[i], "VK_" ) );
+											CHECK( _IsWord( _tokens[i] ) );
 
-											outValue.name = tokens[i];
+											outValue.name = _tokens[i];
 											++i;
 										}
 
 										// find value
-										for (; i < tokens.size(); ++i)
+										for (; i < _tokens.size(); ++i)
 										{
-											if ( tokens[i] == "=" )
+											if ( _tokens[i] == "=" )
 												continue;
 									
-											//CHECK( _IsNumber( tokens[i] ) );
+											//CHECK( _IsNumber( _tokens[i] ) );
 
-											outValue.value = tokens[i];
+											outValue.value = _tokens[i];
 											break;
 										}
 
@@ -219,11 +219,11 @@ namespace RDE
 											   not outValue.value.empty() );
 									}};
 
-		const auto	ParseStructField = [] (ArrayView<StringView> tokens, size_t i, OUT FuncArg &outField)
+		const auto	ParseStructField = [] (const ArrayView<StringView> &_tokens, size_t i, OUT FuncArg &outField)
 									{{
-										for (; i < tokens.size(); ++i)
+										for (; i < _tokens.size(); ++i)
 										{
-											if ( tokens[i] == ";" )
+											if ( _tokens[i] == ";" )
 											{
 												// skip array type
 												if ( outField.type.back() == "]" )
@@ -257,8 +257,8 @@ namespace RDE
 											}
 											else
 											{
-												CHECK( _IsTypeOrQual( tokens[i] ) );
-												outField.type.push_back( tokens[i] );
+												CHECK( _IsTypeOrQual( _tokens[i] ) );
+												outField.type.push_back( _tokens[i] );
 											}
 										}
 									}};
