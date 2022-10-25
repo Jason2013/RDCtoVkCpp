@@ -344,7 +344,7 @@ namespace RDE
 		const size_t	len = strlen(node->value());
 
 		result = _allocator.Alloc<char>( len+1 );
-		strcpy_s( result, len+1, node->value() );
+		strncpy( result, node->value(), len+1 );
 
 		return true;
 	}
