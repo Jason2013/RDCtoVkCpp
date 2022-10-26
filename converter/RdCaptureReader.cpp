@@ -719,7 +719,7 @@ namespace RDE
 	bool  RdCaptureReader::_ParseValue (const Node_t *node, OUT char (&result)[I])
 	{
 		CHECK_ERR( node );
-		strcpy_s( OUT result, node->value() );
+		strncpy( OUT result, node->value(), strlen(node->value())+1 );
 		return true;
 	}
 
