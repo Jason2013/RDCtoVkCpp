@@ -106,6 +106,7 @@
 	extern PFN_vkCmdSetExclusiveScissorNV  _var_vkCmdSetExclusiveScissorNV;
 	extern PFN_vkDestroyDescriptorPool  _var_vkDestroyDescriptorPool;
 	extern PFN_vkCreateRenderPass2KHR  _var_vkCreateRenderPass2KHR;
+	extern PFN_vkCreateRenderPass2  _var_vkCreateRenderPass2;
 	extern PFN_vkCmdSetEvent  _var_vkCmdSetEvent;
 	extern PFN_vkCmdSetCheckpointNV  _var_vkCmdSetCheckpointNV;
 	extern PFN_vkBindAccelerationStructureMemoryNV  _var_vkBindAccelerationStructureMemoryNV;
@@ -389,6 +390,7 @@
 	PFN_vkCmdSetExclusiveScissorNV  _var_vkCmdSetExclusiveScissorNV = null;
 	PFN_vkDestroyDescriptorPool  _var_vkDestroyDescriptorPool = null;
 	PFN_vkCreateRenderPass2KHR  _var_vkCreateRenderPass2KHR = null;
+	PFN_vkCreateRenderPass2  _var_vkCreateRenderPass2 = null;
 	PFN_vkCmdSetEvent  _var_vkCmdSetEvent = null;
 	PFN_vkCmdSetCheckpointNV  _var_vkCmdSetCheckpointNV = null;
 	PFN_vkBindAccelerationStructureMemoryNV  _var_vkBindAccelerationStructureMemoryNV = null;
@@ -672,6 +674,7 @@
 		VKAPI_ATTR forceinline void vkCmdSetExclusiveScissorNV (VkCommandBuffer commandBuffer, uint32_t firstExclusiveScissor, uint32_t exclusiveScissorCount, const VkRect2D * pExclusiveScissors) const								{ return _table->_var_vkCmdSetExclusiveScissorNV( commandBuffer, firstExclusiveScissor, exclusiveScissorCount, pExclusiveScissors ); }
 		VKAPI_ATTR forceinline void vkDestroyDescriptorPool (VkDevice device, VkDescriptorPool descriptorPool, const VkAllocationCallbacks * pAllocator) const								{ return _table->_var_vkDestroyDescriptorPool( device, descriptorPool, pAllocator ); }
 	ND_ VKAPI_ATTR forceinline VkResult vkCreateRenderPass2KHR (VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) const								{ return _table->_var_vkCreateRenderPass2KHR( device, pCreateInfo, pAllocator, pRenderPass ); }
+	ND_ VKAPI_ATTR forceinline VkResult vkCreateRenderPass2 (VkDevice device, const VkRenderPassCreateInfo2KHR * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkRenderPass * pRenderPass) const								{ return _table->_var_vkCreateRenderPass2( device, pCreateInfo, pAllocator, pRenderPass ); }
 		VKAPI_ATTR forceinline void vkCmdSetEvent (VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) const								{ return _table->_var_vkCmdSetEvent( commandBuffer, event, stageMask ); }
 		VKAPI_ATTR forceinline void vkCmdSetCheckpointNV (VkCommandBuffer commandBuffer, const void * pCheckpointMarker) const								{ return _table->_var_vkCmdSetCheckpointNV( commandBuffer, pCheckpointMarker ); }
 	ND_ VKAPI_ATTR forceinline VkResult vkBindAccelerationStructureMemoryNV (VkDevice device, uint32_t bindInfoCount, const VkBindAccelerationStructureMemoryInfoNV * pBindInfos) const								{ return _table->_var_vkBindAccelerationStructureMemoryNV( device, bindInfoCount, pBindInfos ); }
@@ -955,6 +958,7 @@
 	VKAPI_ATTR void VKAPI_CALL Dummy_vkCmdSetExclusiveScissorNV (VkCommandBuffer , uint32_t , uint32_t , const VkRect2D * )			{  FG_LOGI( "used dummy function 'vkCmdSetExclusiveScissorNV'" );  return;  }
 	VKAPI_ATTR void VKAPI_CALL Dummy_vkDestroyDescriptorPool (VkDevice , VkDescriptorPool , const VkAllocationCallbacks * )			{  FG_LOGI( "used dummy function 'vkDestroyDescriptorPool'" );  return;  }
 	VKAPI_ATTR VkResult VKAPI_CALL Dummy_vkCreateRenderPass2KHR (VkDevice , const VkRenderPassCreateInfo2KHR * , const VkAllocationCallbacks * , VkRenderPass * )			{  FG_LOGI( "used dummy function 'vkCreateRenderPass2KHR'" );  return VK_RESULT_MAX_ENUM;  }
+	VKAPI_ATTR VkResult VKAPI_CALL Dummy_vkCreateRenderPass2 (VkDevice , const VkRenderPassCreateInfo2KHR * , const VkAllocationCallbacks * , VkRenderPass * )			{  FG_LOGI( "used dummy function 'vkCreateRenderPass2'" );  return VK_RESULT_MAX_ENUM;  }
 	VKAPI_ATTR void VKAPI_CALL Dummy_vkCmdSetEvent (VkCommandBuffer , VkEvent , VkPipelineStageFlags )			{  FG_LOGI( "used dummy function 'vkCmdSetEvent'" );  return;  }
 	VKAPI_ATTR void VKAPI_CALL Dummy_vkCmdSetCheckpointNV (VkCommandBuffer , const void * )			{  FG_LOGI( "used dummy function 'vkCmdSetCheckpointNV'" );  return;  }
 	VKAPI_ATTR VkResult VKAPI_CALL Dummy_vkBindAccelerationStructureMemoryNV (VkDevice , uint32_t , const VkBindAccelerationStructureMemoryInfoNV * )			{  FG_LOGI( "used dummy function 'vkBindAccelerationStructureMemoryNV'" );  return VK_RESULT_MAX_ENUM;  }
@@ -1238,6 +1242,7 @@
 	Load( OUT table._var_vkCmdSetExclusiveScissorNV, "vkCmdSetExclusiveScissorNV", Dummy_vkCmdSetExclusiveScissorNV );
 	Load( OUT table._var_vkDestroyDescriptorPool, "vkDestroyDescriptorPool", Dummy_vkDestroyDescriptorPool );
 	Load( OUT table._var_vkCreateRenderPass2KHR, "vkCreateRenderPass2KHR", Dummy_vkCreateRenderPass2KHR );
+	Load( OUT table._var_vkCreateRenderPass2, "vkCreateRenderPass2", Dummy_vkCreateRenderPass2 );
 	Load( OUT table._var_vkCmdSetEvent, "vkCmdSetEvent", Dummy_vkCmdSetEvent );
 	Load( OUT table._var_vkCmdSetCheckpointNV, "vkCmdSetCheckpointNV", Dummy_vkCmdSetCheckpointNV );
 	Load( OUT table._var_vkBindAccelerationStructureMemoryNV, "vkBindAccelerationStructureMemoryNV", Dummy_vkBindAccelerationStructureMemoryNV );
