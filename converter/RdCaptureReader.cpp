@@ -375,6 +375,14 @@ namespace RDE
 	}
 
 
+	bool  RdCaptureReader::_ParseValue(const Node_t* node, OUT uint64_t*& result)
+	{
+		CHECK_ERR(node);
+		result = _allocator.Alloc<uint64_t>(1);
+		return _ParseValue(node, OUT * result);
+	}
+
+
 	template <typename T>
 	EnableIf<IsEnum<T>, bool>  RdCaptureReader::_ParseValue (const Node_t *node, OUT T &result)
 	{

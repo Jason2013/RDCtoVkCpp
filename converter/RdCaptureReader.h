@@ -87,6 +87,7 @@ namespace RDE
 		bool  _ParseValue (const Node_t* node, OUT String &result);
 		bool  _ParseValue (const Node_t *node, OUT void* &result);
 		bool  _ParseValue (const Node_t *node, OUT uint32_t* &result);
+		bool  _ParseValue (const Node_t* node, OUT uint64_t*& result);
 		
 		template <typename Ret, typename ...Types> bool  _ParseValue (const Node_t *node, Ret (VKAPI_PTR *) (Types...));
 
