@@ -72,7 +72,7 @@
 # elif defined(COMPILER_MSVC)
 #	define forceinline		__forceinline
 
-# elif defined(COMPILER_CLANG) or defined(COMPILER_GCC)
+# elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #	define forceinline		__inline__ __attribute__((always_inline))
 
 # else
@@ -94,14 +94,14 @@
 
 // debug break
 #ifndef FG_PRIVATE_BREAK_POINT
-# if defined(COMPILER_MSVC) and defined(FG_DEBUG)
+# if defined(COMPILER_MSVC) && defined(FG_DEBUG)
 #	define FG_PRIVATE_BREAK_POINT()		__debugbreak()
 
-# elif defined(PLATFORM_ANDROID) and defined(FG_DEBUG)
+# elif defined(PLATFORM_ANDROID) && defined(FG_DEBUG)
 #	include <csignal>
 #	define FG_PRIVATE_BREAK_POINT()		std::raise( SIGINT )
 
-# elif (defined(COMPILER_CLANG) or defined(COMPILER_GCC)) and defined(FG_DEBUG)
+# elif (defined(COMPILER_CLANG) || defined(COMPILER_GCC)) && defined(FG_DEBUG)
 #  if 1
 #	include <exception>
 #	define FG_PRIVATE_BREAK_POINT() 	throw std::runtime_error("breakpoint")
@@ -150,7 +150,7 @@
 #ifdef COMPILER_MSVC
 #	define FG_FUNCTION_NAME			__FUNCTION__
 
-#elif defined(COMPILER_CLANG) or defined(COMPILER_GCC)
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #	define FG_FUNCTION_NAME			__func__
 
 #else
@@ -163,7 +163,7 @@
 #	define if_likely( ... )		[[likely]] if ( __VA_ARGS__ )
 #	define if_unlikely( ... )	[[unlikely]] if ( __VA_ARGS__ )
 
-#elif defined(COMPILER_CLANG) or defined(COMPILER_GCC)
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #	define if_likely( ... )		if ( __builtin_expect( !!(__VA_ARGS__), 1 ))
 #	define if_unlikely( ... )	if ( __builtin_expect( !!(__VA_ARGS__), 0 ))
 #else
@@ -327,7 +327,7 @@
 #	define FG_CDECL		__cdecl
 #	define FG_THISCALL	__thiscall
 
-#elif defined(COMPILER_CLANG) or defined(COMPILER_GCC)
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #	define FG_CDECL		__attribute__((cdecl))
 #	define FG_THISCALL	__attribute__((thiscall))
 #endif
@@ -393,7 +393,7 @@
 
 
 // check definitions
-#if defined (COMPILER_MSVC) or defined (COMPILER_CLANG)
+#if defined (COMPILER_MSVC) || defined (COMPILER_CLANG)
 
 #  ifdef FG_OPTIMAL_MEMORY_ORDER
 #	pragma detect_mismatch( "FG_OPTIMAL_MEMORY_ORDER", "1" )
@@ -455,4 +455,4 @@
 #	pragma detect_mismatch( "FG_CI_BUILD", "0" )
 #  endif
 
-#endif	// COMPILER_MSVC or COMPILER_CLANG
+#endif	// COMPILER_MSVC || COMPILER_CLANG
