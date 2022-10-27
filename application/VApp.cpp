@@ -43,6 +43,7 @@
 #	pragma warning(pop)
 #else
 #	include "vk_mem_alloc.h"
+#	include <thread>
 #endif
 
 #define RDCERR( _msg_, _arg0_ ) FG_LOGE( _msg_ )
