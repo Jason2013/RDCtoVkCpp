@@ -466,6 +466,7 @@ namespace RDE
 			String	app_name = "\"VkPlayer\"";
 
 			str << "cmake_minimum_required( VERSION 3.10.0 FATAL_ERROR )\n\n"
+				<< "include(\"" << RDE_SOURCE_PATH << "/cmake/compilers.cmake\" )\n"
 				<< "file( GLOB CPP_SOURCES \"*.*\" )\n"
 				<< "file( GLOB SHADER_SOURCES \"shaders/*.*\" )\n"
 				<< "source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${CPP_SOURCES} )\n"
