@@ -41,7 +41,6 @@ if (${RDE_ENABLE_SPIRVCROSS})
 		BINARY_DIR			"${CMAKE_BINARY_DIR}/build2-SPIRV-Cross"
 		BUILD_COMMAND		"${CMAKE_COMMAND}"
 							--build .
-							--target ALL_BUILD
 							--config $<CONFIG>
 		LOG_BUILD 			1
 		# install
