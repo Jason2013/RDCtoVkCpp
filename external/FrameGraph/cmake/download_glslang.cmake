@@ -22,13 +22,13 @@ if (${FG_ENABLE_GLSLANG})
 		set( FG_GLSLANG_REPOSITORY "" )
 	endif ()
 	
-	if (NOT EXISTS "${FG_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/include")
+	if (NOT EXISTS "${FG_EXTERNAL_GLSLANG_PATH}/External/spirv-tools/include")
 		set( FG_SPIRVTOOLS_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Tools.git" )
 	else ()
 		set( FG_SPIRVTOOLS_REPOSITORY "" )
 	endif ()
 	
-	if (NOT EXISTS "${FG_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/external/SPIRV-Headers/include")
+	if (NOT EXISTS "${FG_EXTERNAL_GLSLANG_PATH}/External/spirv-tools/external/SPIRV-Headers/include")
 		set( FG_SPIRVHEADERS_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Headers.git" )
 	else ()
 		set( FG_SPIRVHEADERS_REPOSITORY "" )
@@ -83,7 +83,7 @@ if (${FG_ENABLE_GLSLANG})
 		UPDATE_DISCONNECTED	1
 		LOG_UPDATE			1
 		# configure
-		SOURCE_DIR			"${FG_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools"
+		SOURCE_DIR			"${FG_EXTERNAL_GLSLANG_PATH}/External/spirv-tools"
 		CONFIGURE_COMMAND	""
 		# build
 		BINARY_DIR			""
@@ -105,7 +105,7 @@ if (${FG_ENABLE_GLSLANG})
 		UPDATE_DISCONNECTED	1
 		LOG_UPDATE			1
 		# configure
-		SOURCE_DIR			"${FG_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/external/SPIRV-Headers"
+		SOURCE_DIR			"${FG_EXTERNAL_GLSLANG_PATH}/External/spirv-tools/external/SPIRV-Headers"
 		CONFIGURE_COMMAND	""
 		# build
 		BINARY_DIR			""
