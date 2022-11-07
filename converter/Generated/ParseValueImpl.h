@@ -13139,7 +13139,7 @@ bool  RdCaptureReader::_Parse_VkPhysicalDeviceGroupPropertiesKHR (const Node_t *
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "sType" ), OUT result.sType ));
 	CHECK_ERR( _ParseStruct( _FindByAttribName( *node, "pNext" ), OUT const_cast<void **>(&result.pNext) ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "physicalDeviceCount" ), OUT result.physicalDeviceCount ));
-	//CHECK_ERR( _ParseResource( _FindByAttribName( *node, "physicalDevices" ), OUT result.physicalDevices ));
+	CHECK_ERR( _ParseResource( _FindByAttribName( *node, "physicalDevices" ), OUT result.physicalDevices ));
 	CHECK_ERR( _ParseValue( _FindByAttribName( *node, "subsetAllocation" ), OUT result.subsetAllocation ));
 	return true;
 }

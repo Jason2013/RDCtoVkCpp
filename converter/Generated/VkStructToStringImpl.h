@@ -5509,7 +5509,12 @@ void  Serialize2_VkSubpassDescription2 (const VkSubpassDescription2 *obj, String
 		}
 	}
 	if ( obj->pResolveAttachments ) {
-		before << SerializeStruct( BitCast<VkBaseInStructure const*>(obj->pResolveAttachments), nameSer, remapper, indent );
+		CHECK( obj->colorAttachmentCount > 0 );
+		const String arr_name = nameSer.MakeUnique( &obj->pResolveAttachments, "resolveAttachments"s, "attachmentReference2"s );
+		before << indent << "VkAttachmentReference2  " << arr_name << "[" << IntToString(obj->colorAttachmentCount) << "] = {};\n";
+		for (uint i = 0; i < obj->colorAttachmentCount; ++i) {
+			Serialize2_VkAttachmentReference2( obj->pResolveAttachments + i, String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
+		}
 	}
 	if ( obj->pDepthStencilAttachment ) {
 		before << SerializeStruct( BitCast<VkBaseInStructure const*>(obj->pDepthStencilAttachment), nameSer, remapper, indent );
@@ -5530,7 +5535,7 @@ void  Serialize2_VkSubpassDescription2 (const VkSubpassDescription2 *obj, String
 	result << indent << name << ".pInputAttachments = " << nameSer.Get( &obj->pInputAttachments ) << ";\n";
 	result << indent << name << ".colorAttachmentCount = " << IntToString(obj->colorAttachmentCount) << ";\n";
 	result << indent << name << ".pColorAttachments = " << nameSer.Get( &obj->pColorAttachments ) << ";\n";
-	result << indent << name << ".pResolveAttachments = " << nameSer.GetPtr(obj->pResolveAttachments) << ";\n";
+	result << indent << name << ".pResolveAttachments = " << nameSer.Get( &obj->pResolveAttachments ) << ";\n";
 	result << indent << name << ".pDepthStencilAttachment = " << nameSer.GetPtr(obj->pDepthStencilAttachment) << ";\n";
 	result << indent << name << ".preserveAttachmentCount = " << IntToString(obj->preserveAttachmentCount) << ";\n";
 	result << indent << name << ".pPreserveAttachments = " << nameSer.Get( &obj->pPreserveAttachments ) << ";\n";

@@ -809,8 +809,7 @@
 			case VK_IMAGE_ASPECT_FLAG_BITS_MAX_ENUM : break;
 		}
 		END_ENUM_CHECKS();
-		//RETURN_ERR( "unsupported value: "s << EnumToString( value ), "<unknown>" );
-		return std::to_string(static_cast<uint32_t>(value));
+		RETURN_ERR( "unsupported value: "s << EnumToString( value ), "<unknown>" );
 	}
 
 	ND_ String  Serialize_VkCommandBufferLevel (VkCommandBufferLevel value)

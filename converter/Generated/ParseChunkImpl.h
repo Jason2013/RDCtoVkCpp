@@ -123,10 +123,8 @@ bool RdCaptureReader::Parse_vkAllocateCommandBuffers (const Node_t &root, uint64
 	VkCommandBufferAllocateInfo *  pAllocateInfo = {};
 	_ParseStruct( pAllocateInfo_node, OUT const_cast<VkCommandBufferAllocateInfo * &>(pAllocateInfo) );
 	Node_t* pCommandBuffers_node = _FindByAttribName( root, "CommandBuffer" );
-	uint realCount = 0;
 	VkCommandBuffer *  pCommandBuffers = {};
-	_ParseResources2( pCommandBuffers_node, OUT const_cast<VkCommandBuffer * &>(pCommandBuffers), pAllocateInfo->commandBufferCount, OUT realCount );
-	pAllocateInfo->commandBufferCount = realCount;
+	_ParseResources( pCommandBuffers_node, OUT const_cast<VkCommandBuffer * &>(pCommandBuffers), INOUT pAllocateInfo->commandBufferCount );
 	for (auto listener : _listeners) {
 		listener->AllocateCommandBuffers( _chunkCounter, threadId, timestamp, device, pAllocateInfo, pCommandBuffers );
 	}
@@ -2468,7 +2466,7 @@ bool RdCaptureReader::Parse_vkGetSemaphoreCounterValue (const Node_t &root, uint
 	_ParseResource( semaphore_node, OUT semaphore );
 	Node_t* pValue_node = _FindByAttribName( root, "pValue" );
 	uint64_t *  pValue = {};
-	//_ParseValue( pValue_node, OUT const_cast<uint64_t * &>(pValue) );
+	_ParseValue( pValue_node, OUT const_cast<uint64_t * &>(pValue) );
 	for (auto listener : _listeners) {
 		listener->GetSemaphoreCounterValue( _chunkCounter, threadId, timestamp, device, semaphore, pValue );
 	}
@@ -2614,12 +2612,11 @@ bool RdCaptureReader::Parse_vkCmdBindVertexBuffers2 (const Node_t &root, uint64_
 	VkDeviceSize *  pOffsets = {};
 	_ParseArray( pOffsets_node, OUT const_cast<VkDeviceSize * &>(pOffsets), INOUT bindingCount );
 	Node_t* pSizes_node = _FindByAttribName( root, "pSizes" );
-	uint32_t  realCount = 0;
 	VkDeviceSize *  pSizes = {};
-	_ParseArray2( pSizes_node, OUT const_cast<VkDeviceSize * &>(pSizes), bindingCount, OUT realCount );
+	_ParseArray( pSizes_node, OUT const_cast<VkDeviceSize * &>(pSizes), INOUT bindingCount );
 	Node_t* pStrides_node = _FindByAttribName( root, "pStrides" );
 	VkDeviceSize *  pStrides = {};
-	_ParseArray2( pStrides_node, OUT const_cast<VkDeviceSize * &>(pStrides), bindingCount, OUT realCount );
+	_ParseArray( pStrides_node, OUT const_cast<VkDeviceSize * &>(pStrides), INOUT bindingCount );
 	for (auto listener : _listeners) {
 		listener->CmdBindVertexBuffers2( _chunkCounter, threadId, timestamp, commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides );
 	}
