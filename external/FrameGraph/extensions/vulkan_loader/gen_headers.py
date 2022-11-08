@@ -136,7 +136,14 @@ def gen_lib_header(lib_funcs):
         for (header, funcs) in lib_funcs:
             for func in funcs:
                 f.write("    extern PFN_{FUNC_NAME}  _var_{FUNC_NAME};\n".format(FUNC_NAME=func[1]))
-        f.write("#endif // VKLOADER_STAGE_DECLFNPOINTER\n")
+        f.write("#endif // VKLOADER_STAGE_DECLFNPOINTER\n\n\n")
+
+        f.write("#ifdef VKLOADER_STAGE_FNPOINTER\n")
+        for (header, funcs) in lib_funcs:
+            for func in funcs:
+                f.write("    PFN_{FUNC_NAME}  _var_{FUNC_NAME} = null;\n".format(FUNC_NAME=func[1]))
+        f.write("#endif // VKLOADER_STAGE_FNPOINTER\n\n\n")
+
 
 if __name__ == '__main__':
     all_funcs = get_all_funcs()
