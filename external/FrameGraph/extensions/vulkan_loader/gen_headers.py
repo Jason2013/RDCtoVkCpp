@@ -54,10 +54,39 @@ def get_inst_funcs(all_funcs):
     return res
 
 
+def get_dev_funcs(all_funcs):
+    res = []
+    for (header, funcs) in all_funcs:
+        new_funcs = [func for func in funcs if func[5] in ("VkDevice", "VkCommandBuffer", "VkQueue") ]
+        res.append([header, new_funcs])
+
+    return res
+
+
+def get_lib_funcs(all_funcs):
+    res = []
+    for (header, funcs) in all_funcs:
+        new_funcs = [func for func in funcs if func[5] not in ("VkInstance", "VkPhysicalDevice", "VkDevice", "VkCommandBuffer", "VkQueue") ]
+        res.append([header, new_funcs])
+
+    return res
+
+
 if __name__ == '__main__':
     all_funcs = get_all_funcs()
+
     inst_funcs = get_inst_funcs(all_funcs)
     print(inst_funcs)
     for (header, funcs) in inst_funcs:
+        print(header, len(funcs))
+
+    dev_funcs = get_dev_funcs(all_funcs)
+    print(dev_funcs)
+    for (header, funcs) in dev_funcs:
+        print(header, len(funcs))
+
+    lib_funcs = get_lib_funcs(all_funcs)
+    print(lib_funcs)
+    for (header, funcs) in lib_funcs:
         print(header, len(funcs))
 
