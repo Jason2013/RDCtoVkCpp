@@ -3,6 +3,7 @@
 import os
 import pickle
 
+
 INPUT_DIR = r"C:\chang\study\Vulkan-Docs-1.3.216\gen\include\vulkan"
 OUTPUT_DIR = r"C:\chang\study\RDCtoVkCpp\external\FrameGraph\extensions\vulkan_loader"
 
@@ -17,6 +18,7 @@ FILES = [
 
 ALL_FILES = ["vulkan_core.h"] + FILES
 
+
 def get_funcs_from_pickle(pfile):
     with open(pfile, "rb") as f:
         rs = pickle.load(f)
@@ -28,10 +30,6 @@ def get_funcs_from_pickle(pfile):
 
 def get_all_funcs():
     res = []
-    # pickle_filename = os.path.join(INPUT_DIR, "vulkan_core.h" + ".pkl")
-    # funcs = get_funcs_from_pickle(pickle_filename)
-    # res.append(["vulkan_core.h", funcs])
-
     for header in ALL_FILES:
         pickle_filename = os.path.join(INPUT_DIR, header + ".pkl")
         funcs = get_funcs_from_pickle(pickle_filename)
@@ -49,9 +47,7 @@ def get_all_funcs():
 
 def get_inst_funcs(all_funcs):
     res = []
-
     for (header, funcs) in all_funcs:
-        # funcs = all_funcs[header]
         new_funcs = [func for func in funcs if func[5] in ("VkInstance", "VkPhysicalDevice") ]
         res.append([header, new_funcs])
 
@@ -59,9 +55,6 @@ def get_inst_funcs(all_funcs):
 
 
 if __name__ == '__main__':
-    # pickle_filename = os.path.join(INPUT_DIR, "vulkan_core.h" + ".pkl")
-    # funcs = get_funcs_from_pickle(pickle_filename)
-    # print(funcs)
     all_funcs = get_all_funcs()
     inst_funcs = get_inst_funcs(all_funcs)
     print(inst_funcs)
