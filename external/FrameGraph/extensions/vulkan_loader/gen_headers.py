@@ -165,8 +165,13 @@ def gen_lib_header(lib_funcs):
             for func in funcs:
                 f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0], FUNC_NAME=func[1], PARAM_TYPES=(', '.join(func[3]))))
                 f.write(" {{  FG_LOGI( \"used dummy function '{FUNC_NAME}'\" );  return {RETURN_VALUE};  }}\n".format(FUNC_NAME=func[1], RETURN_VALUE=ret_val(func[0])))
-
         f.write("#endif // VKLOADER_STAGE_DUMMYFN\n\n\n")
+
+        f.write("#ifdef VKLOADER_STAGE_GETADDRESS\n")
+        for (header, funcs) in lib_funcs:
+            for func in funcs:
+                f.write("    Load( OUT _var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
+        f.write("#endif // VKLOADER_STAGE_GETADDRESS\n\n\n")
 
 
 if __name__ == '__main__':
