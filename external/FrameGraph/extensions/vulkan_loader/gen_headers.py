@@ -38,6 +38,12 @@ def get_all_funcs():
     return res
 
 
+def check_funcs(funcs):
+    for func in funcs:
+        n = len(func[2])
+        assert n == len(func[3])
+        assert n == len(func[4])
+
 # 0 return_type
 # 1 func_name
 # 2 param_item_lst
@@ -49,6 +55,7 @@ def get_inst_funcs(all_funcs):
     res = []
     for (header, funcs) in all_funcs:
         new_funcs = [func for func in funcs if func[5] in ("VkInstance", "VkPhysicalDevice") and func[1] not in ("vkGetInstanceProcAddr",) ]
+        check_funcs(new_funcs)
         res.append([header, new_funcs])
 
     return res
@@ -58,6 +65,7 @@ def get_dev_funcs(all_funcs):
     res = []
     for (header, funcs) in all_funcs:
         new_funcs = [func for func in funcs if func[5] in ("VkDevice", "VkCommandBuffer", "VkQueue") ]
+        check_funcs(new_funcs)
         res.append([header, new_funcs])
 
     return res
@@ -67,6 +75,7 @@ def get_lib_funcs(all_funcs):
     res = []
     for (header, funcs) in all_funcs:
         new_funcs = [func for func in funcs if func[5] not in ("VkInstance", "VkPhysicalDevice", "VkDevice", "VkCommandBuffer", "VkQueue") or func[1] in ("vkGetInstanceProcAddr", ) ]
+        check_funcs(new_funcs)
         res.append([header, new_funcs])
 
     func1 = ["VkBool32", "vkDebugUtilsMessengerCallbackEXT",
