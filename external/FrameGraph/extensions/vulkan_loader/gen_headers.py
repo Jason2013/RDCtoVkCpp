@@ -69,6 +69,53 @@ def get_lib_funcs(all_funcs):
         new_funcs = [func for func in funcs if func[5] not in ("VkInstance", "VkPhysicalDevice", "VkDevice", "VkCommandBuffer", "VkQueue") or func[1] in ("vkGetInstanceProcAddr", ) ]
         res.append([header, new_funcs])
 
+    func1 = ["VkBool32", "vkDebugUtilsMessengerCallbackEXT",
+                ["VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity",
+                 "VkDebugUtilsMessageTypeFlagsEXT messageTypes",
+                 "const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData",
+                 "void * pUserData"],
+                ["VkDebugUtilsMessageSeverityFlagBitsEXT ",
+                 "VkDebugUtilsMessageTypeFlagsEXT ",
+                 "const VkDebugUtilsMessengerCallbackDataEXT * ",
+                 "void * "],
+                ["messageSeverity",
+                 "messageTypes",
+                 "pCallbackData",
+                 "pUserData"],
+                 "VkDebugUtilsMessageSeverityFlagBitsEXT"
+            ]
+
+    func2 = ["VkBool32", "vkDebugReportCallbackEXT",
+                ["VkDebugReportFlagsEXT flags",
+                 "VkDebugReportObjectTypeEXT objectType",
+                 "uint64_t object",
+                 "size_t location",
+                 "int32_t messageCode",
+                 "const char * pLayerPrefix",
+                 "const char * pMessage",
+                 "void * pUserData"],
+                ["VkDebugReportFlagsEXT ",
+                 "VkDebugReportObjectTypeEXT ",
+                 "uint64_t ",
+                 "size_t ",
+                 "int32_t ",
+                 "const char * ",
+                 "const char * ",
+                 "void * "],
+                ["flags",
+                 "objectType",
+                 "object",
+                 "location",
+                 "messageCode",
+                 "pLayerPrefix",
+                 "pMessage",
+                 "pUserData"],
+                "VkDebugReportFlagsEXT"
+            ]
+
+    check_funcs([func1, func2])
+    res.append(["other.h", [func1, func2]])
+
     return res
 
 
