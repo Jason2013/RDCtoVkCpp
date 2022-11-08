@@ -15,6 +15,7 @@ FILES = [
     "vulkan_wayland.h",
 ]
 
+ALL_FILES = ["vulkan_core.h"] + FILES
 
 def get_funcs_from_pickle(pfile):
     with open(pfile, "rb") as f:
@@ -24,8 +25,44 @@ def get_funcs_from_pickle(pfile):
         res += funcs
     return res
 
+
+def get_all_funcs():
+    res = []
+    # pickle_filename = os.path.join(INPUT_DIR, "vulkan_core.h" + ".pkl")
+    # funcs = get_funcs_from_pickle(pickle_filename)
+    # res.append(["vulkan_core.h", funcs])
+
+    for header in ALL_FILES:
+        pickle_filename = os.path.join(INPUT_DIR, header + ".pkl")
+        funcs = get_funcs_from_pickle(pickle_filename)
+        res.append([header, funcs])
+
+    return res
+
+
+# 0 return_type
+# 1 func_name
+# 2 param_item_lst
+# 3 param_type_lst
+# 4 param_name_lst
+# 5 first_param_type
+
+def get_inst_funcs(all_funcs):
+    res = []
+
+    for (header, funcs) in all_funcs:
+        # funcs = all_funcs[header]
+        new_funcs = [func for func in funcs if func[5] in ("VkInstance", "VkPhysicalDevice") ]
+        res.append([header, new_funcs])
+
+    return res
+
+
 if __name__ == '__main__':
-    pickle_filename = os.path.join(INPUT_DIR, "vulkan_core.h" + ".pkl")
-    funcs = get_funcs_from_pickle(pickle_filename)
-    print(funcs)
+    # pickle_filename = os.path.join(INPUT_DIR, "vulkan_core.h" + ".pkl")
+    # funcs = get_funcs_from_pickle(pickle_filename)
+    # print(funcs)
+    all_funcs = get_all_funcs()
+    inst_funcs = get_inst_funcs(all_funcs)
+    print(inst_funcs)
     print("hello")
