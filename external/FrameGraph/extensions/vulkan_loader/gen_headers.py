@@ -144,6 +144,13 @@ def gen_lib_header(lib_funcs):
                 f.write("    PFN_{FUNC_NAME}  _var_{FUNC_NAME} = null;\n".format(FUNC_NAME=func[1]))
         f.write("#endif // VKLOADER_STAGE_FNPOINTER\n\n\n")
 
+        f.write("#ifdef VKLOADER_STAGE_INLINEFN\n")
+        for (header, funcs) in lib_funcs:
+            for func in funcs:
+                f.write("    ND_ VKAPI_ATTR forceinline VkResult {FUNC_NAME} ({PARAM_ITEMS})".format(FUNC_NAME=func[1], PARAM_ITEMS=(', '.join(func[2]))))
+                f.write(" {{ return _var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1], PARAM_NAMES=(', '.join(func[4]))))
+        f.write("#endif // VKLOADER_STAGE_INLINEFN\n\n\n")
+
 
 if __name__ == '__main__':
     all_funcs = get_all_funcs()
