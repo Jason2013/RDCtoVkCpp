@@ -128,6 +128,15 @@ def get_lib_funcs(all_funcs):
     return res
 
 
+def ret_val(ret_type):
+    if ret_type.startswith("PFN_"):
+        return "null"
+    if ret_type == "VkResult":
+        return "VK_RESULT_MAX_ENUM"
+    assert ret_type == "VkBool32"
+    return "VkBool32(0)"
+
+
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
@@ -150,6 +159,14 @@ def gen_lib_header(lib_funcs):
                 f.write("    ND_ VKAPI_ATTR forceinline VkResult {FUNC_NAME} ({PARAM_ITEMS})".format(FUNC_NAME=func[1], PARAM_ITEMS=(', '.join(func[2]))))
                 f.write(" {{ return _var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1], PARAM_NAMES=(', '.join(func[4]))))
         f.write("#endif // VKLOADER_STAGE_INLINEFN\n\n\n")
+
+        f.write("#ifdef VKLOADER_STAGE_DUMMYFN\n")
+        for (header, funcs) in lib_funcs:
+            for func in funcs:
+                f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0], FUNC_NAME=func[1], PARAM_TYPES=(', '.join(func[3]))))
+                f.write(" {{  FG_LOGI( \"used dummy function '{FUNC_NAME}'\" );  return {RETURN_VALUE};  }}\n".format(FUNC_NAME=func[1], RETURN_VALUE=ret_val(func[0])))
+
+        f.write("#endif // VKLOADER_STAGE_DUMMYFN\n\n\n")
 
 
 if __name__ == '__main__':
