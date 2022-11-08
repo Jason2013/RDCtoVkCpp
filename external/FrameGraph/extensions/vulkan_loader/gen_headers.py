@@ -128,6 +128,16 @@ def get_lib_funcs(all_funcs):
     return res
 
 
+def gen_lib_header(lib_funcs):
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
+
+    with open(header_file, "w") as f:
+        f.write("#ifdef VKLOADER_STAGE_DECLFNPOINTER\n")
+        for (header, funcs) in lib_funcs:
+            for func in funcs:
+                f.write("    extern PFN_{FUNC_NAME}  _var_{FUNC_NAME};\n".format(FUNC_NAME=func[1]))
+        f.write("#endif // VKLOADER_STAGE_DECLFNPOINTER\n")
+
 if __name__ == '__main__':
     all_funcs = get_all_funcs()
 
@@ -145,4 +155,5 @@ if __name__ == '__main__':
     print(lib_funcs)
     for (header, funcs) in lib_funcs:
         print(header, len(funcs))
+    gen_lib_header(lib_funcs)
 
