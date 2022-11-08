@@ -48,7 +48,7 @@ def get_all_funcs():
 def get_inst_funcs(all_funcs):
     res = []
     for (header, funcs) in all_funcs:
-        new_funcs = [func for func in funcs if func[5] in ("VkInstance", "VkPhysicalDevice") ]
+        new_funcs = [func for func in funcs if func[5] in ("VkInstance", "VkPhysicalDevice") and func[1] not in ("vkGetInstanceProcAddr",) ]
         res.append([header, new_funcs])
 
     return res
@@ -66,7 +66,7 @@ def get_dev_funcs(all_funcs):
 def get_lib_funcs(all_funcs):
     res = []
     for (header, funcs) in all_funcs:
-        new_funcs = [func for func in funcs if func[5] not in ("VkInstance", "VkPhysicalDevice", "VkDevice", "VkCommandBuffer", "VkQueue") ]
+        new_funcs = [func for func in funcs if func[5] not in ("VkInstance", "VkPhysicalDevice", "VkDevice", "VkCommandBuffer", "VkQueue") or func[1] in ("vkGetInstanceProcAddr", ) ]
         res.append([header, new_funcs])
 
     return res
