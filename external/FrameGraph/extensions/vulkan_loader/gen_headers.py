@@ -58,4 +58,6 @@ if __name__ == '__main__':
     all_funcs = get_all_funcs()
     inst_funcs = get_inst_funcs(all_funcs)
     print(inst_funcs)
-    print("hello")
+    for (header, funcs) in inst_funcs:
+        print(header, len(funcs))
+
