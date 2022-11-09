@@ -138,7 +138,8 @@ def ret_val(ret_type):
 
 
 def platform_guard(header):
-    return header in ['vulkan_core.h',
+    return header in [
+         # 'vulkan_core.h',
          'vulkan_win32.h',
          'vulkan_android.h',
          'vulkan_xlib.h',
@@ -173,17 +174,14 @@ def write_func_decl_fn_pointer(f, func):
     f.write("    extern PFN_{FUNC_NAME}  _var_{FUNC_NAME};\n".format(FUNC_NAME=func[1]))
 
 
+def write_func_fn_pointer(f, func):
+    f.write("    PFN_{FUNC_NAME}  _var_{FUNC_NAME} = null;\n".format(FUNC_NAME=func[1]))
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
     with open(header_file, "w") as f:
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
-
-        f.write("#ifdef VKLOADER_STAGE_FNPOINTER\n")
-        for (header, funcs) in lib_funcs:
-            for func in funcs:
-                f.write("    PFN_{FUNC_NAME}  _var_{FUNC_NAME} = null;\n".format(FUNC_NAME=func[1]))
-        f.write("#endif // VKLOADER_STAGE_FNPOINTER\n\n\n")
+        write_header_section(f, lib_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
 
         f.write("#ifdef VKLOADER_STAGE_INLINEFN\n")
         for (header, funcs) in lib_funcs:
