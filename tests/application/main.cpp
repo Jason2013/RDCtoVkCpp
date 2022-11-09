@@ -24,7 +24,7 @@ int main ()
 	std::vector<VApp::QueueInfo>  queues = {
 		{ 0, VkDeviceQueueCreateFlags(0), VkQueueFlags(VK_QUEUE_GRAPHICS_BIT), 0.0f }
 	};
-	CHECK_ERR( app.CreateDevice( InstanceID(0), PhysicalDeviceID(0), DeviceID(0), "", VK_VERSION_1_1, queues,
+	CHECK_ERR( app.CreateDevice( InstanceID(0), PhysicalDeviceID(0), DeviceID(0), "", VK_API_VERSION_1_3, queues,
 								 {"VK_LAYER_LUNARG_standard_validation"},
 								 {VK_KHR_SURFACE_EXTENSION_NAME, VK_EXT_DEBUG_UTILS_EXTENSION_NAME},
 								 {}
