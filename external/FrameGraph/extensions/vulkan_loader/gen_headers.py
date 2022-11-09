@@ -129,7 +129,6 @@ def get_lib_funcs(all_funcs):
 
 
 def ret_val(ret_type):
-    print(ret_type)
     if ret_type.startswith("PFN_"):
         return "null"
     if ret_type == "VkResult":
@@ -196,7 +195,6 @@ def write_func_inline_fn(f, func):
 
 
 def write_func_dummy_fn(f, func):
-    print("func_name: ", func[1])
     f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0],
                                                                                                FUNC_NAME=func[1],
                                                                                                PARAM_TYPES=(', '.join(func[3]))))
