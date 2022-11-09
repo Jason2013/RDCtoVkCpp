@@ -137,6 +137,37 @@ def ret_val(ret_type):
     return "VkBool32(0)"
 
 
+def platform_guard(header):
+    return header in ['vulkan_core.h',
+         'vulkan_win32.h',
+         'vulkan_android.h',
+         'vulkan_xlib.h',
+         'vulkan_xlib_xrandr.h',
+         'vulkan_xcb.h',
+         'vulkan_wayland.h',
+     ]
+
+
+def platform_guard_macro(header):
+    return header.replace(".h", "_H_").upper()
+
+
+def write_header_section(f, sec_funcs, macro, write_func):
+    f.write("#ifdef {MACRO}\n".format(MACRO=macro))
+
+    for (header, funcs) in sec_funcs:
+        if len(funcs > 0):
+            if platform_guard(header):
+                f.write("# ifdef {MACRO}".format(MACRO=platform_guard_macro(header)))
+
+            for func in funcs:
+                write_func(f, func)
+
+            if platform_guard(header):
+                f.write("# endif {MACRO}".format(MACRO=platform_guard_macro(header)))
+
+    f.write("#endif // {MACRO}\n\n\n".format(MACRO=macro))
+
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
