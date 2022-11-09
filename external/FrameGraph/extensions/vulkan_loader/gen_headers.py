@@ -208,13 +208,17 @@ def write_func_get_address(f, func):
     f.write("    Load( OUT _var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
 
 
-def gen_header_file(header_file, header_funcs):
+def write_func_get_address_dev(f, func):
+    f.write("    Load( OUT table._var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
+
+
+def gen_header_file(header_file, header_funcs, device = False):
     with open(header_file, "w") as f:
         write_header_section(f, header_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
-        write_header_section(f, header_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address_dev if device else write_func_get_address)
 
 
 def gen_lib_header(all_funcs):
@@ -232,7 +236,7 @@ def gen_inst_header(all_funcs):
 def gen_dev_header(all_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_dev2.h")
     dev_funcs = get_dev_funcs(all_funcs)
-    gen_header_file(header_file, dev_funcs)
+    gen_header_file(header_file, dev_funcs, True)
 
 
 if __name__ == '__main__':
