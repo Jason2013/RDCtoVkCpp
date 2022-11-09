@@ -188,8 +188,9 @@ def write_func_fn_pointer(f, func):
 
 
 def write_func_inline_fn(f, func):
-    f.write("    ND_ VKAPI_ATTR forceinline VkResult {FUNC_NAME} ({PARAM_ITEMS})".format(FUNC_NAME=func[1],
-                                                                                         PARAM_ITEMS=(', '.join(func[2]))))
+    f.write("    {PREFIX}VKAPI_ATTR forceinline {RETURN_TYPE} {FUNC_NAME} ({PARAM_ITEMS})".format(PREFIX="    " if func[0] == "void" else "ND_ ",
+                                                                                        RETURN_TYPE=func[0], FUNC_NAME=func[1],
+                                                                                        PARAM_ITEMS=(', '.join(func[2]))))
     f.write(" {{ return _var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1],
                                                                         PARAM_NAMES=(', '.join(func[4]))))
 
