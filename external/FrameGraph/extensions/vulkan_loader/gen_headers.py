@@ -193,6 +193,10 @@ def write_func_dummy_fn(f, func):
                                                                                                       RETURN_VALUE=ret_val(func[0])))
 
 
+def write_func_get_address(f, func):
+    f.write("    Load( OUT _var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
+
+
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
@@ -201,12 +205,7 @@ def gen_lib_header(lib_funcs):
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
-
-        f.write("#ifdef VKLOADER_STAGE_GETADDRESS\n")
-        for (header, funcs) in lib_funcs:
-            for func in funcs:
-                f.write("    Load( OUT _var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
-        f.write("#endif // VKLOADER_STAGE_GETADDRESS\n\n\n")
+        write_header_section(f, lib_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address)
 
 
 if __name__ == '__main__':
