@@ -195,7 +195,7 @@ def write_func_inline_fn(f, func):
 
 
 def write_func_inline_fn_dev(f, func):
-    f.write("    {PREFIX}VKAPI_ATTR forceinline {RETURN_TYPE} {FUNC_NAME} ({PARAM_ITEMS})".format(PREFIX="    " if func[0] == "void" else "ND_ ",
+    f.write("    {PREFIX}VKAPI_ATTR forceinline {RETURN_TYPE} {FUNC_NAME} ({PARAM_ITEMS}) const".format(PREFIX="    " if func[0] == "void" else "ND_ ",
                                                                                         RETURN_TYPE=func[0], FUNC_NAME=func[1],
                                                                                         PARAM_ITEMS=(', '.join(func[2]))))
     f.write(" {{ return _table->_var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1],
