@@ -185,6 +185,14 @@ def write_func_inline_fn(f, func):
                                                                         PARAM_NAMES=(', '.join(func[4]))))
 
 
+def write_func_dummy_fn(f, func):
+    f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0],
+                                                                                               FUNC_NAME=func[1],
+                                                                                               PARAM_TYPES=(', '.join(func[3]))))
+    f.write(" {{  FG_LOGI( \"used dummy function '{FUNC_NAME}'\" );  return {RETURN_VALUE};  }}\n".format(FUNC_NAME=func[1],
+                                                                                                      RETURN_VALUE=ret_val(func[0])))
+
+
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
@@ -192,13 +200,7 @@ def gen_lib_header(lib_funcs):
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
-
-        f.write("#ifdef VKLOADER_STAGE_DUMMYFN\n")
-        for (header, funcs) in lib_funcs:
-            for func in funcs:
-                f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0], FUNC_NAME=func[1], PARAM_TYPES=(', '.join(func[3]))))
-                f.write(" {{  FG_LOGI( \"used dummy function '{FUNC_NAME}'\" );  return {RETURN_VALUE};  }}\n".format(FUNC_NAME=func[1], RETURN_VALUE=ret_val(func[0])))
-        f.write("#endif // VKLOADER_STAGE_DUMMYFN\n\n\n")
+        write_header_section(f, lib_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
 
         f.write("#ifdef VKLOADER_STAGE_GETADDRESS\n")
         for (header, funcs) in lib_funcs:
