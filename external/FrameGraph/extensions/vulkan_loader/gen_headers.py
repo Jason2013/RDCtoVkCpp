@@ -156,27 +156,28 @@ def write_header_section(f, sec_funcs, macro, write_func):
     f.write("#ifdef {MACRO}\n".format(MACRO=macro))
 
     for (header, funcs) in sec_funcs:
-        if len(funcs > 0):
+        if len(funcs) > 0:
             if platform_guard(header):
-                f.write("# ifdef {MACRO}".format(MACRO=platform_guard_macro(header)))
+                f.write("# ifdef {MACRO}\n".format(MACRO=platform_guard_macro(header)))
 
             for func in funcs:
                 write_func(f, func)
 
             if platform_guard(header):
-                f.write("# endif {MACRO}".format(MACRO=platform_guard_macro(header)))
+                f.write("# endif // {MACRO}\n".format(MACRO=platform_guard_macro(header)))
 
     f.write("#endif // {MACRO}\n\n\n".format(MACRO=macro))
+
+
+def write_func_decl_fn_pointer(f, func):
+    f.write("    extern PFN_{FUNC_NAME}  _var_{FUNC_NAME};\n".format(FUNC_NAME=func[1]))
+
 
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
     with open(header_file, "w") as f:
-        f.write("#ifdef VKLOADER_STAGE_DECLFNPOINTER\n")
-        for (header, funcs) in lib_funcs:
-            for func in funcs:
-                f.write("    extern PFN_{FUNC_NAME}  _var_{FUNC_NAME};\n".format(FUNC_NAME=func[1]))
-        f.write("#endif // VKLOADER_STAGE_DECLFNPOINTER\n\n\n")
+        write_header_section(f, lib_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
 
         f.write("#ifdef VKLOADER_STAGE_FNPOINTER\n")
         for (header, funcs) in lib_funcs:
