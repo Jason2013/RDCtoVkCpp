@@ -146,15 +146,7 @@ def ret_val(ret_type):
 
 
 def platform_guard(header):
-    return header in [
-         # 'vulkan_core.h',
-         'vulkan_win32.h',
-         'vulkan_android.h',
-         'vulkan_xlib.h',
-         'vulkan_xlib_xrandr.h',
-         'vulkan_xcb.h',
-         'vulkan_wayland.h',
-     ]
+    return header in FILES
 
 
 def platform_guard_macro(header):
