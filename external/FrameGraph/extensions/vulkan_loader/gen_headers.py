@@ -220,19 +220,19 @@ def gen_header_file(header_file, header_funcs, device = False):
 
 
 def gen_lib_header(all_funcs):
-    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib.h")
     lib_funcs = get_lib_funcs(all_funcs)
     gen_header_file(header_file, lib_funcs)
 
 
 def gen_inst_header(all_funcs):
-    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_inst2.h")
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_inst.h")
     inst_funcs = get_inst_funcs(all_funcs)
     gen_header_file(header_file, inst_funcs)
 
 
 def gen_dev_header(all_funcs):
-    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_dev2.h")
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_dev.h")
     dev_funcs = get_dev_funcs(all_funcs)
     gen_header_file(header_file, dev_funcs, True)
 
