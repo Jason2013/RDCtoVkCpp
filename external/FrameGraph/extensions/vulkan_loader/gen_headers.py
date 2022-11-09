@@ -129,10 +129,19 @@ def get_lib_funcs(all_funcs):
 
 
 def ret_val(ret_type):
+    print(ret_type)
     if ret_type.startswith("PFN_"):
         return "null"
     if ret_type == "VkResult":
         return "VK_RESULT_MAX_ENUM"
+    if ret_type == "void":
+        return ""
+    if ret_type == "VkDeviceAddress":
+        return "VkDeviceAddress(0)"
+    if ret_type == "VkDeviceSize":
+        return "VkDeviceSize(0)"
+    if ret_type in ("uint64_t", "uint32_t"):
+        return "0"
     assert ret_type == "VkBool32"
     return "VkBool32(0)"
 
@@ -186,6 +195,7 @@ def write_func_inline_fn(f, func):
 
 
 def write_func_dummy_fn(f, func):
+    print("func_name: ", func[1])
     f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0],
                                                                                                FUNC_NAME=func[1],
                                                                                                PARAM_TYPES=(', '.join(func[3]))))
@@ -205,28 +215,43 @@ def gen_header_file(header_file, header_funcs):
         write_header_section(f, header_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address)
 
-def gen_lib_header():
+
+def gen_lib_header(all_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
     lib_funcs = get_lib_funcs(all_funcs)
     gen_header_file(header_file, lib_funcs)
 
 
+def gen_inst_header(all_funcs):
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_inst2.h")
+    inst_funcs = get_inst_funcs(all_funcs)
+    gen_header_file(header_file, inst_funcs)
+
+
+def gen_dev_header(all_funcs):
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_dev2.h")
+    dev_funcs = get_dev_funcs(all_funcs)
+    gen_header_file(header_file, dev_funcs)
+
+
 if __name__ == '__main__':
     all_funcs = get_all_funcs()
 
-    inst_funcs = get_inst_funcs(all_funcs)
-    print(inst_funcs)
-    for (header, funcs) in inst_funcs:
-        print(header, len(funcs))
-
-    dev_funcs = get_dev_funcs(all_funcs)
-    print(dev_funcs)
-    for (header, funcs) in dev_funcs:
-        print(header, len(funcs))
-
-    lib_funcs = get_lib_funcs(all_funcs)
-    print(lib_funcs)
-    for (header, funcs) in lib_funcs:
-        print(header, len(funcs))
-    gen_lib_header()
+#    inst_funcs = get_inst_funcs(all_funcs)
+#    print(inst_funcs)
+#    for (header, funcs) in inst_funcs:
+#        print(header, len(funcs))
+#
+#    dev_funcs = get_dev_funcs(all_funcs)
+#    print(dev_funcs)
+#    for (header, funcs) in dev_funcs:
+#        print(header, len(funcs))
+#
+#    lib_funcs = get_lib_funcs(all_funcs)
+#    print(lib_funcs)
+#    for (header, funcs) in lib_funcs:
+#        print(header, len(funcs))
+    gen_lib_header(all_funcs)
+    gen_inst_header(all_funcs)
+    gen_dev_header(all_funcs)
 
