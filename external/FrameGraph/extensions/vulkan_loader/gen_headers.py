@@ -194,6 +194,14 @@ def write_func_inline_fn(f, func):
                                                                         PARAM_NAMES=(', '.join(func[4]))))
 
 
+def write_func_inline_fn_dev(f, func):
+    f.write("    {PREFIX}VKAPI_ATTR forceinline {RETURN_TYPE} {FUNC_NAME} ({PARAM_ITEMS})".format(PREFIX="    " if func[0] == "void" else "ND_ ",
+                                                                                        RETURN_TYPE=func[0], FUNC_NAME=func[1],
+                                                                                        PARAM_ITEMS=(', '.join(func[2]))))
+    f.write(" {{ return _table->_var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1],
+                                                                        PARAM_NAMES=(', '.join(func[4]))))
+
+
 def write_func_dummy_fn(f, func):
     f.write("    VKAPI_ATTR {RETURN_TYPE} VKAPI_CALL Dummy_{FUNC_NAME} ({PARAM_TYPES})".format(RETURN_TYPE=func[0],
                                                                                                FUNC_NAME=func[1],
@@ -214,7 +222,7 @@ def gen_header_file(header_file, header_funcs, device = False):
     with open(header_file, "w") as f:
         write_header_section(f, header_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
-        write_header_section(f, header_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn_dev if device else write_func_inline_fn)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
         write_header_section(f, header_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address_dev if device else write_func_get_address)
 
