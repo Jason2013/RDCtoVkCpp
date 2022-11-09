@@ -176,19 +176,22 @@ def write_func_decl_fn_pointer(f, func):
 
 def write_func_fn_pointer(f, func):
     f.write("    PFN_{FUNC_NAME}  _var_{FUNC_NAME} = null;\n".format(FUNC_NAME=func[1]))
+
+
+def write_func_inline_fn(f, func):
+    f.write("    ND_ VKAPI_ATTR forceinline VkResult {FUNC_NAME} ({PARAM_ITEMS})".format(FUNC_NAME=func[1],
+                                                                                         PARAM_ITEMS=(', '.join(func[2]))))
+    f.write(" {{ return _var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1],
+                                                                        PARAM_NAMES=(', '.join(func[4]))))
+
+
 def gen_lib_header(lib_funcs):
     header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
 
     with open(header_file, "w") as f:
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
         write_header_section(f, lib_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
-
-        f.write("#ifdef VKLOADER_STAGE_INLINEFN\n")
-        for (header, funcs) in lib_funcs:
-            for func in funcs:
-                f.write("    ND_ VKAPI_ATTR forceinline VkResult {FUNC_NAME} ({PARAM_ITEMS})".format(FUNC_NAME=func[1], PARAM_ITEMS=(', '.join(func[2]))))
-                f.write(" {{ return _var_{FUNC_NAME}( {PARAM_NAMES} ); }}\n".format(FUNC_NAME=func[1], PARAM_NAMES=(', '.join(func[4]))))
-        f.write("#endif // VKLOADER_STAGE_INLINEFN\n\n\n")
+        write_header_section(f, lib_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
 
         f.write("#ifdef VKLOADER_STAGE_DUMMYFN\n")
         for (header, funcs) in lib_funcs:
