@@ -197,15 +197,18 @@ def write_func_get_address(f, func):
     f.write("    Load( OUT _var_{FUNC_NAME}, \"{FUNC_NAME}\", Dummy_{FUNC_NAME} );\n".format(FUNC_NAME=func[1]))
 
 
-def gen_lib_header(lib_funcs):
-    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
-
+def gen_header_file(header_file, header_funcs):
     with open(header_file, "w") as f:
-        write_header_section(f, lib_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
-        write_header_section(f, lib_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
-        write_header_section(f, lib_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
-        write_header_section(f, lib_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
-        write_header_section(f, lib_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_DECLFNPOINTER", write_func_decl_fn_pointer)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_FNPOINTER", write_func_fn_pointer)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_INLINEFN", write_func_inline_fn)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_DUMMYFN", write_func_dummy_fn)
+        write_header_section(f, header_funcs, "VKLOADER_STAGE_GETADDRESS", write_func_get_address)
+
+def gen_lib_header():
+    header_file = os.path.join(OUTPUT_DIR, "fn_vulkan_lib2.h")
+    lib_funcs = get_lib_funcs(all_funcs)
+    gen_header_file(header_file, lib_funcs)
 
 
 if __name__ == '__main__':
@@ -225,5 +228,5 @@ if __name__ == '__main__':
     print(lib_funcs)
     for (header, funcs) in lib_funcs:
         print(header, len(funcs))
-    gen_lib_header(lib_funcs)
+    gen_lib_header()
 
