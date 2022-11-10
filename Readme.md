@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/azhirnov/RDCtoVkCpp/master.svg?logo=travis)](https://travis-ci.com/azhirnov/RDCtoVkCpp)
+[![Build Status](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml/badge.svg)](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml)
 
 Converts RenderDoc Vulkan capture to compilable and executable C++ code.<br/>
 Work in progress.
