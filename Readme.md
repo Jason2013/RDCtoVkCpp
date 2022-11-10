@@ -1,4 +1,5 @@
-[![Build Status](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml/badge.svg)](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml)
+[![Windows Build](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml/badge.svg)](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/windows.yml)
+[![Linux Build](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/linux.yml/badge.svg)](https://github.com/Jason2013/RDCtoVkCpp/actions/workflows/linux.yml)
 
 Converts RenderDoc Vulkan capture to compilable and executable C++ code.<br/>
 Work in progress.
