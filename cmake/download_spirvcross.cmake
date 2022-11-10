@@ -18,7 +18,7 @@ if (${RDE_ENABLE_SPIRVCROSS})
         LIST_SEPARATOR		"${RDE_LIST_SEPARATOR}"
 		# download
 		GIT_REPOSITORY		${RDE_SPIRVCROSS_REPOSITORY}
-		GIT_TAG				master
+		GIT_TAG				sdk-1.3.216.0
 		EXCLUDE_FROM_ALL	1
 		LOG_DOWNLOAD		1
 		# update
@@ -45,6 +45,11 @@ if (${RDE_ENABLE_SPIRVCROSS})
 		LOG_BUILD 			1
 		# install
 		INSTALL_DIR 		"${SPIRVCROSS_INSTALL_DIR}"
+		INSTALL_COMMAND		${CMAKE_COMMAND}
+							--build .
+							--config $<CONFIG>
+							--target
+							install
 		LOG_INSTALL 		1
 		# test
 		TEST_COMMAND		""
