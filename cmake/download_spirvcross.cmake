@@ -55,8 +55,8 @@ if (${RDE_ENABLE_SPIRVCROSS})
 	
 	add_library( "SPIRV-Cross-lib" INTERFACE )
 	set_property( TARGET "SPIRV-Cross-lib" PROPERTY INTERFACE_LINK_LIBRARIES 
-					$<$<NOT:$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>>: "${SPIRVCROSS_INSTALL_DIR}/lib/spirv-cross-core${CMAKE_STATIC_LIBRARY_SUFFIX}" >
-					$<$<NOT:$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>>: "${SPIRVCROSS_INSTALL_DIR}/lib/spirv-cross-glsl${CMAKE_STATIC_LIBRARY_SUFFIX}" >
+					$<$<NOT:$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>>: "${SPIRVCROSS_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}spirv-cross-core${CMAKE_STATIC_LIBRARY_SUFFIX}" >
+					$<$<NOT:$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>>: "${SPIRVCROSS_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}spirv-cross-glsl${CMAKE_STATIC_LIBRARY_SUFFIX}" >
 					$<$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>: "${SPIRVCROSS_INSTALL_DIR}/lib/spirv-cross-cored${CMAKE_STATIC_LIBRARY_SUFFIX}" >
 					$<$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>>: "${SPIRVCROSS_INSTALL_DIR}/lib/spirv-cross-glsld${CMAKE_STATIC_LIBRARY_SUFFIX}" >)
 	target_include_directories( "SPIRV-Cross-lib" INTERFACE "${SPIRVCROSS_INSTALL_DIR}/include" )
