@@ -344,7 +344,11 @@ namespace RDE
 		const size_t	len = strlen(node->value());
 
 		result = _allocator.Alloc<char>( len+1 );
-		strncpy( result, node->value(), len+1 );
+#ifdef _WIN32
+        strncpy_s(result, len + 1, node->value(), len + 1);
+#else
+        strncpy(result, node->value(), len + 1);
+#endif // _WIN32
 
 		return true;
 	}
@@ -727,7 +731,12 @@ namespace RDE
 	bool  RdCaptureReader::_ParseValue (const Node_t *node, OUT char (&result)[I])
 	{
 		CHECK_ERR( node );
-		strncpy( OUT result, node->value(), strlen(node->value())+1 );
+#ifdef _WIN32
+        strncpy_s(OUT result, strlen(node->value()) + 1, node->value(), strlen(node->value()) + 1);
+#else
+        strncpy(OUT result, node->value(), strlen(node->value()) + 1);
+#endif // _WIN32
+
 		return true;
 	}
 
