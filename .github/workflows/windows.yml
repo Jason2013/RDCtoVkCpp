@@ -1,0 +1,33 @@
+name: Windows
+
+on: [push, pull_request]
+
+jobs:
+  windows-build:
+    strategy:
+      matrix:
+        os: [windows-2022, windows-2019]
+        config: [Debug, Release]
+        include:
+            - os: windows-2022
+              generator: "Visual Studio 17 2022"
+            - os: windows-2019
+              generator: "Visual Studio 16 2019"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Show CMake generators
+      working-directory: ${{ github.workspace }}
+      run: |
+        cmake --version
+        cmake --help
+           
+    - name: Configure CMake
+      working-directory: ${{ github.workspace }}
+      run: cmake -G "${{ matrix.generator }}" -A x64 -S . -B build 
+
+    - name: Build
+      working-directory: ${{ github.workspace }}
+      run: cmake --build build --config ${{ matrix.config }}
