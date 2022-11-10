@@ -11,7 +11,7 @@ int main (int argc, const char** argv)
 {
 	using namespace RDE;
 
-	CHECK_ERR( argv > 0 );
+	//CHECK_ERR( argv > 0 );
 	
 	StringView	vulkan_headers;
 	StringView	rd_vkchunk;
