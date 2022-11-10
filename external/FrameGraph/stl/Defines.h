@@ -104,6 +104,7 @@
 # elif (defined(COMPILER_CLANG) || defined(COMPILER_GCC)) && defined(FG_DEBUG)
 #  if 1
 #	include <exception>
+#	include <stdexcept>
 #	define FG_PRIVATE_BREAK_POINT() 	throw std::runtime_error("breakpoint")
 #  else
 #	include <csignal>
