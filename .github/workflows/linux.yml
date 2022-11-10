@@ -1,0 +1,40 @@
+name: Linux
+
+on:
+  push:
+    paths-ignore:
+      - 'Readme.md'
+  pull_request:
+    paths-ignore:
+      - 'Readme.md'
+
+jobs:
+  linux-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+        config: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Show CMake generators
+      working-directory: ${{ github.workspace }}
+      run: |
+        cmake --version
+        cmake --help
+           
+    - name: Install Packages
+      run: |
+        sudo apt update
+        sudo apt install libxrandr-dev libsdl2-dev
+
+    - name: Configure CMake
+      working-directory: ${{ github.workspace }}
+      run: cmake -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib -DENABLE_OPT=OFF -DCMAKE_BUILD_TYPE=${{ matrix.config }} -S . -B build
+
+    - name: Build
+      working-directory: ${{ github.workspace }}
+      run: cmake --build build
