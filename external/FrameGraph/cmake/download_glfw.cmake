@@ -38,7 +38,7 @@ if (${FG_ENABLE_GLFW})
 	set( GLFW_BUILD_TESTS OFF CACHE BOOL "glfw option" )
 	set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "glfw option" )
 	set( GLFW_BUILD_DOCS OFF CACHE BOOL "glfw option" )
-	set( USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "glfw option" )
+	set( USE_MSVC_RUNTIME_LIBRARY_DLL ON CACHE BOOL "glfw option" )
 	
 	add_subdirectory( "${FG_EXTERNAL_GLFW_PATH}" "glfw" )
 	set_property( TARGET "glfw" PROPERTY FOLDER "External" )
