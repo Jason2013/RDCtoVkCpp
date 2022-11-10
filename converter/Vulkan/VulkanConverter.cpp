@@ -632,10 +632,22 @@ namespace RDE
 			}
 
 			String	str;
-			for (auto fence : _signaledFences)
 			{
-				str << indent << "\t" << remapper.GetAliveResource( VK_OBJECT_TYPE_FENCE, fence )
-					<< (fence == *(--_signaledFences.end()) ? "\n" : ",\n");
+				bool processed = false;
+				for (auto fence : _signaledFences)
+				{
+					if (processed)
+					{
+						str << ",\n";
+					}
+					str << indent << "\t" << remapper.GetAliveResource( VK_OBJECT_TYPE_FENCE, fence );
+						//<< (fence == *(--_signaledFences.end()) ? "\n" : ",\n");
+					processed = true;
+				}
+				if (processed)
+				{
+					str << "\n";
+				}
 			}
 
 			if ( str.size() )
@@ -662,12 +674,24 @@ namespace RDE
 				<< "\t{\n"
 				<< indent << "const VkSemaphore wait_semaphores[] = {\n";
 
-			for (auto& sem : _signaledSemaphores)
-			{
-				_frameResetSrc
-					<< indent << "\t" << remapper.GetAliveResource( VK_OBJECT_TYPE_SEMAPHORE, sem )
-					<< (sem == *(--_signaledSemaphores.end()) ? "\n" : ",\n");
-			}
+            {
+                bool processed = false;
+                for (auto& sem : _signaledSemaphores)
+                {
+                    if (processed)
+                    {
+                        _frameResetSrc << ",\n";
+                    }
+                    _frameResetSrc
+                        << indent << "\t" << remapper.GetAliveResource( VK_OBJECT_TYPE_SEMAPHORE, sem );
+                    //<< (sem == *(--_signaledSemaphores.end()) ? "\n" : ",\n");
+                    processed = true;
+                }
+                if (processed)
+                {
+                    _frameResetSrc << "\n";
+                }
+            }
 			_frameResetSrc << indent << "};\n\n";
 
 			_frameResetSrc << indent << "const VkPipelineStageFlags wait_dst_stages[] = {\n";
