@@ -513,6 +513,7 @@ namespace RDE
 */
 	static bool Execute (StringView command, uint timeoutMS)
 	{
+#	ifdef PLATFORM_WINDOWS
 		char	buf[MAX_PATH] = {};
 		::GetSystemDirectoryA( buf, UINT(CountOf(buf)) );
 		
@@ -544,6 +545,9 @@ namespace RDE
 		DWORD process_exit;
 		::GetExitCodeProcess( proc_info.hProcess, OUT &process_exit );
 		return true;
+#	else
+		return false;
+#	endif
 	}
 	
 /*
