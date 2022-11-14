@@ -908,13 +908,13 @@ namespace RDE
 				auto const& barriers = _ConvertLayouts(layout.second);
 				if (barriers != "")
 				{
-					CHECK_ERR(info.initialQueue != Default, void());
+					uint queue = info.initialQueue != Default ? (uint)info.initialQueue : 0;
 
 					_initFrameSrc
 						<< "\t{\n"
 						<< barriers // _ConvertLayouts( layout.second )
 						<< "\t	app.SetImageInitialLayout( " << remapper.GetResourceName( VK_OBJECT_TYPE_IMAGE, img ) << ", "
-						<< "EQueueFamily(" << IntToString((uint)info.initialQueue) << "), "
+						<< "EQueueFamily(" << IntToString(queue) << "), "
 						<< "barriers, CountOf(barriers) );\n"
 						<< "\t}\n";
 				}
