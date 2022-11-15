@@ -148,7 +148,7 @@ bool VApp::CreateDevice (InstanceID				instance,
 						 ArrayView<const char*>	instanceExtensions,
 						 ArrayView<const char*>	deviceExtensions)
 {
-	FixedArray< VulkanDevice::QueueCreateInfo, 16 >		queue_ci;
+	FixedArray< VulkanDevice::QueueCreateInfo, 32 >		queue_ci;
 	for (auto& q : queues)
 	{
 		_queueMap.insert_or_assign( q.uid, QueueMapping{ uint(queue_ci.size()), QueueID(~0u) });

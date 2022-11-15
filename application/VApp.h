@@ -134,7 +134,7 @@ private:
 		uint				index;
 		mutable QueueID		id;
 	};
-	using QueueUIDMap_t		= FixedMap< uint, QueueMapping, 16 >;
+	using QueueUIDMap_t		= FixedMap< uint, QueueMapping, 32 >;
 
 	using ContentName_t		= StaticString<64>;
 
