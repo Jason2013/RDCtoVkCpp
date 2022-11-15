@@ -36,7 +36,7 @@ namespace FGC
 			float					priority	= 0.0f;
 		};
 
-		static constexpr uint	maxQueues = 16;
+		static constexpr uint	maxQueues = 32;
 
 		using SurfaceCtor_t = std::function< VkSurfaceKHR (VkInstance) >;
 		using Queues_t		= FixedArray< VulkanQueue, maxQueues >;
