@@ -50,6 +50,7 @@ namespace FGC
 		VkSurfaceKHR				_vkSurface;
 		VkPhysicalDevice			_vkPhysicalDevice;
 		VkInstance					_vkInstance;
+		uint                        _apiVersion = 0;
 		bool						_usedSharedInstance;
 
 		VulkanDeviceFnTable			_deviceFnTable;
@@ -57,6 +58,9 @@ namespace FGC
 		// enabled features
 		struct {
 			VkPhysicalDeviceFeatures								main;
+			VkPhysicalDeviceVulkan11Features                        vulkan11;
+			VkPhysicalDeviceVulkan12Features                        vulkan12;
+			VkPhysicalDeviceVulkan13Features                        vulkan13;
 			//VkDeviceGeneratedCommandsFeaturesNVX					generatedCommands;
 			VkPhysicalDeviceMultiviewFeatures						multiview;
 			//VkPhysicalDeviceShaderAtomicInt64FeaturesKHR			shaderAtomicI64;

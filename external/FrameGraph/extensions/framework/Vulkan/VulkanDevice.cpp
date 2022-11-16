@@ -360,6 +360,8 @@ namespace FGC
 		instance_create_info.enabledLayerCount			= uint(instance_layers.size());
 		instance_create_info.ppEnabledLayerNames		= instance_layers.data();
 
+		_apiVersion = version;
+
 		VK_CHECK( vkCreateInstance( &instance_create_info, null, OUT &_vkInstance ));
 
 		VulkanLoader::LoadInstance( _vkInstance );
@@ -770,6 +772,30 @@ namespace FGC
 		VkPhysicalDeviceFeatures2	feat2		= {};
 		void **						next_feat	= &feat2.pNext;;
 		feat2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+
+		CHECK_ERR( not _apiVersion == 0 );
+
+		uint minorVersion = VK_API_VERSION_MINOR(_apiVersion);
+        CHECK_ERR(1 <= minorVersion && minorVersion <= 3);
+
+        if (minorVersion >= VK_API_VERSION_MINOR(VK_API_VERSION_1_1))
+        {
+            *next_feat = *nextExt = &_features.vulkan11;
+            next_feat = nextExt = &_features.vulkan11.pNext;
+            _features.vulkan11.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES;
+        }
+		if (minorVersion >= VK_API_VERSION_MINOR(VK_API_VERSION_1_2))
+        {
+            *next_feat = *nextExt = &_features.vulkan12;
+            next_feat = nextExt = &_features.vulkan12.pNext;
+            _features.vulkan12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+        }
+		if (minorVersion >= VK_API_VERSION_MINOR(VK_API_VERSION_1_3))
+        {
+            *next_feat = *nextExt = &_features.vulkan13;
+            next_feat = nextExt = &_features.vulkan13.pNext;
+            _features.vulkan13.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;
+        }
 		
 		for (StringView ext : extensions)
 		{
