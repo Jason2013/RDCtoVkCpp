@@ -806,32 +806,11 @@ namespace FGC
 				_features.meshShader.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV;
 			}
 			else
-			if ( ext == VK_KHR_MULTIVIEW_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt		= &_features.multiview;
-				next_feat	= nextExt		= &_features.multiview.pNext;
-				_features.multiview.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES;
-			}
-			else
 			if ( ext == VK_KHR_8BIT_STORAGE_EXTENSION_NAME )
 			{
 				*next_feat	= *nextExt		= &_features.storage8Bit;
 				next_feat	= nextExt		= &_features.storage8Bit.pNext;
 				_features.storage8Bit.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR;
-			}
-			else
-			if ( ext == VK_KHR_16BIT_STORAGE_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt		= &_features.storage16Bit;
-				next_feat	= nextExt		= &_features.storage16Bit.pNext;
-				_features.storage16Bit.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES;
-			}
-			else
-			if ( ext == VK_KHR_SAMPLER_YCBCR_CONVERSION_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt					= &_features.samplerYcbcrConversion;
-				next_feat	= nextExt					= &_features.samplerYcbcrConversion.pNext;
-				_features.samplerYcbcrConversion.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES;
 			}
 			else
 			if ( ext == VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME )

@@ -62,11 +62,8 @@ namespace FGC
 			VkPhysicalDeviceVulkan12Features                        vulkan12;
 			VkPhysicalDeviceVulkan13Features                        vulkan13;
 			//VkDeviceGeneratedCommandsFeaturesNVX					generatedCommands;
-			VkPhysicalDeviceMultiviewFeatures						multiview;
 			//VkPhysicalDeviceShaderAtomicInt64FeaturesKHR			shaderAtomicI64;
 			VkPhysicalDevice8BitStorageFeaturesKHR					storage8Bit;
-			VkPhysicalDevice16BitStorageFeatures					storage16Bit;
-			VkPhysicalDeviceSamplerYcbcrConversionFeatures			samplerYcbcrConversion;
 			VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT		blendOpAdvanced;
 			VkPhysicalDeviceConditionalRenderingFeaturesEXT			conditionalRendering;
 			VkPhysicalDeviceShaderDrawParameterFeatures				shaderDrawParameters;
@@ -126,10 +123,7 @@ namespace FGC
 		ND_ ArrayView<VulkanQueue>		GetVkQueues ()				const	{ return _vkQueues; }
 
 		ND_ VkPhysicalDeviceFeatures const&								GetDeviceFeatures ()							const	{ return _features.main; }
-		ND_ VkPhysicalDeviceMultiviewFeatures const&					GetDeviceMultiviewFeatures ()					const	{ return _features.multiview; }
 		ND_ VkPhysicalDevice8BitStorageFeaturesKHR const&				GetDevice8BitStorageFeatures ()					const	{ return _features.storage8Bit; }
-		ND_ VkPhysicalDevice16BitStorageFeatures const&					GetDevice16BitStorageFeatures ()				const	{ return _features.storage16Bit; }
-		ND_ VkPhysicalDeviceSamplerYcbcrConversionFeatures const&		GetDeviceSamplerYcbcrConversionFeatures ()		const	{ return _features.samplerYcbcrConversion; }
 		ND_ VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT const&	GetDeviceBlendOperationAdvancedFeatures ()		const	{ return _features.blendOpAdvanced; }
 		ND_ VkPhysicalDeviceConditionalRenderingFeaturesEXT const&		GetDeviceConditionalRenderingFeatures ()		const	{ return _features.conditionalRendering; }
 		ND_ VkPhysicalDeviceMeshShaderFeaturesNV const&					GetDeviceMeshShaderFeatures ()					const	{ return _features.meshShader; }
