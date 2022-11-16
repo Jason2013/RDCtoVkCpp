@@ -806,13 +806,6 @@ namespace FGC
 				_features.meshShader.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV;
 			}
 			else
-			if ( ext == VK_KHR_8BIT_STORAGE_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt		= &_features.storage8Bit;
-				next_feat	= nextExt		= &_features.storage8Bit.pNext;
-				_features.storage8Bit.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR;
-			}
-			else
 			if ( ext == VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME )
 			{
 				*next_feat	= *nextExt			= &_features.blendOpAdvanced;
@@ -825,13 +818,6 @@ namespace FGC
 				*next_feat	= *nextExt					= &_features.conditionalRendering;
 				next_feat	= nextExt					= &_features.conditionalRendering.pNext;
 				_features.conditionalRendering.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT;
-			}
-			else
-			if ( ext == VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt		= &_features.memoryModel;
-				next_feat	= nextExt		= &_features.memoryModel.pNext;
-				_features.memoryModel.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES_KHR;
 			}
 			else
 			if ( ext == VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME )
@@ -867,13 +853,6 @@ namespace FGC
 				*next_feat	= *nextExt				= &_features.shadingRateImage;
 				next_feat	= nextExt				= &_features.shadingRateImage.pNext;
 				_features.shadingRateImage.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV;
-			}
-			else
-			if ( ext == VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME )
-			{
-				*next_feat	= *nextExt				= &_features.descriptorIndexing;
-				next_feat	= nextExt				= &_features.descriptorIndexing.pNext;
-				_features.descriptorIndexing.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT;
 			}
 		}
 		

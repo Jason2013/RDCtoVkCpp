@@ -62,16 +62,12 @@ namespace FGC
 			VkPhysicalDeviceVulkan12Features                        vulkan12;
 			VkPhysicalDeviceVulkan13Features                        vulkan13;
 			//VkDeviceGeneratedCommandsFeaturesNVX					generatedCommands;
-			//VkPhysicalDeviceShaderAtomicInt64FeaturesKHR			shaderAtomicI64;
-			VkPhysicalDevice8BitStorageFeaturesKHR					storage8Bit;
 			VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT		blendOpAdvanced;
 			VkPhysicalDeviceConditionalRenderingFeaturesEXT			conditionalRendering;
 			VkPhysicalDeviceShaderDrawParameterFeatures				shaderDrawParameters;
 			VkPhysicalDeviceMeshShaderFeaturesNV					meshShader;
-			VkPhysicalDeviceDescriptorIndexingFeaturesEXT			descriptorIndexing;
 			//VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT		vertexAttribDivisor;
 			//VkPhysicalDeviceASTCDecodeFeaturesEXT					astcDecode;
-			VkPhysicalDeviceVulkanMemoryModelFeaturesKHR			memoryModel;
 			VkPhysicalDeviceInlineUniformBlockFeaturesEXT			inlineUniformBlock;
 			VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV	representativeFragmentTest;
 			//VkPhysicalDeviceExclusiveScissorFeaturesNV			exclusiveScissorTest;
@@ -123,12 +119,9 @@ namespace FGC
 		ND_ ArrayView<VulkanQueue>		GetVkQueues ()				const	{ return _vkQueues; }
 
 		ND_ VkPhysicalDeviceFeatures const&								GetDeviceFeatures ()							const	{ return _features.main; }
-		ND_ VkPhysicalDevice8BitStorageFeaturesKHR const&				GetDevice8BitStorageFeatures ()					const	{ return _features.storage8Bit; }
 		ND_ VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT const&	GetDeviceBlendOperationAdvancedFeatures ()		const	{ return _features.blendOpAdvanced; }
 		ND_ VkPhysicalDeviceConditionalRenderingFeaturesEXT const&		GetDeviceConditionalRenderingFeatures ()		const	{ return _features.conditionalRendering; }
 		ND_ VkPhysicalDeviceMeshShaderFeaturesNV const&					GetDeviceMeshShaderFeatures ()					const	{ return _features.meshShader; }
-		ND_ VkPhysicalDeviceDescriptorIndexingFeaturesEXT const&		GetDeviceDescriptorIndexingFeatures ()			const	{ return _features.descriptorIndexing; }
-		ND_ VkPhysicalDeviceVulkanMemoryModelFeaturesKHR const&			GetDeviceVulkanMemoryModelFeatures ()			const	{ return _features.memoryModel; }
 		ND_ VkPhysicalDeviceInlineUniformBlockFeaturesEXT const&		GetDeviceInlineUniformBlockFeatures ()			const	{ return _features.inlineUniformBlock; }
 		ND_ VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV const&	GetDeviceRepresentativeFragmentTestFeatures ()	const	{ return _features.representativeFragmentTest; }
 		ND_ VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV const&	GetDeviceFragmentShaderBarycentricFeatures ()	const	{ return _features.fragmentShaderBarycentric; }
