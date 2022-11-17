@@ -4,9 +4,13 @@ on:
   push:
     paths-ignore:
       - 'Readme.md'
+    branches-ignore:
+      - 'tmp*'
   pull_request:
     paths-ignore:
       - 'Readme.md'
+    branches-ignore:
+      - 'tmp*'
 
 jobs:
   linux-build:
