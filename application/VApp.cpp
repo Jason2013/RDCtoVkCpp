@@ -414,7 +414,7 @@ bool  VApp::SetImageInitialLayout (ImageID image, EQueueFamily queue, const VkIm
 		ASSERT( barriers[i].image == GetResource(image) );
 	}
 	
-	vkCmdPipelineBarrier( qdata.cmdBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, 0,
+	vkCmdPipelineBarrier( qdata.cmdBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT | VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT | VK_PIPELINE_STAGE_HOST_BIT, 0,
 						  0, null, 0, null, uint(count), barriers );
 	return true;
 }
@@ -511,7 +511,7 @@ bool  VApp::UploadImage (ImageID image, EQueueFamily queue, VkImageMemoryBarrier
 	}
 
 	// transfer -> 
-	vkCmdPipelineBarrier( qdata.cmdBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, 0,
+	vkCmdPipelineBarrier( qdata.cmdBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT | VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT | VK_PIPELINE_STAGE_HOST_BIT, 0,
 						  0, null, 0, null, uint(count), barriers );
 
 	return true;
