@@ -799,66 +799,67 @@ namespace FGC
 		
 		for (StringView ext : extensions)
 		{
-			if ( ext == VK_NV_MESH_SHADER_EXTENSION_NAME )
+			if (ext == VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt		= &_features.meshShader;
-				next_feat	= nextExt		= &_features.meshShader.pNext;
-				_features.meshShader.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV;
+				*next_feat = *nextExt = &_features.blendOperationAdvanced;
+				next_feat = nextExt = &_features.blendOperationAdvanced.pNext;
+				_features.blendOperationAdvanced.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT;
 			}
-			else
-			if ( ext == VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME )
+			else if (ext == VK_EXT_CONDITIONAL_RENDERING_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt			= &_features.blendOpAdvanced;
-				next_feat	= nextExt			= &_features.blendOpAdvanced.pNext;
-				_features.blendOpAdvanced.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT;
+				*next_feat = *nextExt = &_features.conditionalRendering;
+				next_feat = nextExt = &_features.conditionalRendering.pNext;
+				_features.conditionalRendering.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT;
 			}
-			else
-			if ( ext == VK_EXT_CONDITIONAL_RENDERING_EXTENSION_NAME )
+			else if (ext == VK_NV_MESH_SHADER_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt					= &_features.conditionalRendering;
-				next_feat	= nextExt					= &_features.conditionalRendering.pNext;
-				_features.conditionalRendering.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT;
+				*next_feat = *nextExt = &_features.meshShader;
+				next_feat = nextExt = &_features.meshShader.pNext;
+				_features.meshShader.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV;
 			}
-			else
-			if ( ext == VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME )
+			else if (ext == VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt				= &_features.inlineUniformBlock;
-				next_feat	= nextExt				= &_features.inlineUniformBlock.pNext;
-				_features.inlineUniformBlock.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT;
+				*next_feat = *nextExt = &_features.inlineUniformBlock;
+				next_feat = nextExt = &_features.inlineUniformBlock.pNext;
+				_features.inlineUniformBlock.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT;
 			}
-			else
-			if ( ext == VK_NV_REPRESENTATIVE_FRAGMENT_TEST_EXTENSION_NAME )
+			else if (ext == VK_NV_REPRESENTATIVE_FRAGMENT_TEST_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt						= &_features.representativeFragmentTest;
-				next_feat	= nextExt						= &_features.representativeFragmentTest.pNext;
-				_features.representativeFragmentTest.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV;
+				*next_feat = *nextExt = &_features.representativeFragmentTest;
+				next_feat = nextExt = &_features.representativeFragmentTest.pNext;
+				_features.representativeFragmentTest.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV;
 			}
-			else
-			if ( ext == VK_NV_FRAGMENT_SHADER_BARYCENTRIC_EXTENSION_NAME )
+			else if (ext == VK_KHR_FRAGMENT_SHADER_BARYCENTRIC_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt						= &_features.fragmentShaderBarycentric;
-				next_feat	= nextExt						= &_features.fragmentShaderBarycentric.pNext;
-				_features.fragmentShaderBarycentric.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV;
+				*next_feat = *nextExt = &_features.fragmentShaderBarycentric;
+				next_feat = nextExt = &_features.fragmentShaderBarycentric.pNext;
+				_features.fragmentShaderBarycentric.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_KHR;
 			}
-			else
-			if ( ext == VK_NV_SHADER_IMAGE_FOOTPRINT_EXTENSION_NAME )
+			else if (ext == VK_NV_SHADER_IMAGE_FOOTPRINT_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt					= &_features.shaderImageFootprint;
-				next_feat	= nextExt					= &_features.shaderImageFootprint.pNext;
-				_features.shaderImageFootprint.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV;
+				*next_feat = *nextExt = &_features.shaderImageFootprint;
+				next_feat = nextExt = &_features.shaderImageFootprint.pNext;
+				_features.shaderImageFootprint.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV;
 			}
-			else
-			if ( ext == VK_NV_SHADING_RATE_IMAGE_EXTENSION_NAME )
+			else if (ext == VK_NV_SHADING_RATE_IMAGE_EXTENSION_NAME)
 			{
-				*next_feat	= *nextExt				= &_features.shadingRateImage;
-				next_feat	= nextExt				= &_features.shadingRateImage.pNext;
-				_features.shadingRateImage.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV;
+				*next_feat = *nextExt = &_features.shadingRateImage;
+				next_feat = nextExt = &_features.shadingRateImage.pNext;
+				_features.shadingRateImage.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV;
+			}
+			else if (ext == VK_EXT_EXTENDED_DYNAMIC_STATE_EXTENSION_NAME)
+			{
+				*next_feat = *nextExt = &_features.extendedDynamicState;
+				next_feat = nextExt = &_features.extendedDynamicState.pNext;
+				_features.extendedDynamicState.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT;
+			}
+			else if (ext == VK_EXT_EXTENDED_DYNAMIC_STATE_2_EXTENSION_NAME)
+			{
+				*next_feat = *nextExt = &_features.extendedDynamicState2;
+				next_feat = nextExt = &_features.extendedDynamicState2.pNext;
+				_features.extendedDynamicState2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_2_FEATURES_EXT;
 			}
 		}
-		
-		*next_feat	= *nextExt					= &_features.shaderDrawParameters;
-		next_feat	= nextExt					= &_features.shaderDrawParameters.pNext;
-		_features.shaderDrawParameters.sType	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES;
 
 		vkGetPhysicalDeviceFeatures2( GetVkPhysicalDevice(), &feat2 );
 		return true;

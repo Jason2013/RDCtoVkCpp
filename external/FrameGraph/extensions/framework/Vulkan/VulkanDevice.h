@@ -57,26 +57,20 @@ namespace FGC
 
 		// enabled features
 		struct {
-			VkPhysicalDeviceFeatures								main;
-			VkPhysicalDeviceVulkan11Features                        vulkan11;
-			VkPhysicalDeviceVulkan12Features                        vulkan12;
-			VkPhysicalDeviceVulkan13Features                        vulkan13;
-			//VkDeviceGeneratedCommandsFeaturesNVX					generatedCommands;
-			VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT		blendOpAdvanced;
-			VkPhysicalDeviceConditionalRenderingFeaturesEXT			conditionalRendering;
-			VkPhysicalDeviceShaderDrawParameterFeatures				shaderDrawParameters;
-			VkPhysicalDeviceMeshShaderFeaturesNV					meshShader;
-			//VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT		vertexAttribDivisor;
-			//VkPhysicalDeviceASTCDecodeFeaturesEXT					astcDecode;
-			VkPhysicalDeviceInlineUniformBlockFeaturesEXT			inlineUniformBlock;
-			VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV	representativeFragmentTest;
-			//VkPhysicalDeviceExclusiveScissorFeaturesNV			exclusiveScissorTest;
-			//VkPhysicalDeviceCornerSampledImageFeaturesNV			cornerSampledImage;
-			//VkPhysicalDeviceComputeShaderDerivativesFeaturesNV	computeShaderDerivatives;
-			VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV		fragmentShaderBarycentric;
-			VkPhysicalDeviceShaderImageFootprintFeaturesNV			shaderImageFootprint;
-			VkPhysicalDeviceShadingRateImageFeaturesNV				shadingRateImage;
-
+			VkPhysicalDeviceFeatures main;
+			VkPhysicalDeviceVulkan11Features vulkan11;
+			VkPhysicalDeviceVulkan12Features vulkan12;
+			VkPhysicalDeviceVulkan13Features vulkan13;
+			VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT blendOperationAdvanced;
+			VkPhysicalDeviceConditionalRenderingFeaturesEXT conditionalRendering;
+			VkPhysicalDeviceMeshShaderFeaturesNV meshShader;
+			VkPhysicalDeviceInlineUniformBlockFeaturesEXT inlineUniformBlock;
+			VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV representativeFragmentTest;
+			VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR fragmentShaderBarycentric;
+			VkPhysicalDeviceShaderImageFootprintFeaturesNV shaderImageFootprint;
+			VkPhysicalDeviceShadingRateImageFeaturesNV shadingRateImage;
+			VkPhysicalDeviceExtendedDynamicStateFeaturesEXT extendedDynamicState;
+			VkPhysicalDeviceExtendedDynamicState2FeaturesEXT extendedDynamicState2;
 		}	_features;
 
 
@@ -119,14 +113,16 @@ namespace FGC
 		ND_ ArrayView<VulkanQueue>		GetVkQueues ()				const	{ return _vkQueues; }
 
 		ND_ VkPhysicalDeviceFeatures const&								GetDeviceFeatures ()							const	{ return _features.main; }
-		ND_ VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT const&	GetDeviceBlendOperationAdvancedFeatures ()		const	{ return _features.blendOpAdvanced; }
-		ND_ VkPhysicalDeviceConditionalRenderingFeaturesEXT const&		GetDeviceConditionalRenderingFeatures ()		const	{ return _features.conditionalRendering; }
-		ND_ VkPhysicalDeviceMeshShaderFeaturesNV const&					GetDeviceMeshShaderFeatures ()					const	{ return _features.meshShader; }
-		ND_ VkPhysicalDeviceInlineUniformBlockFeaturesEXT const&		GetDeviceInlineUniformBlockFeatures ()			const	{ return _features.inlineUniformBlock; }
-		ND_ VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV const&	GetDeviceRepresentativeFragmentTestFeatures ()	const	{ return _features.representativeFragmentTest; }
-		ND_ VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV const&	GetDeviceFragmentShaderBarycentricFeatures ()	const	{ return _features.fragmentShaderBarycentric; }
-		ND_ VkPhysicalDeviceShaderImageFootprintFeaturesNV const&		GetDeviceShaderImageFootprintFeatures ()		const	{ return _features.shaderImageFootprint; }
-		ND_ VkPhysicalDeviceShadingRateImageFeaturesNV const&			GetDeviceShadingRateImageFeatures ()			const	{ return _features.shadingRateImage; }
+		ND_ VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT const& GetDeviceBlendOperationAdvancedFeatures() const { return _features.blendOperationAdvanced; }
+		ND_ VkPhysicalDeviceConditionalRenderingFeaturesEXT const& GetDeviceConditionalRenderingFeatures() const { return _features.conditionalRendering; }
+		ND_ VkPhysicalDeviceMeshShaderFeaturesNV const& GetDeviceMeshShaderFeatures() const { return _features.meshShader; }
+		ND_ VkPhysicalDeviceInlineUniformBlockFeaturesEXT const& GetDeviceInlineUniformBlockFeatures() const { return _features.inlineUniformBlock; }
+		ND_ VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV const& GetDeviceRepresentativeFragmentTestFeatures() const { return _features.representativeFragmentTest; }
+		ND_ VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR const& GetDeviceFragmentShaderBarycentricFeatures() const { return _features.fragmentShaderBarycentric; }
+		ND_ VkPhysicalDeviceShaderImageFootprintFeaturesNV const& GetDeviceShaderImageFootprintFeatures() const { return _features.shaderImageFootprint; }
+		ND_ VkPhysicalDeviceShadingRateImageFeaturesNV const& GetDeviceShadingRateImageFeatures() const { return _features.shadingRateImage; }
+		ND_ VkPhysicalDeviceExtendedDynamicStateFeaturesEXT const& GetDeviceExtendedDynamicStateFeatures() const { return _features.extendedDynamicState; }
+		ND_ VkPhysicalDeviceExtendedDynamicState2FeaturesEXT const& GetDeviceExtendedDynamicState2Features() const { return _features.extendedDynamicState2; }
 
 		ND_ static ArrayView<const char*>	GetRecomendedInstanceLayers ();
 		ND_ static ArrayView<const char*>	GetRecomendedInstanceExtensions ();
