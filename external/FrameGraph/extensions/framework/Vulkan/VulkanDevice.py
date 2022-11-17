@@ -1056,6 +1056,7 @@ FEATURE_TYPES = [
 	"VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV",
 	"VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT",
 	"VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_2_FEATURES_EXT",
+	"VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COLOR_WRITE_ENABLE_FEATURES_EXT",
 ]
 
 
@@ -1117,7 +1118,7 @@ if __name__ == '__main__':
     }
 
     gen_header(values)
-
-    for ft in FEATURE_TYPES:
-        r = get_feature_items(ft)
-        print(r)
+#
+#    for ft in FEATURE_TYPES:
+#        r = get_feature_items(ft)
+#        print(r)
