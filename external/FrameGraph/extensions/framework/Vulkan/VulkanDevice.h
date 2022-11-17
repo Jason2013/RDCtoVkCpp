@@ -71,6 +71,7 @@ namespace FGC
 			VkPhysicalDeviceShadingRateImageFeaturesNV shadingRateImage;
 			VkPhysicalDeviceExtendedDynamicStateFeaturesEXT extendedDynamicState;
 			VkPhysicalDeviceExtendedDynamicState2FeaturesEXT extendedDynamicState2;
+			VkPhysicalDeviceColorWriteEnableFeaturesEXT colorWriteEnable;
 		}	_features;
 
 
@@ -123,6 +124,7 @@ namespace FGC
 		ND_ VkPhysicalDeviceShadingRateImageFeaturesNV const& GetDeviceShadingRateImageFeatures() const { return _features.shadingRateImage; }
 		ND_ VkPhysicalDeviceExtendedDynamicStateFeaturesEXT const& GetDeviceExtendedDynamicStateFeatures() const { return _features.extendedDynamicState; }
 		ND_ VkPhysicalDeviceExtendedDynamicState2FeaturesEXT const& GetDeviceExtendedDynamicState2Features() const { return _features.extendedDynamicState2; }
+		ND_ VkPhysicalDeviceColorWriteEnableFeaturesEXT const& GetDeviceColorWriteEnableFeatures() const { return _features.colorWriteEnable; }
 
 		ND_ static ArrayView<const char*>	GetRecomendedInstanceLayers ();
 		ND_ static ArrayView<const char*>	GetRecomendedInstanceExtensions ();

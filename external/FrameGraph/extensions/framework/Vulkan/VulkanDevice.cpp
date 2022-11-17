@@ -859,6 +859,12 @@ namespace FGC
 				next_feat = nextExt = &_features.extendedDynamicState2.pNext;
 				_features.extendedDynamicState2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_2_FEATURES_EXT;
 			}
+			else if (ext == VK_EXT_COLOR_WRITE_ENABLE_EXTENSION_NAME)
+			{
+				*next_feat = *nextExt = &_features.colorWriteEnable;
+				next_feat = nextExt = &_features.colorWriteEnable.pNext;
+				_features.colorWriteEnable.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COLOR_WRITE_ENABLE_FEATURES_EXT;
+			}
 		}
 
 		vkGetPhysicalDeviceFeatures2( GetVkPhysicalDevice(), &feat2 );
