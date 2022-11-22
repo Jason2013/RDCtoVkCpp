@@ -933,7 +933,7 @@ bool  VApp::CreateSwapchainImage (ImageID image, uint2 dim, VkFormat format, VkI
 	{
 		VkImageCreateInfo	info = {};
 		info.sType			= VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-		info.flags			= 0;
+		info.flags			= VK_IMAGE_CREATE_MUTABLE_FORMAT_BIT | VK_IMAGE_CREATE_EXTENDED_USAGE_BIT;
 		info.imageType		= VK_IMAGE_TYPE_2D;
 		info.format			= format;
 		info.extent			= { dim.x, dim.y, 1 };
