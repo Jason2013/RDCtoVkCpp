@@ -1128,6 +1128,15 @@ bool  VApp::EndFrame (EQueueFamily presentQueue)
 		vkCmdEndDebugUtilsLabelEXT(qdata.cmdbufPresent);
 		VK_CHECK( vkEndCommandBuffer( qdata.cmdbufPresent ));
 
+		{
+			VkDebugUtilsLabelEXT label1 = {};
+			label1.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT;
+			label1.pNext = nullptr;
+			label1.pLabelName = "queue_present";
+
+			vkQueueInsertDebugUtilsLabelEXT(qdata.queue, &label1);
+		}
+
 		VkPipelineStageFlags	dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
 		VkSubmitInfo			submit	 = {};
 		submit.sType				= VK_STRUCTURE_TYPE_SUBMIT_INFO;
