@@ -1108,6 +1108,23 @@ bool  VApp::EndFrame (EQueueFamily presentQueue)
 						    1, &region, VK_FILTER_LINEAR );
 		}
 
+		// restore
+		{
+			VkImageMemoryBarrier	barrier = {};
+			barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			barrier.dstAccessMask = 0;
+			barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+			barrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			barrier.image = GetResource(_swapchainImageId);
+			barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+
+			vkCmdPipelineBarrier(qdata.cmdbufPresent, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0,
+				0, null, 0, null, 1, &barrier);
+		}
+
 		// transfer -> present
 		{
 			VkImageMemoryBarrier	barrier = {};
