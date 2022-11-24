@@ -353,7 +353,7 @@ namespace FGC
 	_DebugReport
 =================================================
 */
-	void VulkanDeviceExt::_DebugReport (const DebugReport &msg)
+	void VulkanDeviceExt::_DebugReport (const DebugReport &msg, const VkDebugUtilsMessengerCallbackDataEXT* pCallBackData)
 	{
 		if ( _callback )
 			return _callback( msg );
@@ -368,6 +368,26 @@ namespace FGC
 			str << "object{ " << obj.type << ", \"" << obj.name << "\", " << ToString(obj.handle) << " }\n";
 		}
 		str << "----------------------------\n";
+
+		if (pCallBackData->queueLabelCount)
+		{
+			str << "------ queue labels [begin] ------\n";
+			for (uint32_t i = 0; i < pCallBackData->queueLabelCount; ++i)
+			{
+				str << pCallBackData->pQueueLabels[i].pLabelName << "\n";
+			}
+			str << "------ queue labels [end] ------\n";
+		}
+
+		if (pCallBackData->cmdBufLabelCount)
+		{
+			str << "------ command buffer labels [begin] ------\n";
+			for (uint32_t i = 0; i < pCallBackData->queueLabelCount; ++i)
+			{
+				str << pCallBackData->pCmdBufLabels[i].pLabelName << "\n";
+			}
+			str << "------ command buffer labels [end] ------\n";
+		}
 
 		if ( _breakOnValidationError and msg.isError )
 			FG_LOGE( str )

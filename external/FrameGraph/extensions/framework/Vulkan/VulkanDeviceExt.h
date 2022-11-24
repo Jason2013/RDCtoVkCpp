@@ -129,7 +129,7 @@ namespace FGC
 								 const VkDebugUtilsMessengerCallbackDataEXT*	pCallbackData,
 								 void*											pUserData);
 
-		void _DebugReport (const DebugReport &);
+		void _DebugReport (const DebugReport &, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData = nullptr);
 	};
 
 	
