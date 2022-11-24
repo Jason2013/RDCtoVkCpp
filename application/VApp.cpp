@@ -943,7 +943,7 @@ bool  VApp::CreateSwapchainImage (ImageID image, uint2 dim, VkFormat format, VkI
 		info.tiling			= VK_IMAGE_TILING_OPTIMAL;
 		info.usage			= usage;
 		info.sharingMode	= VK_SHARING_MODE_EXCLUSIVE;
-		info.initialLayout	= VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		info.initialLayout	= VK_IMAGE_LAYOUT_UNDEFINED;
 
 		VK_CHECK( vkCreateImage( _vulkan.GetVkDevice(), &info, null, OUT &EditResource(image) ));
 	}
