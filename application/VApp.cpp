@@ -1053,6 +1053,15 @@ bool  VApp::EndFrame (EQueueFamily presentQueue)
 		begin_info.flags	= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 		VK_CALL( vkBeginCommandBuffer( qdata.cmdbufPresent, &begin_info ));
 
+		{
+			VkDebugUtilsLabelEXT label1 = {};
+			label1.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT;
+			label1.pNext = nullptr;
+			label1.pLabelName = "cmdbufPresent";
+
+			vkCmdBeginDebugUtilsLabelEXT(qdata.cmdbufPresent, &label1);
+		}
+
 		// temp
 		{
 			VkImageMemoryBarrier	barrier = {};
@@ -1116,6 +1125,7 @@ bool  VApp::EndFrame (EQueueFamily presentQueue)
 								  0, null, 0, null, 1, &barrier );
 		}
 
+		vkCmdEndDebugUtilsLabelEXT(qdata.cmdbufPresent);
 		VK_CHECK( vkEndCommandBuffer( qdata.cmdbufPresent ));
 
 		VkPipelineStageFlags	dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
