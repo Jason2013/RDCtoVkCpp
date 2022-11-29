@@ -679,6 +679,18 @@ bool  VApp::_LoadBuffer (void *archivePtr, const ContentName_t &name, BufferCont
 		info.sharingMode	= VK_SHARING_MODE_EXCLUSIVE;
 
 		VK_CHECK( vkCreateBuffer( _vulkan.GetVkDevice(), &info, null, OUT &buf.staging ));
+
+		{
+			VkDebugUtilsObjectNameInfoEXT	name_info = {};
+			name_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT;
+			name_info.objectType = VK_OBJECT_TYPE_BUFFER;
+			name_info.objectHandle = (uint64_t)buf.staging;
+			String buf_stg("BUF_STG_");
+			buf_stg += name;
+			name_info.pObjectName = buf_stg.c_str();
+
+            VK_CHECK( vkSetDebugUtilsObjectNameEXT( _vulkan.GetVkDevice(), &name_info ));
+		}
 	}
 
 	// alloc memory
@@ -698,6 +710,18 @@ bool  VApp::_LoadBuffer (void *archivePtr, const ContentName_t &name, BufferCont
 
 	VmaAllocationInfo	alloc_info	= {};
 	vmaGetAllocationInfo( _memAllocator, buf.alloc, OUT &alloc_info );
+
+	{
+		VkDebugUtilsObjectNameInfoEXT	name_info = {};
+		name_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT;
+		name_info.objectType = VK_OBJECT_TYPE_DEVICE_MEMORY;
+		name_info.objectHandle = (uint64_t)alloc_info.deviceMemory;
+		String buff("MEM_STG_");
+		buff += name;
+		name_info.pObjectName = buff.c_str();
+
+		VK_CHECK(vkSetDebugUtilsObjectNameEXT(_vulkan.GetVkDevice(), &name_info));
+	}
 
 	CHECK_ERR( alloc_info.pMappedData );
 	CHECK_ERR( buf.size == stat.m_uncomp_size );
