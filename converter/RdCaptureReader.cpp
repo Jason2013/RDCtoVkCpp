@@ -1969,9 +1969,9 @@ namespace RDE
 	*/
 	bool  RdCaptureReader::_Parse_CmdPushDescriptorSetWithTemplateKHR(const Node_t& root, uint64_t threadId, uint64_t timestamp)
 	{
-		Node_t* device_node = _FindByAttribName(root, "device");
-		VkDevice	device = {};
-		CHECK_ERR(_ParseResource(device_node, OUT device));
+		//Node_t* device_node = _FindByAttribName(root, "device");
+		//VkDevice	device = {};
+		//CHECK_ERR(_ParseResource(device_node, OUT device));
 
 		/*Node_t* descriptorSet_node = _FindByAttribName(root, "descriptorSet");
 		VkDescriptorSet	descriptorSet = {};
