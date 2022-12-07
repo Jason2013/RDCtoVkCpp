@@ -55,6 +55,7 @@ namespace RDE
 		virtual void DebugMarkerSetObjectNameEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID resId, StringView name) {}
 	
 		virtual void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * pData) {}
+		virtual void CmdPushDescriptorSetWithTemplateKHR (uint chunkIndex, uint64_t threadID, uint64_t timestamp/*, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * pData*/) {}
 	
 )#";
 
