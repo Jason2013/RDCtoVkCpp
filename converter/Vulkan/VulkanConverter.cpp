@@ -270,7 +270,7 @@ namespace RDE
 		void DebugMarkerSetObjectNameEXT (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkResourceID resId, StringView name) override;
 		void CreateDescriptorUpdateTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, const VkDescriptorUpdateTemplateCreateInfo * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDescriptorUpdateTemplate * pDescriptorUpdateTemplate) override;
 		void UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data) override;
-		void CmdPushDescriptorSetWithTemplateKHR(uint chunkIndex, uint64_t threadID, uint64_t timestamp/*, VkDevice device, VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void* data*/) override;
+		void CmdPushDescriptorSetWithTemplateKHR(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer  commandBuffer) override;
 		void QueuePresentKHR2(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkQueue queue, const VkPresentInfoKHR* pPresentInfo, VkImage image);
 		void CreateInstance(uint chunkIndex, uint64_t threadID, uint64_t timestamp, const InitParams * pInitParams);
 
@@ -3072,34 +3072,20 @@ namespace RDE
 	CmdPushDescriptorSetWithTemplateKHR
 =================================================
 */
-	void VulkanFnToCpp2::CmdPushDescriptorSetWithTemplateKHR(uint chunkIndex, uint64_t threadID, uint64_t timestamp/*, VkDevice device, VkDescriptorSet descriptorSet,
-		VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void* data*/)
+	void VulkanFnToCpp2::CmdPushDescriptorSetWithTemplateKHR(uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkCommandBuffer commandBuffer)
 	{
-		//CHECK(false); // this function is not implemented yet
-		//auto	dst_slots = _ValidateDescriptors( data, chunkIndex );
-
 		nameSer.Clear();
 		remapper.SetCurrentPos(chunkIndex);
-		before << "\t{\n";
+		before << "	{\n";
 		before << "// [RDC] CmdPushDescriptorSetWithTemplateKHR timestamp: " << std::to_string(timestamp) << "\n";
 
-		//const String arr_name = nameSer.MakeUnique( dst_slots.data(), "descriptorWrites"s, "writeDescriptorSet"s );
-		//before << indent << "VkWriteDescriptorSet  " << arr_name << "[" << IntToString(uint(dst_slots.size())) << "] = {};\n";
-
-		//for (size_t i = 0; i < dst_slots.size(); ++i) {
-			//Serialize2_VkWriteDescriptorSet( &dst_slots[i], String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
-		//}
-
-		result << indent << "app.vkUpdateDescriptorSets( \n";
-		result << indent << "		/*device*/ " << remapper(VK_OBJECT_TYPE_DEVICE, _vkLogicalDevice) << ",\n";
-		//result << indent << "		/*descriptorWriteCount*/ " << IntToString(uint(dst_slots.size())) << ",\n";
-		//result << indent << "		/*pDescriptorWrites*/ " << nameSer.Get( dst_slots.data() ) << ",\n";
-		result << indent << "		/*descriptorCopyCount*/ 0,\n";
-		result << indent << "		/*pDescriptorCopies*/ null );\n";
-		result << "\t}\n";
-
-		FlushGlobal();
-		_allocator.Discard();
+		result << indent << "app.CmdPushDescriptorSetWithTemplateKHR( \n";
+		result << indent << "		/*commandBuffer*/ " << remapper(VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer);
+		result << ",\n";
+		result << indent << "		/*pDependencyInfo*/ 0 ";
+		result << " );\n";
+		result << "	}\n";
+		FlushCommandBuffer(commandBuffer);
 	}
 //-----------------------------------------------------------------------------
 
