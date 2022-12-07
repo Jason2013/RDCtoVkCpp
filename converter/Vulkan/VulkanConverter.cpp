@@ -3038,12 +3038,13 @@ namespace RDE
 	void VulkanFnToCpp2::UpdateDescriptorSetWithTemplate (uint chunkIndex, uint64_t threadID, uint64_t timestamp, VkDevice device, VkDescriptorSet descriptorSet,
 														  VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void * data)
 	{
-		CHECK(false); // this function is not implemented yet
+		//CHECK(false); // this function is not implemented yet
 		//auto	dst_slots = _ValidateDescriptors( data, chunkIndex );
 		
 		nameSer.Clear();
 		remapper.SetCurrentPos( chunkIndex );
 		before << "\t{\n";
+		before << "// [RDC] UpdateDescriptorSetWithTemplate timestamp: " << std::to_string(timestamp) << "\n";
 		
 		//const String arr_name = nameSer.MakeUnique( dst_slots.data(), "descriptorWrites"s, "writeDescriptorSet"s );
 		//before << indent << "VkWriteDescriptorSet  " << arr_name << "[" << IntToString(uint(dst_slots.size())) << "] = {};\n";
