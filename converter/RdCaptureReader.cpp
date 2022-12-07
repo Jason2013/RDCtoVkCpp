@@ -92,6 +92,7 @@ namespace RDE
 		_chunkParser["vkFlushMappedMemoryRanges"] = &RdCaptureReader::_Parse_FlushMappedMemoryRanges;
 		_chunkParser["vkDebugMarkerSetObjectNameEXT"] = &RdCaptureReader::_Parse_DebugMarkerSetObjectNameEXT;
 		_chunkParser["vkUpdateDescriptorSetWithTemplate"] = &RdCaptureReader::_Parse_UpdateDescriptorSetWithTemplate;
+		_chunkParser["vkCmdPushDescriptorSetWithTemplateKHR"] = &RdCaptureReader::_Parse_CmdPushDescriptorSetWithTemplateKHR;
 		_chunkParser["vkQueuePresentKHR"] = &RdCaptureReader::_Parse_QueuePresentKHR;
 		_chunkParser["vkCreateInstance"] = &RdCaptureReader::_Parse_CreateInstance;
 		
@@ -1956,6 +1957,127 @@ namespace RDE
 
 		for (auto listener : _listeners) {
 			listener->UpdateDescriptorSetWithTemplate( _chunkCounter, threadId, timestamp, device, descriptorSet, descriptorUpdateTemplate, (const void *)&write_ds );
+		}
+		return true;
+	}
+
+
+	/*
+	=================================================
+		_Parse_CmdPushDescriptorSetWithTemplateKHR
+	=================================================
+	*/
+	bool  RdCaptureReader::_Parse_CmdPushDescriptorSetWithTemplateKHR(const Node_t& root, uint64_t threadId, uint64_t timestamp)
+	{
+		Node_t* device_node = _FindByAttribName(root, "device");
+		VkDevice	device = {};
+		CHECK_ERR(_ParseResource(device_node, OUT device));
+
+		/*Node_t* descriptorSet_node = _FindByAttribName(root, "descriptorSet");
+		VkDescriptorSet	descriptorSet = {};
+		CHECK_ERR(_ParseResource(descriptorSet_node, OUT descriptorSet));
+
+		Node_t* descriptorUpdateTemplate_node = _FindByAttribName(root, "descriptorUpdateTemplate");
+		VkDescriptorUpdateTemplate	descriptorUpdateTemplate = {};
+		CHECK_ERR(_ParseResource(descriptorUpdateTemplate_node, OUT descriptorUpdateTemplate));
+
+		Array<VkWriteDescriptorSet>	write_ds;
+
+		auto* write_node = _FindByAttribName(root, "Decoded Writes");
+		CHECK_ERR(write_node);
+
+		for (auto* node = write_node->first_node(); node; node = node->next_sibling())
+		{
+			auto* type = node->first_attribute("typename");
+			CHECK_ERR(type and type->value() == "VkWriteDescriptorSet"s);
+
+			VkWriteDescriptorSet& write = write_ds.emplace_back();
+
+			write = {};
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.dstSet = descriptorSet;
+
+			Node_t* dstBinding_node = _FindByAttribName(*node, "dstBinding");
+			CHECK_ERR(_ParseValue(dstBinding_node, OUT write.dstBinding));
+
+			Node_t* dstArrayElement_node = _FindByAttribName(*node, "dstArrayElement");
+			CHECK_ERR(_ParseValue(dstArrayElement_node, OUT write.dstArrayElement));
+
+			Node_t* descriptorCount_node = _FindByAttribName(*node, "descriptorCount");
+			CHECK_ERR(_ParseValue(descriptorCount_node, OUT write.descriptorCount));
+
+			Node_t* descriptorType_node = _FindByAttribName(*node, "descriptorType");
+			CHECK_ERR(_ParseValue(descriptorType_node, OUT write.descriptorType));
+
+			Node_t* pImageInfo_node = _FindByAttribName(*node, "pImageInfo");
+			Node_t* pBufferInfo_node = _FindByAttribName(*node, "pBufferInfo");
+			Node_t* pTexelBufferView_node = _FindByAttribName(*node, "pTexelBufferView");
+
+			if (pImageInfo_node and pImageInfo_node->first_node())
+			{
+				auto* dst = _allocator.Alloc<VkDescriptorImageInfo>(write.descriptorCount);
+				auto* info = pImageInfo_node->first_node();
+				uint	i = 0;
+				write.pImageInfo = dst;
+
+				for (; (i < write.descriptorCount) and info; ++i, info = info->next_sibling())
+				{
+					Node_t* sampler_node = _FindByAttribName(*info, "sampler");
+					CHECK_ERR(_ParseResource(sampler_node, OUT dst[i].sampler));
+
+					Node_t* imageView_node = _FindByAttribName(*info, "imageView");
+					CHECK_ERR(_ParseResource(imageView_node, OUT dst[i].imageView));
+
+					Node_t* imageLayout_node = _FindByAttribName(*info, "imageLayout");
+					CHECK_ERR(_ParseValue(imageLayout_node, OUT dst[i].imageLayout));
+					_ValidateImageLayout(write.descriptorType, INOUT dst[i].imageLayout);
+				}
+				CHECK_ERR((i == write.descriptorCount) and (info == null));
+			}
+
+			if (pBufferInfo_node and pBufferInfo_node->first_node())
+			{
+				auto* dst = _allocator.Alloc<VkDescriptorBufferInfo>(write.descriptorCount);
+				auto* info = pBufferInfo_node->first_node();
+				uint	i = 0;
+				write.pBufferInfo = dst;
+
+				for (; (i < write.descriptorCount) and info; ++i, info = info->next_sibling())
+				{
+					Node_t* buffer_node = _FindByAttribName(*info, "buffer");
+					CHECK_ERR(_ParseResource(buffer_node, OUT dst[i].buffer));
+					CHECK_ERR(dst[i].buffer);
+
+					Node_t* offset_node = _FindByAttribName(*info, "offset");
+					CHECK_ERR(_ParseValue(offset_node, OUT dst[i].offset));
+
+					Node_t* range_node = _FindByAttribName(*info, "range");
+					CHECK_ERR(_ParseValue(range_node, OUT dst[i].range));
+				}
+				CHECK_ERR((i == write.descriptorCount) and (info == null));
+			}
+
+			if (pTexelBufferView_node and pTexelBufferView_node->first_node())
+			{
+				auto* dst = _allocator.Alloc<VkBufferView>(write.descriptorCount);
+				auto* info = pTexelBufferView_node->first_node();
+				uint	i = 0;
+				write.pTexelBufferView = dst;
+
+				for (; (i < write.descriptorCount) and info; ++i, info = info->next_sibling())
+				{
+					CHECK_ERR(info->name() == "ResourceId"s);
+					CHECK_ERR(_ParseResource(info, OUT dst[i]));
+					CHECK_ERR(dst[i]);
+				}
+				CHECK_ERR((i == write.descriptorCount) and (info == null));
+			}
+		}
+
+		CHECK_ERR(write_ds.size());*/
+
+		for (auto listener : _listeners) {
+			listener->CmdPushDescriptorSetWithTemplateKHR(_chunkCounter, threadId, timestamp/*, device, descriptorSet, descriptorUpdateTemplate, (const void*)&write_ds*/);
 		}
 		return true;
 	}
