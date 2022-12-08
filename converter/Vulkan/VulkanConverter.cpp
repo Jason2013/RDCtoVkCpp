@@ -3058,8 +3058,9 @@ namespace RDE
 		result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, _vkLogicalDevice ) << ",\n";
 		//result << indent << "		/*descriptorWriteCount*/ " << IntToString(uint(dst_slots.size())) << ",\n";
 		//result << indent << "		/*pDescriptorWrites*/ " << nameSer.Get( dst_slots.data() ) << ",\n";
-		result << indent << "		/*descriptorCopyCount*/ 0,\n";
-		result << indent << "		/*pDescriptorCopies*/ null );\n";
+		result << indent << "		/*descriptorSet*/ VK_NULL_HANDLE,\n";
+		result << indent << "		/*descriptorUpdateTemplate*/ VK_NULL_HANDLE,\n";
+		result << indent << "		/*pData*/ null );\n";
 		result << "\t}\n";
 
 		FlushGlobal();
@@ -3082,7 +3083,10 @@ namespace RDE
 		result << indent << "app.vkCmdPushDescriptorSetWithTemplateKHR( \n";
 		result << indent << "		/*commandBuffer*/ " << remapper(VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer);
 		result << ",\n";
-		result << indent << "		/*pDependencyInfo*/ 0 ";
+		result << indent << "		/*descriptorUpdateTemplate*/ VK_NULL_HANDLE,\n";
+		result << indent << "		/*layout*/ VK_NULL_HANDLE,\n";
+		result << indent << "		/*set*/ 0,\n";
+		result << indent << "		/*pData*/ null";
 		result << " );\n";
 		result << "	}\n";
 		FlushCommandBuffer(commandBuffer);
