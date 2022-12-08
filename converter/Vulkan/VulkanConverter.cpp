@@ -3054,7 +3054,7 @@ namespace RDE
 			//Serialize2_VkWriteDescriptorSet( &dst_slots[i], String(arr_name) << "[" << IntToString(i) << "]", nameSer, remapper, indent, INOUT result, INOUT before );
 		//}
 
-		result << indent << "app.vkUpdateDescriptorSets( \n";
+		result << indent << "app.vkUpdateDescriptorSetWithTemplate( \n";
 		result << indent << "		/*device*/ " << remapper( VK_OBJECT_TYPE_DEVICE, _vkLogicalDevice ) << ",\n";
 		//result << indent << "		/*descriptorWriteCount*/ " << IntToString(uint(dst_slots.size())) << ",\n";
 		//result << indent << "		/*pDescriptorWrites*/ " << nameSer.Get( dst_slots.data() ) << ",\n";
@@ -3079,7 +3079,7 @@ namespace RDE
 		before << "	{\n";
 		before << "// [RDC] CmdPushDescriptorSetWithTemplateKHR timestamp: " << std::to_string(timestamp) << "\n";
 
-		result << indent << "app.CmdPushDescriptorSetWithTemplateKHR( \n";
+		result << indent << "app.vkCmdPushDescriptorSetWithTemplateKHR( \n";
 		result << indent << "		/*commandBuffer*/ " << remapper(VK_OBJECT_TYPE_COMMAND_BUFFER, commandBuffer);
 		result << ",\n";
 		result << indent << "		/*pDependencyInfo*/ 0 ";
