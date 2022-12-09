@@ -658,12 +658,14 @@ namespace RDE
 		}
 
 		CHECK_ERR(root);
+		CHECK_ERR(StringView{ root->name() } == "array");
 		result = _allocator.Alloc<T>(count);
 
-		if (StringView{ root->name() } == "struct")
+		if (!root->first_node())
 		{
-			count = 1;
-			return _ParseValue(root, OUT * result);
+			// empty array
+			result = null;
+			return true;
 		}
 
 		const uint	max_count = count;
