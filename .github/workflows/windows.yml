@@ -31,7 +31,7 @@ jobs:
     - uses: actions/cache@v3
       id: cache-external
       with:
-        key: ${{ matrix.os }}-${{ matrix.config }}-$${ hashFiles('external/FrameGraph/cmake/download_glfw.cmake',
+        key: ${{ matrix.os }}-${{ matrix.config }}-${{ hashFiles('external/FrameGraph/cmake/download_glfw.cmake',
                                                                  'external/FrameGraph/cmake/download_glslang.cmake',
                                                                  'external/FrameGraph/cmake/download_vk.cmake',
                                                                  'external/FrameGraph/cmake/download_vma.cmake',
