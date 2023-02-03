@@ -50,6 +50,12 @@ jobs:
           build/build2-SPIRV-Cross/**
           build/install/SPIRV-Cross/**
 
+    - uses: actions/cache@v3
+      id: cache-cmake
+      with:
+        key: ${{ matrix.os }}-${{ matrix.config }}-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+        path: build/CMakeCache.txt
+
     - name: Show CMake generators
       working-directory: ${{ github.workspace }}
       run: |
