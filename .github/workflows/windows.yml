@@ -45,6 +45,10 @@ jobs:
           external/FrameGraph/external/Vulkan-Headers/**
           external/FrameGraph/external/VulkanMemoryAllocator/**
           external/SPIRV-Cross/**
+          build/build-glslang/**
+          build/lib/glslang/**
+          build/build2-SPIRV-Cross/**
+          build/install/SPIRV-Cross/**
 
     - name: Show CMake generators
       working-directory: ${{ github.workspace }}
